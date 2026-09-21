@@ -1,0 +1,21 @@
+/* Layered Rage Bait homepage hero */
+.hero.hero-v2{position:relative;min-height:650px;padding:55px 4vw 28px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;overflow:hidden;isolation:isolate;background:#050605}
+.hero-v2:before{display:none}
+.hero-v2 .hero-bg{position:absolute;inset:0;background-image:url("assets/hero-background.webp?v=20260921-1");background-size:cover;background-position:center;background-repeat:no-repeat;z-index:0;transform:scale(1.015)}
+.hero-v2 .hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.55) 32%,rgba(0,0,0,.20) 60%,rgba(0,0,0,.14) 100%);z-index:1;pointer-events:none}
+.hero-v2 .hero-green-glow{position:absolute;width:700px;height:700px;right:-80px;top:50%;transform:translateY(-50%);background:radial-gradient(circle,rgba(140,255,0,.15) 0%,rgba(140,255,0,.07) 35%,transparent 70%);filter:blur(20px);z-index:1;pointer-events:none}
+.hero-v2 .hero-copy,.hero-v2 .hero-art{position:relative;z-index:3}
+.hero-v2 .hero-copy{width:100%;max-width:780px;display:flex;flex-direction:column;align-items:flex-start}
+.hero-v2 .hero-title{display:block;width:min(760px,100%);height:auto;margin:0 0 8px;object-fit:contain;filter:drop-shadow(0 5px 3px rgba(0,0,0,.45)) drop-shadow(0 0 18px rgba(140,255,0,.05))}
+.hero-v2 .hero-subtitle{margin:0 0 28px;font-size:clamp(16px,1.4vw,21px);font-weight:500;color:#f4f4f0;letter-spacing:.12em;text-shadow:0 2px 8px rgba(0,0,0,.9)}
+.hero-v2 .hero-actions{display:flex;gap:14px;margin-top:0}
+.hero-v2 .hero-actions .cta{min-height:52px;display:inline-flex;align-items:center;justify-content:center;gap:22px;padding:0 26px;background:#8cff00;color:#071006;text-decoration:none;font-weight:900;font-size:15px;letter-spacing:.04em;border:1px solid #a6ff38;box-shadow:0 0 25px rgba(140,255,0,.18);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.hero-v2 .hero-actions .cta:hover{transform:translateY(-2px);background:#a4ff2d;box-shadow:0 0 34px rgba(140,255,0,.32)}
+.hero-v2 .hero-actions .cta span{font-size:24px;line-height:1}
+.hero-v2 .micro-badges{display:flex;align-items:center;flex-wrap:wrap;gap:26px;margin-top:28px;color:#d8ddd5;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.hero-v2 .micro-badges span{white-space:nowrap;text-shadow:0 2px 4px rgba(0,0,0,.9)}
+.hero-v2 .hero-art{align-self:stretch;display:flex;align-items:flex-end;justify-content:center;min-height:590px}
+.hero-v2 .hero-character{position:absolute;bottom:-45px;right:-2vw;width:min(710px,55vw);max-height:720px;object-fit:contain;object-position:bottom center;filter:drop-shadow(0 25px 28px rgba(0,0,0,.75)) drop-shadow(0 0 22px rgba(140,255,0,.08));user-select:none;pointer-events:none}
+@media(max-width:1050px){.hero.hero-v2{min-height:690px;grid-template-columns:1.08fr .92fr;padding-left:5vw;padding-right:5vw}.hero-v2 .hero-character{width:58vw;right:-10vw}}
+@media(max-width:760px){.hero.hero-v2{min-height:780px;display:flex;flex-direction:column;justify-content:flex-start;padding:45px 5vw 0}.hero-v2 .hero-bg{background-position:58% center}.hero-v2 .hero-shade{background:linear-gradient(180deg,rgba(0,0,0,.58) 0%,rgba(0,0,0,.42) 45%,rgba(0,0,0,.15) 100%)}.hero-v2 .hero-copy{z-index:5}.hero-v2 .hero-title{width:100%;max-width:650px}.hero-v2 .hero-subtitle{font-size:15px;letter-spacing:.08em}.hero-v2 .micro-badges{gap:12px;font-size:8px}.hero-v2 .hero-art{position:absolute;inset:auto 0 0;min-height:480px;z-index:2}.hero-v2 .hero-character{width:min(650px,110vw);max-height:510px;right:-18vw;bottom:-25px;opacity:.95}}
+@media(max-width:480px){.hero.hero-v2{min-height:700px;padding-top:35px}.hero-v2 .hero-title{width:108%;max-width:none}.hero-v2 .hero-subtitle{max-width:310px;font-size:13px;line-height:1.5}.hero-v2 .micro-badges{display:none}.hero-v2 .hero-character{width:128vw;right:-31vw;bottom:-30px}}
