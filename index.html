@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rage Bait Apparel | Wear the Troll</title>
+  <meta name="description" content="Rage Bait Apparel. Born in VR. Escaped into the real world.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Rage Bait Apparel home">
+      <span>RAGE BAIT</span>
+      <small>APPAREL</small>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a class="active" href="#top">Home</a>
+      <a href="#drops">New Drops</a>
+      <a href="#products">Tees</a>
+      <a href="#products">Hoodies</a>
+      <a href="#story">About</a>
+    </nav>
+    <button class="cart-button" id="cartButton">Cart <span id="cartCount">0</span></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">VIRTUAL ROOTS · REAL THREADS</span>
+        <h1>WEAR THE <em>TROLL</em></h1>
+        <p>Born in VR. Escaped into the real world.</p>
+        <div class="hero-actions">
+          <a class="cta" href="#products">Shop the drop</a>
+          <a class="ghost" href="#story">Our story</a>
+        </div>
+        <div class="micro-badges">
+          <span>⚡ Problematic by design</span>
+          <span>☠ Real merch for online degenerates</span>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-label="Rage Bait mascot artwork">
+        <img src="minorz.svg" alt="Minorz, the Rage Bait Apparel outlaw hyena mascot">
+        <div class="scribble s1">GOOD PEOPLE<br>HATE THIS BRAND.</div>
+        <div class="scribble s2">PERFECT.</div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-hidden="true">
+      <div>PROFESSIONAL INSTIGATOR · FEED THE RAGE · COMMENT SECTION COWBOY · CERTIFIED RAGE BAIT · </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">FEATURED PRODUCTS</span>
+          <h2>Built to annoy people.</h2>
+        </div>
+        <a href="#drops">View all →</a>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <div class="product-image tee-art"><span>RAGE<br>BAIT</span></div>
+          <div class="product-info"><div><h3>Minorz Outlaw Tee</h3><p>Heavyweight black tee</p></div><strong>£24.99</strong></div>
+          <button class="add-cart" data-product="Minorz Outlaw Tee">Add to cart</button>
+        </article>
+        <article class="product-card">
+          <div class="product-image hoodie-art"><span>SAME SH*T<br>DIFFERENT<br>INTERNET</span></div>
+          <div class="product-info"><div><h3>Virtual Degenerate Hoodie</h3><p>Back-print hoodie</p></div><strong>£44.99</strong></div>
+          <button class="add-cart" data-product="Virtual Degenerate Hoodie">Add to cart</button>
+        </article>
+        <article class="product-card">
+          <div class="product-image cap-art"><span>RAGE BAIT</span></div>
+          <div class="product-info"><div><h3>Troll Mode Cap</h3><p>Black trucker cap</p></div><strong>£19.99</strong></div>
+          <button class="add-cart" data-product="Troll Mode Cap">Add to cart</button>
+        </article>
+        <article class="product-card">
+          <div class="product-image sticker-art"><span>PROBLEMATIC<br>BY DESIGN</span></div>
+          <div class="product-info"><div><h3>Rage Pack</h3><p>Sticker bundle</p></div><strong>£7.99</strong></div>
+          <button class="add-cart" data-product="Rage Pack">Add to cart</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="collections section" id="drops">
+      <a class="collection c1" href="#products"><span>PROFESSIONAL<br>INSTIGATOR</span><small>Shop now →</small></a>
+      <a class="collection c2" href="#products"><span>FEED THE<br>RAGE</span><small>Shop now →</small></a>
+      <a class="collection c3" href="#products"><span>COMMENT SECTION<br>COWBOY</span><small>Shop now →</small></a>
+      <a class="collection c4" href="#products"><span>CERTIFIED<br>RAGE BAIT</span><small>Shop now →</small></a>
+    </section>
+
+    <section class="story section" id="story">
+      <div class="story-copy">
+        <span class="eyebrow">OUR STORY</span>
+        <h2>From a virtual world to a real one.</h2>
+        <p>Rage Bait Apparel started in VR, where digital clothes carried attitude before there was ever a parcel to post. What began as virtual fits now becomes real merch for people who refuse to blend into the wallpaper.</p>
+        <p class="story-tag">VIRTUAL ROOTS. REAL PEOPLE. MORE CHAOS.</p>
+      </div>
+      <div class="join-panel">
+        <span class="eyebrow">JOIN THE CREW</span>
+        <h3>First dibs on drops.</h3>
+        <p>Exclusive releases, new designs and questionable decisions.</p>
+        <form id="signupForm">
+          <input id="email" type="email" placeholder="Your email address" required>
+          <button type="submit">Sign up</button>
+        </form>
+        <p class="form-status" id="formStatus"></p>
+      </div>
+    </section>
+  </main>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-head"><h2>Your cart</h2><button id="closeCart" aria-label="Close cart">×</button></div>
+    <div id="cartItems" class="cart-items"><p>Your cart is gloriously empty.</p></div>
+    <button class="checkout" disabled>Checkout coming soon</button>
+  </aside>
+  <div class="cart-backdrop" id="cartBackdrop"></div>
+
+  <footer>
+    <div class="brand footer-brand"><span>RAGE BAIT</span><small>APPAREL</small></div>
+    <p>EST. IN VR · MADE FOR REAL LIFE</p>
+    <p>Stay problematic.™</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
