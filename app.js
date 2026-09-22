@@ -6,15 +6,68 @@ const closeCart=document.getElementById('closeCart');
 const cartCount=document.getElementById('cartCount');
 const cartItems=document.getElementById('cartItems');
 
+const siteHeader=document.querySelector('.site-header');
+const desktopNav=document.querySelector('.desktop-nav');
+let mobileMenuToggle=null;
+let mobileNav=null;
+
+function setMobileMenu(open){
+  if(!mobileMenuToggle||!mobileNav)return;
+  mobileMenuToggle.setAttribute('aria-expanded',String(open));
+  mobileNav.classList.toggle('open',open);
+  mobileNav.setAttribute('aria-hidden',String(!open));
+}
+
+if(siteHeader&&desktopNav&&cartButton){
+  mobileMenuToggle=document.createElement('button');
+  mobileMenuToggle.type='button';
+  mobileMenuToggle.className='mobile-menu-toggle';
+  mobileMenuToggle.setAttribute('aria-label','Open navigation menu');
+  mobileMenuToggle.setAttribute('aria-expanded','false');
+  mobileMenuToggle.setAttribute('aria-controls','mobileNav');
+  mobileMenuToggle.innerHTML='<span></span><span></span><span></span>';
+
+  mobileNav=document.createElement('nav');
+  mobileNav.id='mobileNav';
+  mobileNav.className='mobile-nav';
+  mobileNav.setAttribute('aria-label','Mobile navigation');
+  mobileNav.setAttribute('aria-hidden','true');
+
+  desktopNav.querySelectorAll('a').forEach(link=>{
+    const mobileLink=link.cloneNode(true);
+    mobileLink.addEventListener('click',()=>setMobileMenu(false));
+    mobileNav.appendChild(mobileLink);
+  });
+
+  siteHeader.insertBefore(mobileMenuToggle,cartButton);
+  siteHeader.appendChild(mobileNav);
+
+  mobileMenuToggle.addEventListener('click',()=>{
+    const isOpen=mobileMenuToggle.getAttribute('aria-expanded')==='true';
+    setMobileMenu(!isOpen);
+  });
+
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth>980)setMobileMenu(false);
+  });
+}
+
 function renderCart(){
   cartCount.textContent=cart.length;
   cartItems.innerHTML=cart.length?cart.map((item,i)=>`<div class="cart-item"><span>${item}</span><button aria-label="Remove ${item}" data-remove="${i}">×</button></div>`).join(''):'<p>Your cart is gloriously empty.</p>';
   cartItems.querySelectorAll('[data-remove]').forEach(btn=>btn.addEventListener('click',()=>{cart.splice(Number(btn.dataset.remove),1);renderCart();}));
 }
-function openCart(){cartDrawer.classList.add('open');cartBackdrop.classList.add('show');cartDrawer.setAttribute('aria-hidden','false');}
+function openCart(){setMobileMenu(false);cartDrawer.classList.add('open');cartBackdrop.classList.add('show');cartDrawer.setAttribute('aria-hidden','false');}
 function hideCart(){cartDrawer.classList.remove('open');cartBackdrop.classList.remove('show');cartDrawer.setAttribute('aria-hidden','true');}
 cartButton.addEventListener('click',openCart);closeCart.addEventListener('click',hideCart);cartBackdrop.addEventListener('click',hideCart);
 document.querySelectorAll('.add-cart').forEach(btn=>btn.addEventListener('click',()=>{cart.push(btn.dataset.product);renderCart();openCart();}));
+
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'){
+    setMobileMenu(false);
+    hideCart();
+  }
+});
 
 const CREW_ENDPOINT='https://rage-bait-crew-signup.brokensoulsandbackroads.workers.dev/';
 const signupForm=document.getElementById('signupForm');
