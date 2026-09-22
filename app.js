@@ -62,4 +62,12 @@ signupForm.addEventListener('submit',async(e)=>{
   }
 });
 
+const footer=document.querySelector('footer');
+if(footer&&!footer.querySelector('a[href="shipping.html"]')){
+  const shippingItem=document.createElement('p');
+  shippingItem.innerHTML='<a href="shipping.html" style="color:var(--acid);text-decoration:none;font-weight:800;">SHIPPING & DELIVERY</a>';
+  const stayProblematic=footer.lastElementChild;
+  footer.insertBefore(shippingItem,stayProblematic);
+}
+
 renderCart();
