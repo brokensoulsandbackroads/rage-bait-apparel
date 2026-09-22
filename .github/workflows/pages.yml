@@ -24,17 +24,61 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
       - name: Build image assets
         run: |
           mkdir -p assets
           cat assets-src/hero-background.* | base64 -d > assets/hero-background.webp
           cat assets-src/wear-the-troll.* | base64 -d > assets/wear-the-troll.png
+
+      - name: Bust static asset caches
+        env:
+          SITE_VERSION: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          import re
+
+          version = os.environ["SITE_VERSION"][:12]
+
+          html_asset = re.compile(
+              r'(?P<prefix>(?:href|src)=["\'])(?P<path>(?!https?:|//|mailto:|#)[^"\']+\.(?:css|js|png|jpe?g|webp|svg))(?P<query>\?[^"\']*)?(?P<suffix>["\'])',
+              re.IGNORECASE,
+          )
+
+          css_asset = re.compile(
+              r'(?P<prefix>url\(["\']?)(?P<path>(?!https?:|//|data:)[^)"\']+\.(?:png|jpe?g|webp|svg))(?P<query>\?[^)"\']*)?(?P<suffix>["\']?\))',
+              re.IGNORECASE,
+          )
+
+          for path in Path(".").rglob("*.html"):
+              text = path.read_text(encoding="utf-8")
+              text = html_asset.sub(
+                  lambda m: f'{m.group("prefix")}{m.group("path")}?v={version}{m.group("suffix")}',
+                  text,
+              )
+              path.write_text(text, encoding="utf-8")
+
+          for path in Path(".").rglob("*.css"):
+              text = path.read_text(encoding="utf-8")
+              text = css_asset.sub(
+                  lambda m: f'{m.group("prefix")}{m.group("path")}?v={version}{m.group("suffix")}',
+                  text,
+              )
+              path.write_text(text, encoding="utf-8")
+
+          print(f"Static asset cache version: {version}")
+          PY
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
