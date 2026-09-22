@@ -30,6 +30,7 @@ jobs:
           mkdir -p assets
           cat assets-src/hero-background.* | base64 -d > assets/hero-background.webp
           cat assets-src/wear-the-troll.* | base64 -d > assets/wear-the-troll.png
+          cat assets-src/outlaw-tee.* | base64 -d > assets/outlaw-tee.webp
 
       - name: Bust static asset caches
         env:
