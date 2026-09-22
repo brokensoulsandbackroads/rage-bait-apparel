@@ -52,6 +52,24 @@ if(siteHeader&&desktopNav&&cartButton){
   });
 }
 
+const outlawCard=document.querySelector('.product-grid .product-card');
+if(outlawCard){
+  const image=outlawCard.querySelector('.product-image');
+  const title=outlawCard.querySelector('.product-info h3');
+  const description=outlawCard.querySelector('.product-info p');
+  const price=outlawCard.querySelector('.product-info strong');
+  const button=outlawCard.querySelector('.add-cart');
+
+  if(image){
+    image.className='product-image product-photo';
+    image.innerHTML='<img src="assets/outlaw-tee.webp" alt="Black Rage Bait Apparel Outlaw Tee featuring the Minorz outlaw artwork">';
+  }
+  if(title)title.textContent='Outlaw Tee';
+  if(description)description.innerHTML='Black graphic tee<span class="product-price-note">VAT included · shipping extra</span>';
+  if(price)price.textContent='£29.99';
+  if(button)button.dataset.product='Outlaw Tee';
+}
+
 function renderCart(){
   cartCount.textContent=cart.length;
   cartItems.innerHTML=cart.length?cart.map((item,i)=>`<div class="cart-item"><span>${item}</span><button aria-label="Remove ${item}" data-remove="${i}">×</button></div>`).join(''):'<p>Your cart is gloriously empty.</p>';
