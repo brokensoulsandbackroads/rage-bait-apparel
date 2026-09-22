@@ -133,6 +133,7 @@ if(footer){
   if(!footerLinks){
     footerLinks=document.createElement('div');
     footerLinks.className='footer-links';
+    footerLinks.style.cssText='display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;';
     footer.insertBefore(footerLinks,stayProblematic);
   }
 
@@ -147,6 +148,7 @@ if(footer){
       const link=document.createElement('a');
       link.href=href;
       link.textContent=label;
+      link.style.cssText='color:var(--acid);text-decoration:none;font-weight:900;letter-spacing:.08em;';
       footerLinks.appendChild(link);
     }
   });
