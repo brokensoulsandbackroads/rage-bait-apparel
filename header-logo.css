@@ -1,0 +1,1 @@
+.header-brand{display:block;line-height:1;flex:0 0 auto}.header-brand img{display:block;width:190px;height:auto;max-height:58px;object-fit:contain;object-position:left center}.header-brand:hover img{filter:drop-shadow(0 0 10px rgba(140,255,0,.22))}@media(max-width:620px){.header-brand img{width:150px;max-height:46px}}
