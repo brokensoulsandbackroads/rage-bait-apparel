@@ -153,9 +153,12 @@ if(footer){
     }
   });
 
-  if(!footerLinks.querySelector('a[href="contact.html#business-information"]')){
+  const oldBusinessLink=footerLinks.querySelector('a[href="contact.html#business-information"]');
+  if(oldBusinessLink)oldBusinessLink.remove();
+
+  if(!footerLinks.querySelector('a[href="business-information.html"]')){
     const businessLink=document.createElement('a');
-    businessLink.href='contact.html#business-information';
+    businessLink.href='business-information.html';
     businessLink.textContent='Business Information';
     businessLink.style.cssText='color:#687066;text-decoration:none;font-size:9px;font-weight:600;letter-spacing:.06em;opacity:.72;text-transform:none;';
     footerLinks.appendChild(businessLink);
