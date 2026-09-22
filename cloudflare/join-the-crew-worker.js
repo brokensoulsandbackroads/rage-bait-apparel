@@ -1,6 +1,8 @@
 const ALLOWED_ORIGINS = new Set([
   "https://ragebaitapparel.co.uk",
   "https://www.ragebaitapparel.co.uk",
+  "http://ragebaitapparel.co.uk",
+  "http://www.ragebaitapparel.co.uk",
   "https://brokensoulsandbackroads.github.io"
 ]);
 
@@ -37,6 +39,9 @@ export default {
     const origin = request.headers.get("Origin") || "";
 
     if (request.method === "OPTIONS") {
+      if (origin && !ALLOWED_ORIGINS.has(origin)) {
+        return new Response(null, { status: 403, headers: corsHeaders(origin) });
+      }
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
