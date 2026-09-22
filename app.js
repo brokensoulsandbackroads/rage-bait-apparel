@@ -16,10 +16,50 @@ function hideCart(){cartDrawer.classList.remove('open');cartBackdrop.classList.r
 cartButton.addEventListener('click',openCart);closeCart.addEventListener('click',hideCart);cartBackdrop.addEventListener('click',hideCart);
 document.querySelectorAll('.add-cart').forEach(btn=>btn.addEventListener('click',()=>{cart.push(btn.dataset.product);renderCart();openCart();}));
 
-document.getElementById('signupForm').addEventListener('submit',(e)=>{
+const CREW_ENDPOINT='https://rage-bait-crew-signup.brokensoulsandbackroads.workers.dev/';
+const signupForm=document.getElementById('signupForm');
+const signupEmail=document.getElementById('email');
+const formStatus=document.getElementById('formStatus');
+const signupButton=signupForm.querySelector('button[type="submit"]');
+
+signupForm.addEventListener('submit',async(e)=>{
   e.preventDefault();
-  const email=document.getElementById('email').value.trim();
-  document.getElementById('formStatus').textContent=email?`You're on the list. ${email}`:'';
-  if(email)e.target.reset();
+
+  const email=signupEmail.value.trim();
+  if(!email)return;
+
+  const originalLabel=signupButton.textContent;
+  signupButton.disabled=true;
+  signupButton.textContent='Joining...';
+  formStatus.textContent='';
+
+  try{
+    const response=await fetch(CREW_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email,website:''})
+    });
+
+    let data={};
+    try{data=await response.json();}catch(_){/* Worker returned no JSON */}
+
+    if(!response.ok||!data.ok){
+      throw new Error(data.error||'Signup failed. Please try again.');
+    }
+
+    if(data.status==='duplicate'){
+      formStatus.textContent="You're already one of us.";
+    }else{
+      formStatus.textContent=`You're in. Welcome to the crew${data.count?` (#${data.count})`:''}.`;
+      signupForm.reset();
+    }
+  }catch(error){
+    console.error('Crew signup failed:',error);
+    formStatus.textContent=error.message||'Signup failed. Please try again.';
+  }finally{
+    signupButton.disabled=false;
+    signupButton.textContent=originalLabel;
+  }
 });
+
 renderCart();
