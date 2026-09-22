@@ -126,18 +126,30 @@ signupForm.addEventListener('submit',async(e)=>{
 const footer=document.querySelector('footer');
 if(footer){
   const stayProblematic=footer.lastElementChild;
+  const oldPolicyLink=footer.querySelector('a[href="returns.html"]');
+  if(oldPolicyLink&&oldPolicyLink.parentElement?.tagName==='P')oldPolicyLink.parentElement.remove();
 
-  if(!footer.querySelector('a[href="shipping.html"]')){
-    const shippingItem=document.createElement('p');
-    shippingItem.innerHTML='<a href="shipping.html" style="color:var(--acid);text-decoration:none;font-weight:800;">SHIPPING & DELIVERY</a>';
-    footer.insertBefore(shippingItem,stayProblematic);
+  let footerLinks=footer.querySelector('.footer-links');
+  if(!footerLinks){
+    footerLinks=document.createElement('div');
+    footerLinks.className='footer-links';
+    footer.insertBefore(footerLinks,stayProblematic);
   }
 
-  if(!footer.querySelector('a[href="privacy.html"]')){
-    const privacyItem=document.createElement('p');
-    privacyItem.innerHTML='<a href="privacy.html" style="color:var(--acid);text-decoration:none;font-weight:800;">PRIVACY POLICY</a>';
-    footer.insertBefore(privacyItem,stayProblematic);
-  }
+  [
+    ['shipping.html','SHIPPING'],
+    ['returns.html','RETURNS'],
+    ['privacy.html','PRIVACY'],
+    ['terms.html','TERMS'],
+    ['contact.html','CONTACT']
+  ].forEach(([href,label])=>{
+    if(!footerLinks.querySelector(`a[href="${href}"]`)){
+      const link=document.createElement('a');
+      link.href=href;
+      link.textContent=label;
+      footerLinks.appendChild(link);
+    }
+  });
 }
 
 renderCart();
