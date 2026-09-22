@@ -152,6 +152,14 @@ if(footer){
       footerLinks.appendChild(link);
     }
   });
+
+  if(!footerLinks.querySelector('a[href="contact.html#business-information"]')){
+    const businessLink=document.createElement('a');
+    businessLink.href='contact.html#business-information';
+    businessLink.textContent='Business Information';
+    businessLink.style.cssText='color:#687066;text-decoration:none;font-size:9px;font-weight:600;letter-spacing:.06em;opacity:.72;text-transform:none;';
+    footerLinks.appendChild(businessLink);
+  }
 }
 
 renderCart();
