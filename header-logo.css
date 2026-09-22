@@ -21,6 +21,22 @@
   filter:drop-shadow(0 0 10px rgba(140,255,0,.22));
 }
 
+/* Home-page footer uses the same logo artwork as the header. */
+footer .footer-brand{
+  display:block !important;
+  flex:0 0 auto;
+  width:220px !important;
+  height:54px !important;
+  background:url("assets/logo-rage-bait-header.png?v=20260922-1") left center / auto 54px no-repeat !important;
+  overflow:hidden !important;
+  line-height:0 !important;
+}
+
+footer .footer-brand span,
+footer .footer-brand small{
+  display:none !important;
+}
+
 @media(max-width:620px){
   .header-brand{
     height:42px !important;
@@ -29,5 +45,12 @@
   .header-brand img{
     width:auto !important;
     height:42px !important;
+  }
+
+  footer .footer-brand{
+    width:180px !important;
+    height:42px !important;
+    background-size:auto 42px !important;
+    background-position:center !important;
   }
 }
