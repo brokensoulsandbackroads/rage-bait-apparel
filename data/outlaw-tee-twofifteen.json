@@ -1,0 +1,27 @@
+{
+  "product": "Outlaw Tee",
+  "brand": "Rage Bait Apparel",
+  "channel": "site",
+  "colour": "Black",
+  "price": 29.99,
+  "currency": "GBP",
+  "print": {
+    "front": {
+      "title": "DTG Printing Front Side",
+      "src": "https://ragebaitapparel.co.uk/print/outlaw-front.png"
+    },
+    "back": {
+      "title": "DTG Printing Back Side",
+      "src": "https://ragebaitapparel.co.uk/print/outlaw-back.png"
+    }
+  },
+  "sizes": {
+    "S": "CV001-BLK-S",
+    "M": "CV001-BLK-M",
+    "L": "CV001-BLK-L",
+    "XL": "CV001-BLK-XL",
+    "2XL": "CV001-BLK-2XL",
+    "3XL": "CV001-BLK-3XL",
+    "4XL": "CV001-BLK-4XL"
+  }
+}
