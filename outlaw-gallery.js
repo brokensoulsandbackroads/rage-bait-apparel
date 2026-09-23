@@ -5,19 +5,11 @@
 
   const sources = [
     {
-      parts: [
-        'assets-src/gallery/outlaw-1.00',
-        'assets-src/gallery/outlaw-1.01',
-        'assets-src/gallery/outlaw-1.02'
-      ],
+      parts: ['assets/outlaw-gallery-male-front.webp.b64'],
       alt: 'Male model wearing the Rage Bait Apparel Outlaw Tee, front view'
     },
     {
-      parts: [
-        'assets-src/gallery/outlaw-2.00',
-        'assets-src/gallery/outlaw-2.01',
-        'assets-src/gallery/outlaw-2.02'
-      ],
+      parts: ['assets/outlaw-gallery-female-front.webp.b64'],
       alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, front view'
     },
     {
@@ -32,7 +24,7 @@
 
   const readParts = async parts => {
     const chunks = await Promise.all(parts.map(async path => {
-      const response = await fetch(path, { cache: 'force-cache' });
+      const response = await fetch(path, { cache: 'no-store' });
       if (!response.ok) throw new Error(`Could not load ${path}`);
       return (await response.text()).trim();
     }));
