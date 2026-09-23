@@ -35,6 +35,8 @@ jobs:
       - name: Build Two Fifteen print masters
         run: |
           python -m pip install --quiet pillow
+          mkdir -p print print-src/.work
+          base64 -d print-src/outlaw-back-logo.b64 > print-src/.work/outlaw-back-logo.png
           python - <<'PY'
           from pathlib import Path
           from PIL import Image
@@ -43,23 +45,20 @@ jobs:
           out = Path('print')
           out.mkdir(exist_ok=True)
 
-          # Front master: full Minorz Outlaw artwork.
+          # Front master: full Minorz Outlaw artwork retained in the repository.
           front = Image.open('assets/neon_outlaw_hyena_sticker_art.png').convert('RGBA')
           front = front.resize(target, Image.Resampling.LANCZOS)
           front.save(out / 'outlaw-front.png', 'PNG', dpi=(300, 300), compress_level=6)
 
-          # Rear master: Rage Bait logo placed high on the 320 x 500 mm transparent canvas.
-          logo = Image.open('assets/logo-rage-bait.png').convert('RGBA')
+          # Rear master: reconstruct the exact approved logo placement on a transparent canvas.
+          logo = Image.open('print-src/.work/outlaw-back-logo.png').convert('RGBA')
+          logo = logo.resize((548, 436), Image.Resampling.LANCZOS)
           canvas = Image.new('RGBA', target, (0, 0, 0, 0))
-          logo_target_w = 560
-          logo_target_h = round(logo.height * (logo_target_w / logo.width))
-          logo = logo.resize((logo_target_w, logo_target_h), Image.Resampling.LANCZOS)
-          x = (target[0] - logo_target_w) // 2
-          y = 20
-          canvas.alpha_composite(logo, (x, y))
+          canvas.alpha_composite(logo, (1622, 0))
           canvas.save(out / 'outlaw-back.png', 'PNG', dpi=(300, 300), compress_level=6)
 
           print('Built print/outlaw-front.png and print/outlaw-back.png')
+          print('Canvas:', target, '300 DPI')
           PY
 
       - name: Bust static asset caches
