@@ -1,0 +1,24 @@
+name = "rage-bait-twofifteen"
+main = "src/index.js"
+compatibility_date = "2026-09-23"
+workers_dev = true
+
+[vars]
+TWOFIFTEEN_APP_ID = "APP-00063211"
+TWOFIFTEEN_BRAND = "Rage Bait Apparel"
+TWOFIFTEEN_API_BASE = "https://www.twofifteen.co.uk/api"
+ALLOW_LIVE_SUBMISSION = "false"
+
+# Secrets are deliberately NOT stored here.
+# Add these with `wrangler secret put` or in Cloudflare Dashboard:
+#   TWOFIFTEEN_SECRET_KEY
+#   FULFILMENT_API_KEY
+#
+# Before enabling live submissions, create a D1 database called
+# `rage-bait-orders`, apply migrations/0001_orders.sql, then add:
+#
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "rage-bait-orders"
+# database_id = "YOUR_D1_DATABASE_ID"
+# migrations_dir = "migrations"
