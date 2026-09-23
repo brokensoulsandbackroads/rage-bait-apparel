@@ -227,6 +227,7 @@ if(footer){
   }
 
   [
+    ['size-guide.html','SIZE GUIDE'],
     ['shipping.html','SHIPPING'],
     ['returns.html','RETURNS'],
     ['privacy.html','PRIVACY'],
