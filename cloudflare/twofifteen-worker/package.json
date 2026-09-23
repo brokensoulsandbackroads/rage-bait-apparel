@@ -1,0 +1,13 @@
+{
+  "name": "rage-bait-twofifteen-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "d1:migrate": "wrangler d1 migrations apply rage-bait-orders --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
