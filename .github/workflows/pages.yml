@@ -32,6 +32,36 @@ jobs:
           cat assets-src/wear-the-troll.* | base64 -d > assets/wear-the-troll.png
           cat assets-src/outlaw-tee.* | base64 -d > assets/outlaw-tee.webp
 
+      - name: Build Two Fifteen print masters
+        run: |
+          python -m pip install --quiet pillow
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          target = (3780, 5906)  # 320 x 500 mm at 300 DPI
+          out = Path('print')
+          out.mkdir(exist_ok=True)
+
+          # Front master: full Minorz Outlaw artwork.
+          front = Image.open('assets/neon_outlaw_hyena_sticker_art.png').convert('RGBA')
+          front = front.resize(target, Image.Resampling.LANCZOS)
+          front.save(out / 'outlaw-front.png', 'PNG', dpi=(300, 300), compress_level=6)
+
+          # Rear master: Rage Bait logo placed high on the 320 x 500 mm transparent canvas.
+          logo = Image.open('assets/logo-rage-bait.png').convert('RGBA')
+          canvas = Image.new('RGBA', target, (0, 0, 0, 0))
+          logo_target_w = 560
+          logo_target_h = round(logo.height * (logo_target_w / logo.width))
+          logo = logo.resize((logo_target_w, logo_target_h), Image.Resampling.LANCZOS)
+          x = (target[0] - logo_target_w) // 2
+          y = 20
+          canvas.alpha_composite(logo, (x, y))
+          canvas.save(out / 'outlaw-back.png', 'PNG', dpi=(300, 300), compress_level=6)
+
+          print('Built print/outlaw-front.png and print/outlaw-back.png')
+          PY
+
       - name: Bust static asset caches
         env:
           SITE_VERSION: ${{ github.sha }}
