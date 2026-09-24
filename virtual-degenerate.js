@@ -1,5 +1,8 @@
 (() => {
   const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
+  const HOODIE_SIZE_SKUS = {
+    M: 'JH001-DBK-M'
+  };
   const galleryImages = [
     { src: 'assets/virtual-degenerate-hoodie-front.webp', alt: 'Front view of the black Rage Bait Apparel Virtual Degenerate Hoodie' },
     { src: 'assets/virtual-degenerate-hoodie-back.webp', alt: 'Back view of the black Rage Bait Apparel Virtual Degenerate Hoodie' }
@@ -46,8 +49,10 @@
       hoodieCard.insertBefore(sizeWrap, button);
 
       sizeSelect.addEventListener('change', () => {
-        button.dataset.size = sizeSelect.value;
-        delete button.dataset.sku;
+        const size = sizeSelect.value;
+        button.dataset.size = size;
+        if (HOODIE_SIZE_SKUS[size]) button.dataset.sku = HOODIE_SIZE_SKUS[size];
+        else delete button.dataset.sku;
         button.disabled = false;
         button.textContent = 'Add to cart';
         button.style.opacity = '1';
