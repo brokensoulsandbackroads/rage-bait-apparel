@@ -1,1 +1,0 @@
-The previous v2 front image blobs were 7,506 bytes each. Verified replacements are being rebuilt directly from the original uploaded PNG mockups. This file can be removed after deployment verification.

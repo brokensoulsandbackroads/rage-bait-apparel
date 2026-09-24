@@ -31,6 +31,14 @@ jobs:
           cat assets-src/hero-background.* | base64 -d > assets/hero-background.webp
           cat assets-src/wear-the-troll.* | base64 -d > assets/wear-the-troll.png
           cat assets-src/outlaw-tee.* | base64 -d > assets/outlaw-tee.webp
+          cat assets-src/outlaw-front-male-v3.* | base64 -d > assets/outlaw-tee-front-male-v3.webp
+          cat assets-src/outlaw-front-female-v3.* | base64 -d > assets/outlaw-tee-front-female-v3.webp
+
+          echo "f1c58d6b1a9b28907fe699dc474f0836804789f6be019ae22332263c8e7abe21  assets/outlaw-tee-front-male-v3.webp" | sha256sum -c -
+          echo "362a63518a77c8e1ef5351e7abe74ad09dfbae82ef59d1160c9cece9b47a3891  assets/outlaw-tee-front-female-v3.webp" | sha256sum -c -
+          test "$(stat -c%s assets/outlaw-tee-front-male-v3.webp)" -eq 21362
+          test "$(stat -c%s assets/outlaw-tee-front-female-v3.webp)" -eq 22912
+          echo "Verified Outlaw Tee front images"
 
       - name: Build Two Fifteen print masters
         run: |
@@ -41,24 +49,19 @@ jobs:
           from pathlib import Path
           from PIL import Image
 
-          target = (3780, 5906)  # 320 x 500 mm at 300 DPI
+          target = (3780, 5906)
           out = Path('print')
           out.mkdir(exist_ok=True)
 
-          # Front master: full Minorz Outlaw artwork retained in the repository.
           front = Image.open('assets/neon_outlaw_hyena_sticker_art.png').convert('RGBA')
           front = front.resize(target, Image.Resampling.LANCZOS)
           front.save(out / 'outlaw-front.png', 'PNG', dpi=(300, 300), compress_level=6)
 
-          # Rear master: reconstruct the exact approved logo placement on a transparent canvas.
           logo = Image.open('print-src/.work/outlaw-back-logo.png').convert('RGBA')
           logo = logo.resize((548, 436), Image.Resampling.LANCZOS)
           canvas = Image.new('RGBA', target, (0, 0, 0, 0))
           canvas.alpha_composite(logo, (1622, 0))
           canvas.save(out / 'outlaw-back.png', 'PNG', dpi=(300, 300), compress_level=6)
-
-          print('Built print/outlaw-front.png and print/outlaw-back.png')
-          print('Canvas:', target, '300 DPI')
           PY
 
       - name: Bust static asset caches
@@ -71,34 +74,18 @@ jobs:
           import re
 
           version = os.environ["SITE_VERSION"][:12]
+          html_asset = re.compile(r'(?P<prefix>(?:href|src)=["\'])(?P<path>(?!https?:|//|mailto:|#)[^"\']+\.(?:css|js|png|jpe?g|webp|svg))(?P<query>\?[^"\']*)?(?P<suffix>["\'])', re.IGNORECASE)
+          css_asset = re.compile(r'(?P<prefix>url\(["\']?)(?P<path>(?!https?:|//|data:)[^)"\']+\.(?:png|jpe?g|webp|svg))(?P<query>\?[^)"\']*)?(?P<suffix>["\']?\))', re.IGNORECASE)
 
-          html_asset = re.compile(
-              r'(?P<prefix>(?:href|src)=["\'])(?P<path>(?!https?:|//|mailto:|#)[^"\']+\.(?:css|js|png|jpe?g|webp|svg))(?P<query>\?[^"\']*)?(?P<suffix>["\'])',
-              re.IGNORECASE,
-          )
+          for path in Path('.').rglob('*.html'):
+              text = path.read_text(encoding='utf-8')
+              text = html_asset.sub(lambda m: f'{m.group("prefix")}{m.group("path")}?v={version}{m.group("suffix")}', text)
+              path.write_text(text, encoding='utf-8')
 
-          css_asset = re.compile(
-              r'(?P<prefix>url\(["\']?)(?P<path>(?!https?:|//|data:)[^)"\']+\.(?:png|jpe?g|webp|svg))(?P<query>\?[^)"\']*)?(?P<suffix>["\']?\))',
-              re.IGNORECASE,
-          )
-
-          for path in Path(".").rglob("*.html"):
-              text = path.read_text(encoding="utf-8")
-              text = html_asset.sub(
-                  lambda m: f'{m.group("prefix")}{m.group("path")}?v={version}{m.group("suffix")}',
-                  text,
-              )
-              path.write_text(text, encoding="utf-8")
-
-          for path in Path(".").rglob("*.css"):
-              text = path.read_text(encoding="utf-8")
-              text = css_asset.sub(
-                  lambda m: f'{m.group("prefix")}{m.group("path")}?v={version}{m.group("suffix")}',
-                  text,
-              )
-              path.write_text(text, encoding="utf-8")
-
-          print(f"Static asset cache version: {version}")
+          for path in Path('.').rglob('*.css'):
+              text = path.read_text(encoding='utf-8')
+              text = css_asset.sub(lambda m: f'{m.group("prefix")}{m.group("path")}?v={version}{m.group("suffix")}', text)
+              path.write_text(text, encoding='utf-8')
           PY
 
       - name: Setup Pages
