@@ -1,0 +1,34 @@
+{
+  "product": "Virtual Degenerate Hoodie",
+  "brand": "Rage Bait Apparel",
+  "channel": "site",
+  "colour": "Deep Black",
+  "price": 44.99,
+  "currency": "GBP",
+  "sizePriceAdjustments": {
+    "3XL": 1.00,
+    "4XL": 1.00,
+    "5XL": 1.00
+  },
+  "print": {
+    "front": {
+      "title": "DTG Printing Front Side",
+      "src": "https://ragebaitapparel.co.uk/print/virtual-degenerate-front.png"
+    },
+    "back": {
+      "title": "DTG Printing Back Side",
+      "src": "https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png"
+    }
+  },
+  "sizes": {
+    "XS": "JH001-DBK-XS",
+    "S": "JH001-DBK-S",
+    "M": "JH001-DBK-M",
+    "L": "JH001-DBK-L",
+    "XL": "JH001-DBK-XL",
+    "2XL": "JH001-DBK-2XL",
+    "3XL": "JH001-DBK-3XL",
+    "4XL": "JH001-DBK-4XL",
+    "5XL": "JH001-DBK-5XL"
+  }
+}
