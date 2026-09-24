@@ -8,11 +8,22 @@ TWOFIFTEEN_APP_ID = "APP-00063211"
 TWOFIFTEEN_BRAND = "Rage Bait Apparel"
 TWOFIFTEEN_API_BASE = "https://www.twofifteen.co.uk/api"
 ALLOW_LIVE_SUBMISSION = "false"
+CHECKOUT_ENABLED = "false"
+PAYPAL_MODE = "sandbox"
 
-# Secrets are deliberately NOT stored here.
+# Secrets / credentials are deliberately NOT stored in GitHub.
 # Add these with `wrangler secret put` or in Cloudflare Dashboard:
 #   TWOFIFTEEN_SECRET_KEY
 #   FULFILMENT_API_KEY
+#   PAYPAL_CLIENT_ID
+#   PAYPAL_CLIENT_SECRET
+#
+# Safe launch sequence:
+#   1. Add PayPal SANDBOX credentials and keep PAYPAL_MODE="sandbox".
+#   2. Apply D1 migrations and deploy the Worker.
+#   3. Validate a complete sandbox payment + fulfilment payload.
+#   4. Add LIVE PayPal credentials, set PAYPAL_MODE="live".
+#   5. Set ALLOW_LIVE_SUBMISSION="true" and CHECKOUT_ENABLED="true" only when ready to take real orders.
 
 [[d1_databases]]
 binding = "DB"
