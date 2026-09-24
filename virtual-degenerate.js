@@ -1,8 +1,10 @@
 (() => {
-  const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'];
-  const HOODIE_SIZE_SKUS = {
-    M: 'JH001-DBK-M'
-  };
+  const SIZES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
+  const HOODIE_SIZE_SKUS = Object.fromEntries(SIZES.map(size => [size, `JH001-DBK-${size}`]));
+  const LARGE_SIZE_SURCHARGE = new Set(['3XL', '4XL', '5XL']);
+  const BASE_PRICE = 44.99;
+  const LARGE_PRICE = 45.99;
+
   const galleryImages = [
     { src: 'assets/virtual-degenerate-hoodie-front.webp', alt: 'Front view of the black Rage Bait Apparel Virtual Degenerate Hoodie' },
     { src: 'assets/virtual-degenerate-hoodie-back.webp', alt: 'Back view of the black Rage Bait Apparel Virtual Degenerate Hoodie' }
@@ -21,13 +23,13 @@
 
   if (title) title.textContent = 'Virtual Degenerate Hoodie';
   if (description) {
-    description.innerHTML = 'Black front + back graphic hoodie<span style="display:block;margin-top:5px;color:#7f887b;font-size:10px;letter-spacing:.03em;">VAT included · shipping extra</span>';
+    description.innerHTML = 'Black front + back graphic hoodie<span style="display:block;margin-top:5px;color:#7f887b;font-size:10px;letter-spacing:.03em;">VAT included · shipping extra · 3XL–5XL +£1</span>';
   }
-  if (price) price.textContent = '£44.99';
+  if (price) price.textContent = `£${BASE_PRICE.toFixed(2)}`;
 
   if (button) {
     button.dataset.product = 'Virtual Degenerate Hoodie';
-    button.dataset.price = '44.99';
+    button.dataset.price = BASE_PRICE.toFixed(2);
     delete button.dataset.sku;
     delete button.dataset.size;
     button.disabled = true;
@@ -44,15 +46,20 @@
       const sizeSelect = document.createElement('select');
       sizeSelect.setAttribute('aria-label', 'Choose Virtual Degenerate Hoodie size');
       sizeSelect.style.cssText = 'flex:1;min-width:0;background:#080908;color:#fff;border:1px solid #394038;padding:9px 10px;font-weight:800;';
-      sizeSelect.innerHTML = '<option value="" selected disabled>Choose size</option>' + SIZES.map(size => `<option value="${size}">${size}</option>`).join('');
+      sizeSelect.innerHTML = '<option value="" selected disabled>Choose size</option>' + SIZES.map(size => {
+        const label = LARGE_SIZE_SURCHARGE.has(size) ? `${size} (+£1)` : size;
+        return `<option value="${size}">${label}</option>`;
+      }).join('');
       sizeWrap.appendChild(sizeSelect);
       hoodieCard.insertBefore(sizeWrap, button);
 
       sizeSelect.addEventListener('change', () => {
         const size = sizeSelect.value;
+        const selectedPrice = LARGE_SIZE_SURCHARGE.has(size) ? LARGE_PRICE : BASE_PRICE;
         button.dataset.size = size;
-        if (HOODIE_SIZE_SKUS[size]) button.dataset.sku = HOODIE_SIZE_SKUS[size];
-        else delete button.dataset.sku;
+        button.dataset.sku = HOODIE_SIZE_SKUS[size];
+        button.dataset.price = selectedPrice.toFixed(2);
+        if (price) price.textContent = `£${selectedPrice.toFixed(2)}`;
         button.disabled = false;
         button.textContent = 'Add to cart';
         button.style.opacity = '1';
