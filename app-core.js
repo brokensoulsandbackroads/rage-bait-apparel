@@ -1,10 +1,26 @@
-const cart=[];
+const CART_STORAGE_KEY='ragebait-cart-v1';
+
+function loadCart(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(CART_STORAGE_KEY)||'[]');
+    return Array.isArray(saved)?saved.filter(item=>item&&typeof item==='object'):[];
+  }catch(_){
+    return [];
+  }
+}
+
+const cart=loadCart();
 const cartButton=document.getElementById('cartButton');
 const cartDrawer=document.getElementById('cartDrawer');
 const cartBackdrop=document.getElementById('cartBackdrop');
 const closeCart=document.getElementById('closeCart');
 const cartCount=document.getElementById('cartCount');
 const cartItems=document.getElementById('cartItems');
+const checkoutButton=document.querySelector('.checkout');
+
+function saveCart(){
+  try{localStorage.setItem(CART_STORAGE_KEY,JSON.stringify(cart));}catch(_){/* storage unavailable */}
+}
 
 const OUTLAW_SIZE_SKUS={
   S:'CV001-BLK-S',
@@ -113,6 +129,7 @@ if(outlawCard){
 
 function renderCart(){
   if(!cartCount||!cartItems)return;
+  saveCart();
   cartCount.textContent=cart.length;
   cartItems.innerHTML=cart.length?cart.map((item,i)=>{
     const entry=typeof item==='string'?{name:item}:item;
@@ -121,6 +138,11 @@ function renderCart(){
     return `<div class="cart-item"><span>${entry.name}${variant}${price}</span><button aria-label="Remove ${entry.name}" data-remove="${i}">×</button></div>`;
   }).join(''):'<p>Your cart is gloriously empty.</p>';
   cartItems.querySelectorAll('[data-remove]').forEach(btn=>btn.addEventListener('click',()=>{cart.splice(Number(btn.dataset.remove),1);renderCart();}));
+
+  if(checkoutButton){
+    checkoutButton.disabled=cart.length===0;
+    checkoutButton.textContent=cart.length?'Secure checkout':'Your cart is empty';
+  }
 }
 function openCart(){
   setMobileMenu(false);
@@ -138,11 +160,19 @@ function hideCart(){
 if(cartButton)cartButton.addEventListener('click',openCart);
 if(closeCart)closeCart.addEventListener('click',hideCart);
 if(cartBackdrop)cartBackdrop.addEventListener('click',hideCart);
+if(checkoutButton)checkoutButton.addEventListener('click',()=>{
+  if(!cart.length)return;
+  saveCart();
+  window.location.href='checkout.html';
+});
 
 document.querySelectorAll('.add-cart').forEach(btn=>btn.addEventListener('click',()=>{
   if(btn.disabled)return;
+  const supported=['Outlaw Tee','Virtual Degenerate Hoodie'];
+  const product=btn.dataset.product||'Product';
+  if(!supported.includes(product))return;
   cart.push({
-    name:btn.dataset.product||'Product',
+    name:product,
     size:btn.dataset.size||'',
     sku:btn.dataset.sku||'',
     price:Number(btn.dataset.price||0)
@@ -150,6 +180,17 @@ document.querySelectorAll('.add-cart').forEach(btn=>btn.addEventListener('click'
   renderCart();
   openCart();
 }));
+
+// Do not sell placeholder products until they have real fulfilment mappings.
+document.querySelectorAll('.add-cart').forEach(btn=>{
+  const product=btn.dataset.product||'';
+  if(['Troll Mode Cap','Rage Pack'].includes(product)){
+    btn.disabled=true;
+    btn.textContent='Coming soon';
+    btn.style.opacity='.55';
+    btn.style.cursor='not-allowed';
+  }
+});
 
 document.addEventListener('keydown',event=>{
   if(event.key==='Escape'){
