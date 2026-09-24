@@ -5,14 +5,22 @@
     { src: 'assets/outlaw-tee-front-male-v3.webp', alt: 'Male model wearing the Rage Bait Apparel Outlaw Tee, front view' },
     { src: 'assets/outlaw-tee-front-female-v3.webp', alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, front view' },
     { src: 'assets/outlaw-tee-back-male-v2.webp', alt: 'Male model wearing the Rage Bait Apparel Outlaw Tee, back view' },
-    { src: 'assets/outlaw-tee-back-female-v3.webp', alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, back view' }
+    { b64: 'assets/outlaw-gallery-female-back.webp.b64', alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, back view' }
   ];
+
+  const resolveSource = async item => {
+    if (item.src) return item;
+    const response = await fetch(item.b64, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Could not load ${item.b64}`);
+    const base64 = (await response.text()).replace(/\s+/g, '');
+    return { src: `data:image/webp;base64,${base64}`, alt: item.alt };
+  };
 
   const preload = item => new Promise(resolve => {
     const img = new Image();
     img.onload = () => resolve(item);
     img.onerror = () => {
-      console.error('Outlaw Tee image failed to load:', item.src);
+      console.error('Outlaw Tee image failed to load:', item.alt);
       resolve(null);
     };
     img.src = item.src;
@@ -26,7 +34,16 @@
     if (!card || !stage) return;
 
     started = true;
-    const loaded = (await Promise.all(galleryImages.map(preload))).filter(Boolean);
+
+    const loaded = (await Promise.all(galleryImages.map(async item => {
+      try {
+        return await preload(await resolveSource(item));
+      } catch (error) {
+        console.error('Outlaw Tee gallery image failed:', error);
+        return null;
+      }
+    }))).filter(Boolean);
+
     if (!loaded.length) {
       started = false;
       return;
