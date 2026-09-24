@@ -5,7 +5,7 @@
     { src: 'assets/outlaw-tee-front-male-v3.webp', alt: 'Male model wearing the Rage Bait Apparel Outlaw Tee, front view' },
     { src: 'assets/outlaw-tee-front-female-v3.webp', alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, front view' },
     { src: 'assets/outlaw-tee-back-male-v2.webp', alt: 'Male model wearing the Rage Bait Apparel Outlaw Tee, back view' },
-    { src: 'assets/outlaw-tee-back-female-v4.webp', alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, back view' }
+    { src: 'assets/outlaw-tee-back-female-v5.webp', alt: 'Female model wearing the Rage Bait Apparel Outlaw Tee, back view' }
   ];
 
   const preload = item => new Promise(resolve => {
