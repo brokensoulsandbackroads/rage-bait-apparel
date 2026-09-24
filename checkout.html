@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Secure Checkout | Rage Bait Apparel</title>
+  <meta name="description" content="Secure checkout for Rage Bait Apparel orders.">
+  <meta name="checkout-api" content="https://rage-bait-twofifteen.brokensoulsandbackroads.workers.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="header-logo.css">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="site-header checkout-header">
+    <a class="brand header-brand" href="index.html" aria-label="Rage Bait Apparel home">
+      <img src="assets/logo-rage-bait-header.png" alt="Rage Bait Apparel">
+    </a>
+    <a class="checkout-back" href="index.html#products">← BACK TO SHOP</a>
+  </header>
+
+  <main class="checkout-wrap">
+    <section class="checkout-intro">
+      <span class="eyebrow">SECURE CHECKOUT</span>
+      <h1>Finish the damage.</h1>
+      <p>Your payment is handled by PayPal. Rage Bait never receives or stores your card details.</p>
+    </section>
+
+    <div class="checkout-grid">
+      <section class="checkout-panel">
+        <div class="panel-heading">
+          <span>01</span>
+          <div><h2>Delivery details</h2><p>Where should the questionable clothing go?</p></div>
+        </div>
+
+        <form id="checkoutForm" novalidate>
+          <div class="field-grid two">
+            <label>First name<input name="firstName" autocomplete="given-name" maxlength="80" required></label>
+            <label>Last name<input name="lastName" autocomplete="family-name" maxlength="80" required></label>
+          </div>
+
+          <div class="field-grid two">
+            <label>Email<input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+            <label>Phone<input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label>
+          </div>
+
+          <label>Address line 1<input name="address1" autocomplete="address-line1" maxlength="160" required></label>
+          <label>Address line 2 <small>optional</small><input name="address2" autocomplete="address-line2" maxlength="160"></label>
+
+          <div class="field-grid two">
+            <label>Town / City<input name="city" autocomplete="address-level2" maxlength="100" required></label>
+            <label>County / State<input name="county" autocomplete="address-level1" maxlength="100"></label>
+          </div>
+
+          <div class="field-grid two">
+            <label>Postcode / ZIP<input name="postcode" autocomplete="postal-code" maxlength="32" required></label>
+            <label>Country
+              <select name="countryCode" autocomplete="country" required>
+                <option value="GB" selected>United Kingdom</option>
+                <optgroup label="Europe">
+                  <option value="AT">Austria</option><option value="BE">Belgium</option><option value="BG">Bulgaria</option>
+                  <option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czechia</option>
+                  <option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option>
+                  <option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option>
+                  <option value="HU">Hungary</option><option value="IE">Ireland</option><option value="IT">Italy</option>
+                  <option value="LV">Latvia</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option>
+                  <option value="MT">Malta</option><option value="NL">Netherlands</option><option value="PL">Poland</option>
+                  <option value="PT">Portugal</option><option value="RO">Romania</option><option value="SK">Slovakia</option>
+                  <option value="SI">Slovenia</option><option value="ES">Spain</option><option value="SE">Sweden</option>
+                </optgroup>
+                <optgroup label="Rest of world">
+                  <option value="US">United States</option><option value="CA">Canada</option><option value="AU">Australia</option>
+                  <option value="NZ">New Zealand</option><option value="JP">Japan</option><option value="NO">Norway</option>
+                  <option value="CH">Switzerland</option>
+                </optgroup>
+              </select>
+            </label>
+          </div>
+
+          <label class="terms-check">
+            <input name="terms" type="checkbox" required>
+            <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms</a>, <a href="returns.html" target="_blank" rel="noopener">Returns Policy</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+        </form>
+      </section>
+
+      <aside class="checkout-panel order-panel">
+        <div class="panel-heading">
+          <span>02</span>
+          <div><h2>Your order</h2><p>Final payment is processed in GBP.</p></div>
+        </div>
+
+        <div id="checkoutItems" class="checkout-items"></div>
+        <div class="totals">
+          <div><span>Items</span><strong id="subtotal">£0.00</strong></div>
+          <div><span>Tracked shipping</span><strong id="shipping">£3.59</strong></div>
+          <div class="grand-total"><span>Total</span><strong id="grandTotal">£0.00</strong></div>
+        </div>
+
+        <p class="checkout-note">VAT is included where applicable. International customers may be charged local import duties or taxes by their country.</p>
+
+        <div class="payment-box">
+          <div class="payment-title"><span>03</span><strong>Pay securely</strong></div>
+          <div id="paypal-button-container"></div>
+          <p id="checkoutStatus" class="checkout-status" role="status" aria-live="polite">Loading secure checkout…</p>
+        </div>
+      </aside>
+    </div>
+
+    <section id="checkoutSuccess" class="checkout-success" hidden>
+      <span class="success-mark">✓</span>
+      <h2>Order received.</h2>
+      <p id="successMessage"></p>
+      <a href="index.html">BACK TO RAGE BAIT →</a>
+    </section>
+  </main>
+
+  <footer class="checkout-footer">
+    <p>Secure payment by PayPal · Fulfilment by Two Fifteen · Tracked delivery</p>
+    <div><a href="shipping.html">SHIPPING</a><a href="returns.html">RETURNS</a><a href="contact.html">CONTACT</a></div>
+  </footer>
+
+  <script src="checkout.js"></script>
+</body>
+</html>
