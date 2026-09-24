@@ -33,12 +33,13 @@ jobs:
           cat assets-src/outlaw-tee.* | base64 -d > assets/outlaw-tee.webp
           cat assets-src/outlaw-front-male-v3.* | base64 -d > assets/outlaw-tee-front-male-v3.webp
           cat assets-src/outlaw-front-female-v3.* | base64 -d > assets/outlaw-tee-front-female-v3.webp
+          cat assets-src/outlaw-back-female-v5.* | base64 -d > assets/outlaw-tee-back-female-v5.webp
 
           echo "f1c58d6b1a9b28907fe699dc474f0836804789f6be019ae22332263c8e7abe21  assets/outlaw-tee-front-male-v3.webp" | sha256sum -c -
           echo "362a63518a77c8e1ef5351e7abe74ad09dfbae82ef59d1160c9cece9b47a3891  assets/outlaw-tee-front-female-v3.webp" | sha256sum -c -
-          test "$(stat -c%s assets/outlaw-tee-front-male-v3.webp)" -eq 21362
-          test "$(stat -c%s assets/outlaw-tee-front-female-v3.webp)" -eq 22912
-          echo "Verified Outlaw Tee front images"
+          echo "2e92f8d54b05d97fca7015344f8552efe52b456fc404fbe44ba60147dac872a2  assets/outlaw-tee-back-female-v5.webp" | sha256sum -c -
+          test "$(stat -c%s assets/outlaw-tee-back-female-v5.webp)" -eq 21170
+          echo "Verified Outlaw Tee gallery image assets"
 
       - name: Build Two Fifteen print masters
         run: |
