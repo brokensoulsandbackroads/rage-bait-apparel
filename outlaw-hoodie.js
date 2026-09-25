@@ -15,7 +15,7 @@
   card.dataset.productCard = 'outlaw-hoodie';
   card.innerHTML = `
     <div class="product-photo outlaw-hoodie-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="print/outlaw-hood-front.png" alt="Front artwork for the black Rage Bait Apparel Outlaw Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="assets/outlaw-hoodie-front.webp" alt="Front view of the black Rage Bait Apparel Outlaw Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -101,8 +101,8 @@
 
   const gallery = card.querySelector('.outlaw-hoodie-gallery');
   const galleryImages = [
-    { src: 'print/outlaw-hood-front.png', alt: 'Front artwork for the black Rage Bait Apparel Outlaw Hoodie' },
-    { src: 'print/outlaw-back.png', alt: 'Back artwork for the black Rage Bait Apparel Outlaw Hoodie' }
+    { src: 'assets/outlaw-hoodie-front.webp', alt: 'Front view of the black Rage Bait Apparel Outlaw Hoodie' },
+    { src: 'assets/outlaw-hoodie-back.webp', alt: 'Back view of the black Rage Bait Apparel Outlaw Hoodie' }
   ];
 
   const preload = item => new Promise(resolve => {
@@ -139,14 +139,14 @@
       return btn;
     };
 
-    const prev = arrow('Previous Outlaw Hoodie artwork', '‹', 'left');
-    const next = arrow('Next Outlaw Hoodie artwork', '›', 'right');
+    const prev = arrow('Previous Outlaw Hoodie photo', '‹', 'left');
+    const next = arrow('Next Outlaw Hoodie photo', '›', 'right');
     const dots = document.createElement('div');
     dots.style.cssText = 'position:absolute;left:50%;bottom:10px;transform:translateX(-50%);z-index:4;display:flex;gap:7px;padding:6px 8px;background:rgba(0,0,0,.45);';
     const dotEls = loaded.map((_, index) => {
       const dot = document.createElement('button');
       dot.type = 'button';
-      dot.setAttribute('aria-label', `Show Outlaw Hoodie artwork ${index + 1} of ${loaded.length}`);
+      dot.setAttribute('aria-label', `Show Outlaw Hoodie photo ${index + 1} of ${loaded.length}`);
       dot.style.cssText = `width:9px;height:9px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.7);background:${index === 0 ? 'var(--acid)' : 'rgba(255,255,255,.25)'};cursor:pointer;`;
       dots.appendChild(dot);
       return dot;
