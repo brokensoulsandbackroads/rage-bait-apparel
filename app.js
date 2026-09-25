@@ -10,6 +10,17 @@
     document.body.appendChild(currencyScript);
   };
 
+  const loadOutlawHoodie=()=>{
+    const outlawHoodieScript=document.createElement('script');
+    outlawHoodieScript.src=`outlaw-hoodie.js${version}`;
+    outlawHoodieScript.onload=loadCurrency;
+    outlawHoodieScript.onerror=()=>{
+      console.error('Outlaw Hoodie failed to initialise');
+      loadCurrency();
+    };
+    document.body.appendChild(outlawHoodieScript);
+  };
+
   const script=document.createElement('script');
   script.src=`app-core.js${version}`;
   script.onload=()=>{
@@ -20,10 +31,10 @@
 
     const hoodieScript=document.createElement('script');
     hoodieScript.src=`virtual-degenerate.js${version}`;
-    hoodieScript.onload=loadCurrency;
+    hoodieScript.onload=loadOutlawHoodie;
     hoodieScript.onerror=()=>{
       console.error('Virtual Degenerate Hoodie failed to initialise');
-      loadCurrency();
+      loadOutlawHoodie();
     };
     document.body.appendChild(hoodieScript);
   };
