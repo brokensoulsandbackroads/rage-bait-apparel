@@ -53,6 +53,7 @@ jobs:
           test -s print/outlaw-back.png
           test -s print/outlaw-hood-front.png
           test -s print/virtual-degenerate-front.png
+          test -s print/virtual-degenerate-tee-front.png
           test -s print/virtual-degenerate-back.png
           echo "Verified uploaded Two Fifteen print masters"
 
