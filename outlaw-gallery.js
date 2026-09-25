@@ -18,20 +18,26 @@
     img.src = item.src;
   });
 
+  function findOutlawCard() {
+    return Array.from(document.querySelectorAll('.product-grid .product-card')).find(card => {
+      const title = card.querySelector('.product-info h3')?.textContent.trim().toLowerCase() || '';
+      const buttonProduct = card.querySelector('.add-cart')?.dataset.product?.trim().toLowerCase() || '';
+      return title === 'outlaw tee' || title === 'minorz outlaw tee' || buttonProduct === 'outlaw tee' || buttonProduct === 'minorz outlaw tee';
+    }) || null;
+  }
+
   async function initGallery() {
     if (started) return;
 
-    const card = document.querySelector('.product-grid .product-card');
-    const stage = card?.querySelector('.product-photo');
+    const card = findOutlawCard();
+    const stage = card?.querySelector('.product-photo, .product-image');
     if (!card || !stage) return;
 
-    started = true;
     const loaded = (await Promise.all(galleryImages.map(preload))).filter(Boolean);
-    if (!loaded.length) {
-      started = false;
-      return;
-    }
+    if (!loaded.length) return;
 
+    started = true;
+    card.dataset.productCard = card.dataset.productCard || 'outlaw-tee';
     stage.className = 'product-photo outlaw-gallery';
     stage.style.cssText = 'aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;';
     stage.innerHTML = '';
@@ -49,6 +55,9 @@
       slides.appendChild(img);
       return img;
     });
+
+    stage.appendChild(slides);
+    if (loaded.length < 2) return;
 
     const arrow = (label, symbol, side) => {
       const btn = document.createElement('button');
@@ -73,7 +82,7 @@
       return dot;
     });
 
-    stage.append(slides, prev, next, dots);
+    stage.append(prev, next, dots);
 
     let current = 0;
     let timer = null;
