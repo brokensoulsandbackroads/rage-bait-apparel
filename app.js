@@ -21,13 +21,24 @@
     document.body.appendChild(teeScript);
   };
 
+  const loadPrettyLittleProblemHoodie=()=>{
+    const prettyLittleProblemScript=document.createElement('script');
+    prettyLittleProblemScript.src=`pretty-little-problem-hoodie.js${version}`;
+    prettyLittleProblemScript.onload=loadVirtualDegenerateTee;
+    prettyLittleProblemScript.onerror=()=>{
+      console.error('Pretty Little Problem Hoodie failed to initialise');
+      loadVirtualDegenerateTee();
+    };
+    document.body.appendChild(prettyLittleProblemScript);
+  };
+
   const loadOutlawHoodie=()=>{
     const outlawHoodieScript=document.createElement('script');
     outlawHoodieScript.src=`outlaw-hoodie.js${version}`;
-    outlawHoodieScript.onload=loadVirtualDegenerateTee;
+    outlawHoodieScript.onload=loadPrettyLittleProblemHoodie;
     outlawHoodieScript.onerror=()=>{
       console.error('Outlaw Hoodie failed to initialise');
-      loadVirtualDegenerateTee();
+      loadPrettyLittleProblemHoodie();
     };
     document.body.appendChild(outlawHoodieScript);
   };
