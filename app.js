@@ -21,13 +21,24 @@
     document.body.appendChild(teeScript);
   };
 
+  const loadPrettyLittleProblemCroppedTee=()=>{
+    const prettyLittleProblemTeeScript=document.createElement('script');
+    prettyLittleProblemTeeScript.src=`pretty-little-problem-cropped-tee.js${version}`;
+    prettyLittleProblemTeeScript.onload=loadVirtualDegenerateTee;
+    prettyLittleProblemTeeScript.onerror=()=>{
+      console.error('Pretty Little Problem Cropped Tee failed to initialise');
+      loadVirtualDegenerateTee();
+    };
+    document.body.appendChild(prettyLittleProblemTeeScript);
+  };
+
   const loadPrettyLittleProblemHoodie=()=>{
     const prettyLittleProblemScript=document.createElement('script');
     prettyLittleProblemScript.src=`pretty-little-problem-hoodie.js${version}`;
-    prettyLittleProblemScript.onload=loadVirtualDegenerateTee;
+    prettyLittleProblemScript.onload=loadPrettyLittleProblemCroppedTee;
     prettyLittleProblemScript.onerror=()=>{
       console.error('Pretty Little Problem Hoodie failed to initialise');
-      loadVirtualDegenerateTee();
+      loadPrettyLittleProblemCroppedTee();
     };
     document.body.appendChild(prettyLittleProblemScript);
   };
