@@ -43,29 +43,13 @@ jobs:
           test "$(stat -c%s assets/outlaw-tee-back-female-v5.webp)" -eq 21170
           echo "Verified gallery image assets"
 
-      - name: Build Two Fifteen print masters
+      - name: Verify Two Fifteen print masters
         run: |
-          python -m pip install --quiet pillow
-          mkdir -p print print-src/.work
-          base64 -d print-src/outlaw-back-logo.b64 > print-src/.work/outlaw-back-logo.png
-          python - <<'PY'
-          from pathlib import Path
-          from PIL import Image
-
-          target = (3780, 5906)
-          out = Path('print')
-          out.mkdir(exist_ok=True)
-
-          front = Image.open('assets/neon_outlaw_hyena_sticker_art.png').convert('RGBA')
-          front = front.resize(target, Image.Resampling.LANCZOS)
-          front.save(out / 'outlaw-front.png', 'PNG', dpi=(300, 300), compress_level=6)
-
-          logo = Image.open('print-src/.work/outlaw-back-logo.png').convert('RGBA')
-          logo = logo.resize((548, 436), Image.Resampling.LANCZOS)
-          canvas = Image.new('RGBA', target, (0, 0, 0, 0))
-          canvas.alpha_composite(logo, (1622, 0))
-          canvas.save(out / 'outlaw-back.png', 'PNG', dpi=(300, 300), compress_level=6)
-          PY
+          test -s print/outlaw-front.png
+          test -s print/outlaw-back.png
+          test -s print/virtual-degenerate-front.png
+          test -s print/virtual-degenerate-back.png
+          echo "Verified uploaded Two Fifteen print masters"
 
       - name: Bust static asset caches
         env:
