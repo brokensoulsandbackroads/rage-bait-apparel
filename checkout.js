@@ -16,8 +16,10 @@
   const PRODUCT_MAP={
     'Outlaw Tee':{slug:'outlaw-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
     'Virtual Degenerate Tee':{slug:'virtual-degenerate-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
+    'Pretty Little Problem Cropped Tee':{slug:'pretty-little-problem-cropped-tee',priceBySize:{XS:24.99,S:24.99,M:24.99,L:24.99,XL:24.99}},
     'Virtual Degenerate Hoodie':{slug:'virtual-degenerate-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
-    'Outlaw Hoodie':{slug:'outlaw-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}}
+    'Outlaw Hoodie':{slug:'outlaw-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
+    'Pretty Little Problem Hoodie':{slug:'pretty-little-problem-hoodie',priceBySize:{XS:39.99,S:39.99,M:39.99,L:39.99,XL:39.99,'2XL':39.99}}
   };
 
   const money=value=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(value)||0);
@@ -64,7 +66,7 @@
 
     itemsEl.innerHTML=cart.map(item=>`
       <div class="checkout-line">
-        <div><h3>${item.name}</h3><p>Black · ${item.size}${item.quantity>1?` · Qty ${item.quantity}`:''}</p></div>
+        <div><h3>${item.name}</h3><p>${item.size}${item.quantity>1?` · Qty ${item.quantity}`:''}</p></div>
         <strong>${money(item.unitPrice*item.quantity)}</strong>
       </div>`).join('');
 
