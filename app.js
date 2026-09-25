@@ -60,6 +60,9 @@
     const duplicateBusinessLink=document.querySelector('footer .footer-links a[href="business-information.html"]');
     if(duplicateBusinessLink)duplicateBusinessLink.remove();
 
+    const teesLink=Array.from(document.querySelectorAll('.desktop-nav a')).find(link=>link.textContent.trim().toLowerCase()==='tees');
+    if(teesLink) teesLink.href='tees.html';
+
     document.dispatchEvent(new CustomEvent('ragebait:ready'));
 
     const hoodieScript=document.createElement('script');
