@@ -740,9 +740,42 @@ function buildOrderConfirmationHtml({ orderNumber, checkoutShipping, items, summ
     checkoutShipping.county,
     checkoutShipping.postcode,
     checkoutShipping.country
-  ].filter(Bolean).join('<br>');
+  ].filter(Boolean).map(escapeHtml).join('<br>');
 
-  return `<table>${itemRows}</table>`;
+  return `<!doctype html>
+<html>
+<body style="margin:0;background:#080908;color:#ffffff;font-family:Arial,Helvetica,sans-serif;">
+  <div style="max-width:640px;margin:0 auto;padding:32px 20px;">
+    <div style="border:1px solid #2b302a;background:#101210;padding:28px;">
+      <div style="font-size:12px;letter-spacing:2px;color:#b8ff00;font-weight:800;">RAGE BAIT APPAREL</div>
+      <h1 style="margin:8px 0 8px;font-size:34px;line-height:1;color:#ffffff;">ORDER CONFIRMED</h1>
+      <p style="margin:0 0 24px;color:#b8beb5;line-height:1.6;">Thanks for your order. Payment has been confirmed and your order has been sent for fulfilment.</p>
+
+      <div style="background:#080908;border-left:4px solid #b8ff00;padding:14px 16px;margin-bottom:24px;">
+        <div style="font-size:11px;color:#9aa197;text-transform:uppercase;letter-spacing:1px;">Order number</div>
+        <div style="font-size:20px;color:#ffffff;font-weight:800;margin-top:4px;">${escapeHtml(orderNumber)}</div>
+      </div>
+
+      <table role="presentation" style="width:100%;border-collapse:collapse;margin-bottom:22px;">${itemRows}</table>
+
+      <table role="presentation" style="width:100%;border-collapse:collapse;margin-bottom:24px;color:#c8cec5;">
+        <tr><td style="padding:5px 0;">Subtotal</td><td style="padding:5px 0;text-align:right;">£${moneyString(summary.subtotal)}</td></tr>
+        <tr><td style="padding:5px 0;">Shipping</td><td style="padding:5px 0;text-align:right;">£${moneyString(summary.shipping)}</td></tr>
+        <tr><td style="padding:10px 0 0;font-size:18px;font-weight:800;color:#ffffff;">Total</td><td style="padding:10px 0 0;text-align:right;font-size:20px;font-weight:900;color:#b8ff00;">£${moneyString(summary.total)}</td></tr>
+      </table>
+
+      <div style="margin-top:20px;padding-top:20px;border-top:1px solid #2b302a;">
+        <div style="font-size:11px;color:#9aa197;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;">Delivery address</div>
+        <div style="color:#ffffff;line-height:1.6;">${addressLines}</div>
+      </div>
+
+      <p style="margin:24px 0 0;color:#9aa197;font-size:12px;line-height:1.6;">Payment reference: ${escapeHtml(captureId || 'Confirmed')}</p>
+      <p style="margin:18px 0 0;color:#c8cec5;line-height:1.6;">Questions about your order? Reply to this email or contact <a href="mailto:crew@ragebaitapparel.co.uk" style="color:#b8ff00;">crew@ragebaitapparel.co.uk</a>.</p>
+    </div>
+    <p style="margin:18px 0 0;text-align:center;color:#697066;font-size:11px;line-height:1.6;">Rage Bait Apparel · A trading brand of Broken Souls &amp; Backroads<br>Tony Stanton, sole trader · 7 Marlborough Gardens, Faringdon, Oxfordshire, SN7 7DE, United Kingdom</p>
+  </div>
+</body>
+</html>`;
 }
 
 function buildOrderConfirmationText({ orderNumber, checkoutShipping, items, summary, captureId }) {
