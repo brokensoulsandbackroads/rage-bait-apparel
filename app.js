@@ -10,13 +10,24 @@
     document.body.appendChild(currencyScript);
   };
 
+  const loadVirtualDegenerateTee=()=>{
+    const teeScript=document.createElement('script');
+    teeScript.src=`virtual-degenerate-tee.js${version}`;
+    teeScript.onload=loadCurrency;
+    teeScript.onerror=()=>{
+      console.error('Virtual Degenerate Tee failed to initialise');
+      loadCurrency();
+    };
+    document.body.appendChild(teeScript);
+  };
+
   const loadOutlawHoodie=()=>{
     const outlawHoodieScript=document.createElement('script');
     outlawHoodieScript.src=`outlaw-hoodie.js${version}`;
-    outlawHoodieScript.onload=loadCurrency;
+    outlawHoodieScript.onload=loadVirtualDegenerateTee;
     outlawHoodieScript.onerror=()=>{
       console.error('Outlaw Hoodie failed to initialise');
-      loadCurrency();
+      loadVirtualDegenerateTee();
     };
     document.body.appendChild(outlawHoodieScript);
   };
