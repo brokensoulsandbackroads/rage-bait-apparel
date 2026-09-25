@@ -78,7 +78,10 @@ if(siteHeader&&desktopNav&&cartButton){
   });
 }
 
-const outlawCard=document.querySelector('.product-grid .product-card');
+const outlawCard=document.querySelector('.product-grid .product-card[data-product-card="outlaw-tee"]') || Array.from(document.querySelectorAll('.product-grid .product-card')).find(card=>{
+  const heading=card.querySelector('.product-info h3')?.textContent.trim().toLowerCase();
+  return heading==='minorz outlaw tee'||heading==='outlaw tee';
+});
 if(outlawCard){
   const image=outlawCard.querySelector('.product-image');
   const title=outlawCard.querySelector('.product-info h3');
@@ -181,7 +184,6 @@ document.querySelectorAll('.add-cart').forEach(btn=>btn.addEventListener('click'
   openCart();
 }));
 
-// Do not sell placeholder products until they have real fulfilment mappings.
 document.querySelectorAll('.add-cart').forEach(btn=>{
   const product=btn.dataset.product||'';
   if(['Troll Mode Cap','Rage Pack'].includes(product)){
