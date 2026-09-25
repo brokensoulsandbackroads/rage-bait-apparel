@@ -17,6 +17,7 @@ PAYPAL_MODE = "live"
 #   FULFILMENT_API_KEY
 #   PAYPAL_CLIENT_ID
 #   PAYPAL_CLIENT_SECRET
+#   RESEND_API_KEY
 #
 # Checkout stays locked until every live service is ready.
 # Safe launch sequence:
