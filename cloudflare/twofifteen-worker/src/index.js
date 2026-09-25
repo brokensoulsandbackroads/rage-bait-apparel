@@ -1,47 +1,36 @@
 const PRODUCT_CATALOG = {
   'outlaw-tee': {
-    title: 'Outlaw Tee',
-    colour: 'Black',
-    retailCurrency: 'GBP',
-    basePrice: 29.99,
-    skus: {
-      S: 'CV001-BLK-S',
-      M: 'CV001-BLK-M',
-      L: 'CV001-BLK-L',
-      XL: 'CV001-BLK-XL',
-      '2XL': 'CV001-BLK-2XL',
-      '3XL': 'CV001-BLK-3XL',
-      '4XL': 'CV001-BLK-4XL'
-    },
-    designs: [
-      { title: 'DTG Printing Front Side', src: 'https://ragebaitapparel.co.uk/print/outlaw-front.png' },
-      { title: 'DTG Printing Back Side', src: 'https://ragebaitapparel.co.uk/print/outlaw-back.png' }
+    title:'Outlaw Tee', colour:'Black', retailCurrency:'GBP', basePrice:29.99,
+    skus:{S:'CV001-BLK-S',M:'CV001-BLK-M',L:'CV001-BLK-L',XL:'CV001-BLK-XL','2XL':'CV001-BLK-2XL','3XL':'CV001-BLK-3XL','4XL':'CV001-BLK-4XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+    ]
+  },
+  'virtual-degenerate-tee': {
+    title:'Virtual Degenerate Tee', colour:'Black', retailCurrency:'GBP', basePrice:29.99,
+    skus:{S:'CV001-BLK-S',M:'CV001-BLK-M',L:'CV001-BLK-L',XL:'CV001-BLK-XL','2XL':'CV001-BLK-2XL','3XL':'CV001-BLK-3XL','4XL':'CV001-BLK-4XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-tee-front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
     ]
   },
   'virtual-degenerate-hoodie': {
-    title: 'Virtual Degenerate Hoodie',
-    colour: 'Deep Black',
-    retailCurrency: 'GBP',
-    basePrice: 44.99,
-    sizePrices: {
-      '3XL': 45.99,
-      '4XL': 45.99,
-      '5XL': 45.99
-    },
-    skus: {
-      XS: 'JH001-DBK-XS',
-      S: 'JH001-DBK-S',
-      M: 'JH001-DBK-M',
-      L: 'JH001-DBK-L',
-      XL: 'JH001-DBK-XL',
-      '2XL': 'JH001-DBK-2XL',
-      '3XL': 'JH001-DBK-3XL',
-      '4XL': 'JH001-DBK-4XL',
-      '5XL': 'JH001-DBK-5XL'
-    },
-    designs: [
-      { title: 'DTG Printing Front Side', src: 'https://ragebaitapparel.co.uk/print/virtual-degenerate-front.png' },
-      { title: 'DTG Printing Back Side', src: 'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png' }
+    title:'Virtual Degenerate Hoodie', colour:'Deep Black', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{XS:'JH001-DBK-XS',S:'JH001-DBK-S',M:'JH001-DBK-M',L:'JH001-DBK-L',XL:'JH001-DBK-XL','2XL':'JH001-DBK-2XL','3XL':'JH001-DBK-3XL','4XL':'JH001-DBK-4XL','5XL':'JH001-DBK-5XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
+    ]
+  },
+  'outlaw-hoodie': {
+    title:'Outlaw Hoodie', colour:'Deep Black', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{XS:'JH001-DBK-XS',S:'JH001-DBK-S',M:'JH001-DBK-M',L:'JH001-DBK-L',XL:'JH001-DBK-XL','2XL':'JH001-DBK-2XL','3XL':'JH001-DBK-3XL','4XL':'JH001-DBK-4XL','5XL':'JH001-DBK-5XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-hood-front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
     ]
   }
 };
@@ -85,6 +74,7 @@ export default {
           paypalMode: env.PAYPAL_MODE || 'sandbox',
           paypalConfigured: Boolean(env.PAYPAL_CLIENT_ID && env.PAYPAL_CLIENT_SECRET),
           apiConfigured: Boolean(env.TWOFIFTEEN_APP_ID && env.TWOFIFTEEN_SECRET_KEY),
+          emailConfigured: Boolean(env.RESEND_API_KEY),
           databaseConfigured: Boolean(env.DB)
         });
       }
@@ -263,6 +253,29 @@ async function handleCheckoutCapture(request, env, origin) {
 
   try {
     const fulfilment = await fulfilOrder(order, env);
+
+    const summary = {
+      subtotal: Number(stored.subtotal_gbp),
+      shipping: Number(stored.shipping_gbp),
+      total: Number(stored.total_gbp),
+      currency: 'GBP'
+    };
+
+    let confirmationEmailSent = false;
+    try {
+      const emailResult = await sendOrderConfirmation({
+        orderNumber: stored.checkout_id,
+        buyerEmail: stored.buyer_email,
+        checkoutShipping,
+        items,
+        summary,
+        captureId
+      }, env);
+      confirmationEmailSent = Boolean(emailResult?.id);
+    } catch (emailError) {
+      console.error('Order confirmation email failed:', redactError(emailError));
+    }
+
     await env.DB.prepare(
       `UPDATE checkout_orders
        SET status = 'fulfilled', error = NULL, updated_at = ?2
@@ -275,6 +288,7 @@ async function handleCheckoutCapture(request, env, origin) {
       captureId,
       orderNumber: stored.checkout_id,
       fulfilmentQueued: true,
+      confirmationEmailSent,
       duplicate: fulfilment.duplicate
     }, 200, origin);
   } catch (error) {
@@ -299,6 +313,7 @@ function checkoutReady(env) {
     env.ALLOW_LIVE_SUBMISSION === 'true' &&
     Boolean(env.PAYPAL_CLIENT_ID && env.PAYPAL_CLIENT_SECRET) &&
     Boolean(env.TWOFIFTEEN_APP_ID && env.TWOFIFTEEN_SECRET_KEY) &&
+    Boolean(env.RESEND_API_KEY) &&
     Boolean(env.DB);
 }
 
@@ -663,6 +678,89 @@ async function submitToTwoFifteen(payload, env) {
     throw error;
   }
   return { raw, parsed };
+}
+
+async function sendOrderConfirmation({ orderNumber, buyerEmail, checkoutShipping, items, summary, captureId }, env) {
+  if (!env.RESEND_API_KEY) throw new Error('Resend API key is not configured');
+
+  const from = env.ORDER_EMAIL_FROM || 'Rage Bait Apparel <orders@ragebaitapparel.co.uk>';
+  const replyTo = env.ORDER_EMAIL_REPLY_TO || 'crew@ragebaitapparel.co.uk';
+  const subject = `Order confirmed: ${orderNumber} | Rage Bait Apparel`;
+  const html = buildOrderConfirmationHtml({ orderNumber, checkoutShipping, items, summary, captureId });
+  const text = buildOrderConfirmationText({ orderNumber, checkoutShipping, items, summary, captureId });
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'idempotency-key': `order-confirmation/${orderNumber}`
+    },
+    body: JSON.stringify({
+      from,
+      to: [buyerEmail],
+      reply_to: replyTo,
+      subject,
+      html,
+      text
+    })
+  });
+
+  const raw = await response.text();
+  const parsed = safeJson(raw);
+  if (!response.ok || !parsed?.id) {
+    const error = new Error(`Resend order confirmation failed with HTTP ${response.status}`);
+    error.providerStatus = response.status;
+    error.providerBody = raw.slice(0, 1500);
+    throw error;
+  }
+
+  return parsed;
+}
+
+function buildOrderConfirmationHtml({ orderNumber, checkoutShipping, items, summary, captureId }) {
+  const itemRows = items.map(item => {
+    const catalog = PRODUCT_CATALOG[item.product];
+    const unitPrice = priceForSize(catalog, item.size);
+    const lineTotal = unitPrice * item.quantity;
+    return `<tr>
+      <td style="padding:12px 0;border-bottom:1px solid #2b302a;color:#ffffff;">
+        <strong>${escapeHtml(catalog.title)}</strong><br>
+        <span style="color:#9aa197;font-size:13px;">${escapeHtml(catalog.colour)} · ${escapeHtml(item.size)} · Qty ${item.quantity}</span>
+      </td>
+      <td style="padding:12px 0;border-bottom:1px solid #2b302a;color:#b8ff00;text-align:right;font-weight:800;">£${moneyString(lineTotal)}</td>
+    </tr>`;
+  }).join('');
+
+  const addressLines = [
+    `${checkoutShipping.firstName || ''} ${checkoutShipping.lastName || ''}`.trim(),
+    checkoutShipping.address1,
+    checkoutShipping.address2,
+    checkoutShipping.city,
+    checkoutShipping.county,
+    checkoutShipping.postcode,
+    checkoutShipping.country
+  ].filter(Bolean).join('<br>');
+
+  return `<table>${itemRows}</table>`;
+}
+
+function buildOrderConfirmationText({ orderNumber, checkoutShipping, items, summary, captureId }) {
+  const itemLines = items.map(item => {
+    const catalog = PRODUCT_CATALOG[item.product];
+    const unitPrice = priceForSize(catalog, item.size);
+    return `${catalog.title} - ${catalog.colour} - ${item.size} - Qty ${item.quantity} - £${moneyString(unitPrice * item.quantity)}`;
+  }).join('\n');
+  const address = [
+    `${checkoutShipping.firstName || ''} ${checkoutShipping.lastName || ''}`.trim(),
+    checkoutShipping.address1, checkoutShipping.address2, checkoutShipping.city,
+    checkoutShipping.county, checkoutShipping.postcode, checkoutShipping.country
+  ].filter(Boolean).join('\n');
+  return `RAGE BAIT APPAREL\n\nORDER CONFIRMED\n\nOrder: ${orderNumber}\nPayment: Confirmed\nPayment reference: ${captureId || 'Confirmed'}\n\n${itemLines}\n\nSubtotal: £${moneyString(summary.subtotal)}\nShipping: £${moneyString(summary.shipping)}\nTotal: £${moneyString(summary.total)}\n\nDelivery address:\n${address}\n\nQuestions? crew@ragebaitapparel.co.uk`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function toTwoFifteenAddress(address) {
