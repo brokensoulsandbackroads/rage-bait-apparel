@@ -15,6 +15,7 @@
   const SHIPPING={UK:3.59,EU:9.54,ROW:11.16};
   const PRODUCT_MAP={
     'Outlaw Tee':{slug:'outlaw-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
+    'Virtual Degenerate Tee':{slug:'virtual-degenerate-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
     'Virtual Degenerate Hoodie':{slug:'virtual-degenerate-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}}
   };
 
