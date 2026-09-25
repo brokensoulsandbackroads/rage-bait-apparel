@@ -13,6 +13,9 @@
   const script=document.createElement('script');
   script.src=`app-core.js${version}`;
   script.onload=()=>{
+    const duplicateBusinessLink=document.querySelector('footer .footer-links a[href="business-information.html"]');
+    if(duplicateBusinessLink)duplicateBusinessLink.remove();
+
     document.dispatchEvent(new CustomEvent('ragebait:ready'));
 
     const hoodieScript=document.createElement('script');
