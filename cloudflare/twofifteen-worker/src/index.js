@@ -60,7 +60,7 @@ export default {
     const url = new URL(request.url);
     const origin = request.headers.get('Origin') || '';
 
-    if (request.method === 'OPTIONS' && url.pathname.startsWith('/checkout/')) {
+    if (request.method === 'OPTIONS' && (url.pathname.startsWith('/checkout/') || url.pathname.startsWith('/stats/'))) {
       return checkoutPreflight(origin);
     }
 
@@ -77,6 +77,42 @@ export default {
           emailConfigured: Boolean(env.RESEND_API_KEY),
           databaseConfigured: Boolean(env.DB)
         });
+      }
+
+      if (url.pathname === '/stats/visit') {
+        if (!ALLOWED_CHECKOUT_ORIGINS.has(origin)) {
+          return corsJson({ ok: false, error: 'Stats origin not allowed' }, 403, origin);
+        }
+        if (!env.DB) {
+          return corsJson({ ok: false, error: 'Visitor counter database is unavailable' }, 503, origin);
+        }
+
+        await env.DB.prepare(
+          `CREATE TABLE IF NOT EXISTS site_stats (
+            key TEXT PRIMARY KEY,
+            value INTEGER NOT NULL DEFAULT 0,
+            updated_at TEXT NOT NULL
+          )`
+        ).run();
+
+        if (request.method === 'POST') {
+          const now = new Date().toISOString();
+          await env.DB.prepare(
+            `INSERT INTO site_stats (key, value, updated_at)
+             VALUES ('visitors', 1, ?1)
+             ON CONFLICT(key) DO UPDATE SET
+               value = site_stats.value + 1,
+               updated_at = excluded.updated_at`
+          ).bind(now).run();
+        } else if (request.method !== 'GET') {
+          return corsJson({ ok: false, error: 'Method not allowed' }, 405, origin);
+        }
+
+        const row = await env.DB.prepare(
+          `SELECT value FROM site_stats WHERE key = 'visitors'`
+        ).first();
+
+        return corsJson({ ok: true, visitors: Number(row?.value || 0) }, 200, origin);
       }
 
       if (url.pathname.startsWith('/checkout/')) {
