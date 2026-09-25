@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hoodies | Rage Bait Apparel</title>
+  <meta name="description" content="Shop Rage Bait Apparel hoodies.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260925-hoodies1">
+  <link rel="stylesheet" href="header-logo.css?v=20260922-3">
+  <style>
+    .category-hero{padding:130px 6vw 42px;border-bottom:1px solid var(--line);background:radial-gradient(circle at 16% 20%,rgba(178,255,0,.12),transparent 34%),#080908;}
+    .category-hero h1{font-family:Anton,sans-serif;font-size:clamp(58px,11vw,140px);line-height:.86;margin:10px 0 18px;text-transform:uppercase;letter-spacing:-.025em;color:#fff;}
+    .category-hero p{max-width:650px;color:#aeb5aa;font-weight:700;font-size:15px;line-height:1.65;margin:0;}
+    .category-hero .eyebrow{color:var(--acid);}
+    .hoodies-section{padding-top:52px;min-height:62vh;}
+    .hoodies-section .section-heading{align-items:end;}
+    .category-note{color:#7f887b;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;}
+    @media(max-width:720px){.category-hero{padding-top:105px}.category-hero h1{font-size:72px}.hoodies-section{padding-top:34px}}
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="site-header">
+    <a class="brand header-brand" href="index.html" aria-label="Rage Bait Apparel home">
+      <img src="assets/logo-rage-bait-header.png?v=20260922-1" alt="Rage Bait Apparel">
+    </a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="index.html#drops">New Drops</a>
+      <a href="tees.html">Tees</a>
+      <a class="active" href="hoodies.html">Hoodies</a>
+      <a href="index.html#story">About</a>
+    </nav>
+    <button class="cart-button" id="cartButton">Cart <span id="cartCount">0</span></button>
+  </header>
+
+  <main id="top">
+    <section class="category-hero">
+      <span class="eyebrow">SHOP HOODIES</span>
+      <h1>Hoodies.</h1>
+      <p>Heavy layers. Questionable attitudes. Every Rage Bait hoodie in one place, including Outlaw, Virtual Degenerate and Pretty Little Problem.</p>
+    </section>
+
+    <section class="section hoodies-section" id="products">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">RAGE BAIT APPAREL</span>
+          <h2>Pull one on. Cause a scene.</h2>
+        </div>
+        <span class="category-note">Hoodies only</span>
+      </div>
+
+      <div class="product-grid"></div>
+    </section>
+  </main>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-head"><h2>Your cart</h2><button id="closeCart" aria-label="Close cart">×</button></div>
+    <div id="cartItems" class="cart-items"><p>Your cart is gloriously empty.</p></div>
+    <button class="checkout" disabled>Checkout coming soon</button>
+  </aside>
+  <div class="cart-backdrop" id="cartBackdrop"></div>
+
+  <footer>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div class="brand footer-brand"><span>RAGE BAIT</span><small>APPAREL</small></div>
+      <a href="business-information.html" style="color:#687066;text-decoration:none;font-size:9px;font-weight:600;letter-spacing:.06em;opacity:.72;text-transform:none;">Business Information</a>
+    </div>
+    <p>EST. IN VR · MADE FOR REAL LIFE</p>
+    <p><a href="returns.html" style="color:var(--acid);text-decoration:none;font-weight:800;">RETURNS POLICY</a></p>
+    <p>Stay problematic.™</p>
+  </footer>
+
+  <script src="app-core.js?v=20260925-hoodies1"></script>
+  <script src="virtual-degenerate.js?v=20260925-hoodies1"></script>
+  <script src="outlaw-hoodie.js?v=20260925-hoodies1"></script>
+  <script src="pretty-little-problem-hoodie.js?v=20260925-hoodies1"></script>
+  <script src="currency.js?v=20260925-hoodies1"></script>
+</body>
+</html>
