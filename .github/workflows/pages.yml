@@ -37,6 +37,7 @@ jobs:
           cat assets-src/virtual-degenerate-back.0[0-7] | base64 -d > assets/virtual-degenerate-hoodie-back.webp
           cat assets-src/outlaw-hoodie-front-mockup.* | base64 -d > assets/outlaw-hoodie-front.webp
           cat assets-src/outlaw-hoodie-back-mockup.* | base64 -d > assets/outlaw-hoodie-back.webp
+          cat assets-src/tees-banner-hero.webp.b64 | base64 -d > assets/tees-banner-hero.webp
 
           echo "f1c58d6b1a9b28907fe699dc474f0836804789f6be019ae22332263c8e7abe21  assets/outlaw-tee-front-male-v3.webp" | sha256sum -c -
           echo "362a63518a77c8e1ef5351e7abe74ad09dfbae82ef59d1160c9cece9b47a3891  assets/outlaw-tee-front-female-v3.webp" | sha256sum -c -
@@ -45,6 +46,7 @@ jobs:
           echo "21471d7623cb274ed273d148ad8a89f1b2405c9968d7f336ca08312762afb63f  assets/outlaw-hoodie-front.webp" | sha256sum -c -
           echo "04ad0de154d288a2caedd0652f0c6f237653ac4dbb01d269d19177df9c43727b  assets/outlaw-hoodie-back.webp" | sha256sum -c -
           test "$(stat -c%s assets/outlaw-tee-back-female-v5.webp)" -eq 21170
+          test -s assets/tees-banner-hero.webp
           echo "Verified gallery image assets"
 
       - name: Verify Two Fifteen print masters
