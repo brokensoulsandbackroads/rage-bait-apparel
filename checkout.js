@@ -19,7 +19,8 @@
     'Pretty Little Problem Cropped Tee':{slug:'pretty-little-problem-cropped-tee',priceBySize:{XS:24.99,S:24.99,M:24.99,L:24.99,XL:24.99}},
     'Virtual Degenerate Hoodie':{slug:'virtual-degenerate-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
     'Outlaw Hoodie':{slug:'outlaw-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
-    'Pretty Little Problem Hoodie':{slug:'pretty-little-problem-hoodie',priceBySize:{XS:39.99,S:39.99,M:39.99,L:39.99,XL:39.99,'2XL':39.99}}
+    'Pretty Little Problem Hoodie':{slug:'pretty-little-problem-hoodie',priceBySize:{XS:39.99,S:39.99,M:39.99,L:39.99,XL:39.99,'2XL':39.99}},
+    'Rage Bait Keyring':{slug:'rage-bait-keyring',defaultSize:'ONE',priceBySize:{ONE:7.99}}
   };
 
   const money=value=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(Number(value)||0);
@@ -35,8 +36,9 @@
     const grouped=new Map();
     for(const item of raw){
       const product=PRODUCT_MAP[item?.name];
-      const size=String(item?.size||'').toUpperCase();
-      if(!product||!product.priceBySize[size])continue;
+      if(!product)continue;
+      const size=String(item?.size||product.defaultSize||'').toUpperCase();
+      if(!product.priceBySize[size])continue;
       const key=`${product.slug}|${size}`;
       const existing=grouped.get(key)||{product:product.slug,name:item.name,size,quantity:0,unitPrice:product.priceBySize[size]};
       existing.quantity+=1;
@@ -64,11 +66,14 @@
       return;
     }
 
-    itemsEl.innerHTML=cart.map(item=>`
+    itemsEl.innerHTML=cart.map(item=>{
+      const meta=[item.size!=='ONE'?item.size:'',item.quantity>1?`Qty ${item.quantity}`:''].filter(Boolean).join(' · ');
+      return `
       <div class="checkout-line">
-        <div><h3>${item.name}</h3><p>${item.size}${item.quantity>1?` · Qty ${item.quantity}`:''}</p></div>
+        <div><h3>${item.name}</h3>${meta?`<p>${meta}</p>`:''}</div>
         <strong>${money(item.unitPrice*item.quantity)}</strong>
-      </div>`).join('');
+      </div>`;
+    }).join('');
 
     const localSubtotal=cart.reduce((sum,item)=>sum+(item.unitPrice*item.quantity),0);
     const shipping=currentShipping();
