@@ -2,7 +2,7 @@
   const PRODUCT_NAME = 'Rage Bait Keyring';
   const SKU = 'OBLONGKEY';
   const DEFAULT_PRICE = 7.99;
-  const ARTWORK = 'print/ragebait-keyring.png';
+  const ARTWORK = 'print/RageBait_Keyring.png';
 
   const card = Array.from(document.querySelectorAll('.product-grid .product-card')).find(item => {
     const heading = item.querySelector('.product-info h3')?.textContent.trim();
