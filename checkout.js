@@ -17,9 +17,11 @@
     'Outlaw Tee':{slug:'outlaw-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
     'Virtual Degenerate Tee':{slug:'virtual-degenerate-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
     'Pretty Little Problem Cropped Tee':{slug:'pretty-little-problem-cropped-tee',priceBySize:{XS:24.99,S:24.99,M:24.99,L:24.99,XL:24.99}},
+    'KingPin Outlaw Tee':{slug:'kingpin-outlaw-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},
     'Virtual Degenerate Hoodie':{slug:'virtual-degenerate-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
     'Outlaw Hoodie':{slug:'outlaw-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
     'Pretty Little Problem Hoodie':{slug:'pretty-little-problem-hoodie',priceBySize:{XS:39.99,S:39.99,M:39.99,L:39.99,XL:39.99,'2XL':39.99}},
+    'KingPin Hoodie':{slug:'kingpin-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
     'Rage Bait Keyring':{slug:'rage-bait-keyring',defaultSize:'ONE',priceBySize:{ONE:7.99}}
   };
 
