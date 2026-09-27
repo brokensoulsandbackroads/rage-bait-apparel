@@ -130,13 +130,25 @@ if(outlawCard){
   }
 }
 
+function cartVariantLabel(entry){
+  if(!entry?.size)return '';
+  const sku=String(entry.sku||'').toUpperCase();
+  let colour='';
+  if(sku.includes('-OLI-'))colour='Olive';
+  else if(sku.includes('-CHA-'))colour='Charcoal';
+  else if(sku.includes('-HPK-'))colour='Hot Pink';
+  else if(sku.includes('-BLK-'))colour='Black';
+  const parts=[colour,entry.size].filter(Boolean);
+  return parts.length?` · ${parts.join(' · ')}`:'';
+}
+
 function renderCart(){
   if(!cartCount||!cartItems)return;
   saveCart();
   cartCount.textContent=cart.length;
   cartItems.innerHTML=cart.length?cart.map((item,i)=>{
     const entry=typeof item==='string'?{name:item}:item;
-    const variant=entry.size?` · Black · ${entry.size}`:'';
+    const variant=cartVariantLabel(entry);
     const price=Number(entry.price)>0?`<strong style="display:block;color:var(--acid);margin-top:4px;">£${Number(entry.price).toFixed(2)}</strong>`:'';
     return `<div class="cart-item"><span>${entry.name}${variant}${price}</span><button aria-label="Remove ${entry.name}" data-remove="${i}">×</button></div>`;
   }).join(''):'<p>Your cart is gloriously empty.</p>';
