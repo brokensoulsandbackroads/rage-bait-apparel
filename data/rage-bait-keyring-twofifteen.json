@@ -1,0 +1,14 @@
+{
+  "product": "Rage Bait Keyring",
+  "brand": "Rage Bait Apparel",
+  "channel": "site",
+  "price": 7.99,
+  "currency": "GBP",
+  "sku": "OBLONGKEY",
+  "print": {
+    "artwork": {
+      "title": "Keyring Artwork",
+      "src": "https://ragebaitapparel.co.uk/print/ragebait-keyring.png"
+    }
+  }
+}
