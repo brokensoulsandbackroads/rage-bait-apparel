@@ -10,13 +10,24 @@
     document.body.appendChild(currencyScript);
   };
 
+  const loadRageBaitKeyring=()=>{
+    const keyringScript=document.createElement('script');
+    keyringScript.src=`rage-bait-keyring.js${version}`;
+    keyringScript.onload=loadCurrency;
+    keyringScript.onerror=()=>{
+      console.error('Rage Bait Keyring failed to initialise');
+      loadCurrency();
+    };
+    document.body.appendChild(keyringScript);
+  };
+
   const loadKingpinOutlawTee=()=>{
     const kingpinOutlawTeeScript=document.createElement('script');
     kingpinOutlawTeeScript.src=`kingpin-outlaw-tee.js${version}`;
-    kingpinOutlawTeeScript.onload=loadCurrency;
+    kingpinOutlawTeeScript.onload=loadRageBaitKeyring;
     kingpinOutlawTeeScript.onerror=()=>{
       console.error('KingPin Outlaw Tee failed to initialise');
-      loadCurrency();
+      loadRageBaitKeyring();
     };
     document.body.appendChild(kingpinOutlawTeeScript);
   };
