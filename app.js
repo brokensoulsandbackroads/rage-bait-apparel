@@ -32,13 +32,24 @@
     document.body.appendChild(prettyLittleProblemTeeScript);
   };
 
+  const loadKingpinHoodie=()=>{
+    const kingpinScript=document.createElement('script');
+    kingpinScript.src=`kingpin-hoodie.js${version}`;
+    kingpinScript.onload=loadPrettyLittleProblemCroppedTee;
+    kingpinScript.onerror=()=>{
+      console.error('KingPin Hoodie failed to initialise');
+      loadPrettyLittleProblemCroppedTee();
+    };
+    document.body.appendChild(kingpinScript);
+  };
+
   const loadPrettyLittleProblemHoodie=()=>{
     const prettyLittleProblemScript=document.createElement('script');
     prettyLittleProblemScript.src=`pretty-little-problem-hoodie.js${version}`;
-    prettyLittleProblemScript.onload=loadPrettyLittleProblemCroppedTee;
+    prettyLittleProblemScript.onload=loadKingpinHoodie;
     prettyLittleProblemScript.onerror=()=>{
       console.error('Pretty Little Problem Hoodie failed to initialise');
-      loadPrettyLittleProblemCroppedTee();
+      loadKingpinHoodie();
     };
     document.body.appendChild(prettyLittleProblemScript);
   };
