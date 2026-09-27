@@ -2,7 +2,7 @@
   const PRODUCT_NAME = 'Rage Bait Keyring';
   const SKU = 'OBLONGKEY';
   const DEFAULT_PRICE = 7.99;
-  const ARTWORK = 'print/RageBait_Keyring.png';
+  const MOCKUP = 'assets/mockupkeyring.png';
 
   const card = Array.from(document.querySelectorAll('.product-grid .product-card')).find(item => {
     const heading = item.querySelector('.product-info h3')?.textContent.trim();
@@ -20,8 +20,8 @@
 
   if (image) {
     image.className = 'product-photo';
-    image.style.cssText = 'aspect-ratio:1/1;background:#080908;display:grid;place-items:center;position:relative;overflow:hidden;';
-    image.innerHTML = `<img src="${ARTWORK}" alt="Rage Bait oblong keyring artwork" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:18px;box-sizing:border-box;">`;
+    image.style.cssText = 'aspect-ratio:1/1;background:#fff;display:grid;place-items:center;position:relative;overflow:hidden;';
+    image.innerHTML = `<img src="${MOCKUP}" alt="Rage Bait oblong keyring mockup" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">`;
   }
   if (title) title.textContent = PRODUCT_NAME;
   if (description) description.innerHTML = 'Oblong Rage Bait keyring<span style="display:block;margin-top:5px;color:#7f887b;font-size:10px;letter-spacing:.03em;">SKU OBLONGKEY · shipping extra</span>';
