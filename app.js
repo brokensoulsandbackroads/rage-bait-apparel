@@ -10,13 +10,24 @@
     document.body.appendChild(currencyScript);
   };
 
+  const loadKingpinOutlawTee=()=>{
+    const kingpinOutlawTeeScript=document.createElement('script');
+    kingpinOutlawTeeScript.src=`kingpin-outlaw-tee.js${version}`;
+    kingpinOutlawTeeScript.onload=loadCurrency;
+    kingpinOutlawTeeScript.onerror=()=>{
+      console.error('KingPin Outlaw Tee failed to initialise');
+      loadCurrency();
+    };
+    document.body.appendChild(kingpinOutlawTeeScript);
+  };
+
   const loadVirtualDegenerateTee=()=>{
     const teeScript=document.createElement('script');
     teeScript.src=`virtual-degenerate-tee.js${version}`;
-    teeScript.onload=loadCurrency;
+    teeScript.onload=loadKingpinOutlawTee;
     teeScript.onerror=()=>{
       console.error('Virtual Degenerate Tee failed to initialise');
-      loadCurrency();
+      loadKingpinOutlawTee();
     };
     document.body.appendChild(teeScript);
   };
