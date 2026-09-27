@@ -32,6 +32,13 @@ const PRODUCT_CATALOG = {
       {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-hood-front.png'},
       {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
     ]
+  },
+  'rage-bait-keyring': {
+    title:'Rage Bait Keyring', colour:'Metal', retailCurrency:'GBP', basePrice:7.99,
+    skus:{ONE:'OBLONGKEY'},
+    designs:[
+      {title:'Dye Sublimation Printing Front Side',src:'https://ragebaitapparel.co.uk/print/RageBait_Keyring.png'}
+    ]
   }
 };
 
