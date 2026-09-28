@@ -33,6 +33,39 @@ const PRODUCT_CATALOG = {
       {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
     ]
   },
+  'pretty-little-problem-cropped-tee': {
+    title:'Pretty Little Problem Cropped Tee', colour:'Black', retailCurrency:'GBP', basePrice:24.99,
+    skus:{XS:'BY042-BLK-XS',S:'BY042-BLK-S',M:'BY042-BLK-M',L:'BY042-BLK-L',XL:'BY042-BLK-XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_tee.png'}
+    ]
+  },
+  'pretty-little-problem-hoodie': {
+    title:'Pretty Little Problem Hoodie', colour:'Hot Pink', retailCurrency:'GBP', basePrice:39.99,
+    skus:{XS:'JH001F-HPK-XS',S:'JH001F-HPK-S',M:'JH001F-HPK-M',L:'JH001F-HPK-L',XL:'JH001F-HPK-XL','2XL':'JH001F-HPK-2XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_hoodie.png'}
+    ]
+  },
+  'kingpin-outlaw-tee': {
+    title:'KingPin Outlaw Tee', colour:'Olive', retailCurrency:'GBP', basePrice:29.99,
+    skus:{S:'CV001-OLI-S',M:'CV001-OLI-M',L:'CV001-OLI-L',XL:'CV001-OLI-XL','2XL':'CV001-OLI-2XL','3XL':'CV001-OLI-3XL','4XL':'CV001-OLI-4XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'}
+    ]
+  },
+  'kingpin-hoodie': {
+    title:'KingPin Hoodie', colour:'Charcoal', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{XS:'JH001-CHA-XS',S:'JH001-CHA-S',M:'JH001-CHA-M',L:'JH001-CHA-L',XL:'JH001-CHA-XL','2XL':'JH001-CHA-2XL','3XL':'JH001-CHA-3XL','4XL':'JH001-CHA-4XL','5XL':'JH001-CHA-5XL'},
+    designs:[
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_front.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'}
+    ]
+  },
   'rage-bait-keyring': {
     title:'Rage Bait Keyring', colour:'Metal', retailCurrency:'GBP', basePrice:7.99,
     skus:{ONE:'OBLONGKEY'},
@@ -154,7 +187,6 @@ export default {
         return json({ ok: false, error: 'Not found' }, 404);
       }
 
-      // These endpoints are server-to-server only.
       if (request.headers.get('Origin')) {
         return json({ ok: false, error: 'Direct browser order submission is disabled' }, 403);
       }
