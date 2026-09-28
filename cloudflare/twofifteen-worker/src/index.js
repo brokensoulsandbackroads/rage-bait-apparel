@@ -53,8 +53,8 @@ const PRODUCT_CATALOG = {
     title:'KingPin Outlaw Tee', colour:'Olive', retailCurrency:'GBP', basePrice:29.99,
     skus:{S:'CV001-OLI-S',M:'CV001-OLI-M',L:'CV001-OLI-L',XL:'CV001-OLI-XL','2XL':'CV001-OLI-2XL','3XL':'CV001-OLI-3XL','4XL':'CV001-OLI-4XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'}
+      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'},
+      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
     ]
   },
   'kingpin-hoodie': {
@@ -396,7 +396,7 @@ function validateCheckoutOrder(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return fail('Invalid checkout request');
 
   const buyerEmail = clean(input.buyerEmail, 254).toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) return fail('A valid email address is required');
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(buyerEmail)) return fail('A valid email address is required');
 
   const address = input.shippingAddress;
   if (!address || typeof address !== 'object' || Array.isArray(address)) return fail('Delivery address is required');
@@ -447,7 +447,7 @@ function validateIncomingOrder(input) {
   }
 
   const buyerEmail = clean(input.buyerEmail, 254).toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) return fail('A valid buyerEmail is required');
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(buyerEmail)) return fail('A valid buyerEmail is required');
 
   const address = input.shippingAddress;
   if (!address || typeof address !== 'object' || Array.isArray(address)) return fail('shippingAddress is required');
@@ -730,7 +730,7 @@ function paypalApiBase(env) {
 async function submitToTwoFifteen(payload, env) {
   const body = JSON.stringify(payload);
   const signature = await sha1Hex(body + env.TWOFIFTEEN_SECRET_KEY);
-  const apiBase = (env.TWOFIFTEEN_API_BASE || 'https://www.twofifteen.co.uk/api').replace(/\/$/, '');
+  const apiBase = (env.TWOFIFTEEN_API_BASE || 'https://www.twofifteen.co.uk/api').replace(/\\\/$/, '');
   const endpoint = new URL(`${apiBase}/orders.php`);
   endpoint.searchParams.set('AppId', env.TWOFIFTEEN_APP_ID);
   endpoint.searchParams.set('Signature', signature);
@@ -956,7 +956,7 @@ function corsJson(body, status, origin) {
 
 function clean(value, max) {
   if (value === undefined || value === null) return '';
-  return String(value).trim().replace(/[\u0000-\u001F\u007F]/g, '').slice(0, max);
+  return String(value).trim().replace(/[\\u0000-\\u001F\\u007F]/g, '').slice(0, max);
 }
 
 function fail(error) { return { ok: false, error }; }
