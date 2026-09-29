@@ -38,6 +38,20 @@
       });
   };
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mount,{once:true});
-  else mount();
+  const loadBanter=()=>{
+    if(document.querySelector('script[data-ragebait-banter]'))return;
+    const script=document.createElement('script');
+    script.src='banter.js?v=20260929-banter1';
+    script.dataset.ragebaitBanter='true';
+    script.onerror=()=>console.error('Rage Bait banter section failed to initialise');
+    document.body.appendChild(script);
+  };
+
+  const start=()=>{
+    mount();
+    loadBanter();
+  };
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
 })();
