@@ -3,7 +3,70 @@
   let version='';
   try{version=new URL(current,window.location.href).search;}catch(_){/* no cache version */}
 
+  const HOME_NEW_ITEM_DAYS=14;
+  const HOME_NEW_ITEM_LIMIT=8;
+  const DAY_MS=24*60*60*1000;
+
+  // Existing products pre-date the automatic homepage dating rule.
+  // New product cards can simply set data-listed-date="YYYY-MM-DD" and the
+  // homepage will automatically include them for 14 days, newest first.
+  const LEGACY_LISTED_DATES={
+    'Minorz Outlaw Tee':'2026-09-21',
+    'Virtual Degenerate Hoodie':'2026-09-21',
+    'Outlaw Hoodie':'2026-09-24',
+    'Virtual Degenerate Tee':'2026-09-24',
+    'Pretty Little Problem Hoodie':'2026-09-25',
+    'Pretty Little Problem Cropped Tee':'2026-09-25',
+    'KingPin Hoodie':'2026-09-27',
+    'KingPin Outlaw Tee':'2026-09-27',
+    'Rage Bait Keyring':'2026-09-27'
+  };
+
+  const utcDayStamp=date=>Date.UTC(date.getFullYear(),date.getMonth(),date.getDate());
+
+  const listedStampForCard=card=>{
+    const title=card.querySelector('.product-info h3')?.textContent.trim()||'';
+    const listed=card.dataset.listedDate||LEGACY_LISTED_DATES[title];
+    if(!listed||!/^\d{4}-\d{2}-\d{2}$/.test(listed)) return null;
+    const [year,month,day]=listed.split('-').map(Number);
+    return Date.UTC(year,month-1,day);
+  };
+
+  const applyHomepageNewItems=()=>{
+    const grid=document.querySelector('#products .product-grid');
+    if(!grid) return;
+
+    const cards=Array.from(grid.querySelectorAll('.product-card'));
+    const todayStamp=utcDayStamp(new Date());
+
+    const newest=cards
+      .map((card,index)=>({card,index,listedStamp:listedStampForCard(card)}))
+      .filter(item=>{
+        if(item.listedStamp===null) return false;
+        const ageDays=Math.floor((todayStamp-item.listedStamp)/DAY_MS);
+        return ageDays>=0&&ageDays<HOME_NEW_ITEM_DAYS;
+      })
+      .sort((a,b)=>(b.listedStamp-a.listedStamp)||(b.index-a.index))
+      .slice(0,HOME_NEW_ITEM_LIMIT);
+
+    const keep=new Set(newest.map(item=>item.card));
+    cards.forEach(card=>{
+      if(!keep.has(card)) card.remove();
+    });
+
+    newest.forEach(item=>grid.appendChild(item.card));
+
+    if(!newest.length){
+      const empty=document.createElement('p');
+      empty.className='new-items-empty';
+      empty.textContent='No fresh drops right now. Check the Tees and Hoodies tabs for the full range.';
+      empty.style.cssText='grid-column:1/-1;margin:0;padding:28px;border:1px solid var(--line);background:#0f110f;color:#9da598;text-align:center;font-weight:800;';
+      grid.appendChild(empty);
+    }
+  };
+
   const loadCurrency=()=>{
+    applyHomepageNewItems();
     const currencyScript=document.createElement('script');
     currencyScript.src=`currency.js${version}`;
     currencyScript.onerror=()=>console.error('Rage Bait currency selector failed to initialise');
