@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Rage Bait Admin | Banter Moderation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#080908;--panel:#111410;--panel2:#171b16;--line:#30382d;--text:#f3f5f1;--muted:#8f9a89;--acid:#b8ff38;--warn:#ffbf3f;--danger:#ff5353}
+    *{box-sizing:border-box}
+    html{background:var(--bg);color-scheme:dark}
+    body{margin:0;background:radial-gradient(circle at 20% -10%,rgba(184,255,56,.12),transparent 32rem),var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .shell{width:min(1180px,calc(100% - 28px));margin:0 auto;padding:28px 0 60px}
+    .topbar{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:14px 0 26px;border-bottom:1px solid var(--line);margin-bottom:26px}
+    .brand{font-family:Anton,sans-serif;font-size:28px;letter-spacing:.035em;line-height:.9}.brand span{display:block;color:var(--acid);font:800 9px/1.2 Inter,sans-serif;letter-spacing:.26em;margin-top:7px}
+    .top-actions{display:flex;gap:8px;align-items:center}
+    .btn{border:1px solid var(--line);background:#111510;color:var(--text);padding:10px 13px;font-weight:900;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .btn:hover{border-color:#596553}.btn.acid{background:var(--acid);border-color:var(--acid);color:#0b0e08}.btn.danger{border-color:#653232;color:#ff8787;background:#1a0f0f}
+    .login-card{max-width:520px;margin:90px auto 0;border:1px solid var(--line);background:linear-gradient(180deg,#131711,#0e110d);padding:28px;box-shadow:0 25px 70px rgba(0,0,0,.36)}
+    .eyebrow{display:inline-block;color:var(--acid);font-weight:900;font-size:10px;letter-spacing:.18em;margin-bottom:10px}
+    h1,h2{font-family:Anton,sans-serif;font-weight:400;letter-spacing:.02em;margin:0}
+    .login-card h1{font-size:44px;line-height:.98}.login-card p{color:var(--muted);line-height:1.65}
+    .login-form{display:grid;gap:12px;margin-top:24px}
+    .login-form label{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;color:#b6bdb1}
+    .login-form input,.search{width:100%;background:#080a08;color:#fff;border:1px solid #3b4438;padding:13px 14px;outline:none}.login-form input:focus,.search:focus{border-color:var(--acid);box-shadow:0 0 0 2px rgba(184,255,56,.1)}
+    .status{min-height:19px;color:#ff8d8d;font-size:12px;font-weight:800}
+    .dashboard[hidden],.login-card[hidden]{display:none}
+    .dash-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}
+    .dash-head h1{font-size:48px;line-height:.92}.dash-head p{margin:8px 0 0;color:var(--muted)}
+    .counts{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:10px;margin:0 0 18px}
+    .count{border:1px solid var(--line);background:var(--panel);padding:16px}.count strong{font:400 31px/1 Anton,sans-serif;display:block}.count span{display:block;color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;margin-top:6px}
+    .tools{display:grid;grid-template-columns:1fr auto;gap:12px;margin-bottom:16px}
+    .filters{display:flex;gap:6px;flex-wrap:wrap}.filter{background:#111510;color:#b8c1b3;border:1px solid var(--line);padding:11px 13px;font-size:10px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}.filter.active{border-color:var(--acid);color:#0b0e08;background:var(--acid)}
+    .notice{padding:11px 13px;border:1px solid var(--line);background:#0d100d;color:var(--muted);font-size:12px;margin-bottom:14px;min-height:42px}.notice.good{color:#caff83;border-color:#42592c}.notice.bad{color:#ff9696;border-color:#653232}
+    .comments{display:grid;gap:10px}
+    .comment{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),#0d100c);padding:17px;display:grid;gap:13px}.comment.hidden-comment{opacity:.62;border-style:dashed}
+    .comment-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.identity strong{font-size:15px}.meta{display:flex;gap:9px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:10px;margin-top:5px}.pill{border:1px solid #485143;padding:3px 6px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.pill.visible{color:#caff83;border-color:#496235}.pill.hidden{color:#ffc26e;border-color:#6b5530}
+    .message{margin:0;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;color:#e5e9e2}
+    .comment-foot{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.reactions{color:#aab3a6;font-size:11px;font-weight:800}.actions{display:flex;gap:7px;flex-wrap:wrap}.action{padding:8px 10px;border:1px solid #3b4438;background:#0a0c0a;color:#dbe0d8;font-size:10px;font-weight:900;letter-spacing:.07em;text-transform:uppercase}.action.hide{border-color:#66502c;color:#ffc66e}.action.restore{border-color:#405b30;color:#caff84}.action.delete{border-color:#643333;color:#ff8383}
+    .empty{border:1px dashed var(--line);padding:36px;text-align:center;color:var(--muted)}
+    .loading{padding:34px;text-align:center;color:var(--acid);font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+    @media(max-width:720px){.shell{width:min(100% - 18px,1180px)}.topbar,.dash-head{align-items:flex-start}.dash-head{display:block}.dash-head .btn{margin-top:14px}.counts{grid-template-columns:1fr 1fr 1fr}.tools{grid-template-columns:1fr}.comment-head{display:block}.topbar{gap:10px}.brand{font-size:23px}.dash-head h1{font-size:40px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">RAGE BAIT<span>BANTER MODERATION</span></div>
+      <div class="top-actions">
+        <a class="btn" href="index.html">View site</a>
+        <button class="btn danger" id="logoutButton" type="button" hidden>Lock admin</button>
+      </div>
+    </div>
+
+    <section class="login-card" id="loginCard">
+      <span class="eyebrow">PRIVATE MODERATOR ACCESS</span>
+      <h1>Enter the troll cage.</h1>
+      <p>Your moderator key is checked by the Cloudflare Worker. It is kept only for this browser tab and is never written into the website code.</p>
+      <form class="login-form" id="loginForm">
+        <label for="adminKey">Moderator key</label>
+        <input id="adminKey" type="password" autocomplete="current-password" minlength="16" required placeholder="Paste your Cloudflare MODERATOR_KEY">
+        <button class="btn acid" type="submit">Unlock moderation</button>
+        <div class="status" id="loginStatus" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <main class="dashboard" id="dashboard" hidden>
+      <div class="dash-head">
+        <div>
+          <span class="eyebrow">RAGE BAIT ADMIN</span>
+          <h1>Banter Moderation</h1>
+          <p>Hide it, restore it, or launch it permanently into the digital bin.</p>
+        </div>
+        <button class="btn" id="refreshButton" type="button">↻ Refresh</button>
+      </div>
+
+      <div class="counts">
+        <div class="count"><strong id="totalCount">0</strong><span>Total</span></div>
+        <div class="count"><strong id="visibleCount">0</strong><span>Visible</span></div>
+        <div class="count"><strong id="hiddenCount">0</strong><span>Hidden</span></div>
+      </div>
+
+      <div class="tools">
+        <input class="search" id="searchInput" type="search" placeholder="Search name or comment…">
+        <div class="filters" id="filters">
+          <button class="filter active" data-status="all" type="button">All</button>
+          <button class="filter" data-status="visible" type="button">Visible</button>
+          <button class="filter" data-status="hidden" type="button">Hidden</button>
+        </div>
+      </div>
+
+      <div class="notice" id="notice" aria-live="polite">Moderator controls ready.</div>
+      <div class="comments" id="comments"><div class="loading">Opening the cage…</div></div>
+    </main>
+  </div>
+
+<script>
+(() => {
+  const ENDPOINT = 'https://rage-bait-crew-signup.brokensoulsandbackroads.workers.dev';
+  const KEY_STORE = 'ragebait-moderator-key-tab';
+
+  const loginCard = document.getElementById('loginCard');
+  const loginForm = document.getElementById('loginForm');
+  const adminKey = document.getElementById('adminKey');
+  const loginStatus = document.getElementById('loginStatus');
+  const dashboard = document.getElementById('dashboard');
+  const logoutButton = document.getElementById('logoutButton');
+  const refreshButton = document.getElementById('refreshButton');
+  const searchInput = document.getElementById('searchInput');
+  const filters = document.getElementById('filters');
+  const commentsEl = document.getElementById('comments');
+  const notice = document.getElementById('notice');
+  const totalCount = document.getElementById('totalCount');
+  const visibleCount = document.getElementById('visibleCount');
+  const hiddenCount = document.getElementById('hiddenCount');
+
+  let key = '';
+  let statusFilter = 'all';
+  let searchTimer = null;
+  let busy = false;
+
+  try { key = sessionStorage.getItem(KEY_STORE) || ''; } catch (_) {}
+
+  const setNotice = (message, type = '') => {
+    notice.textContent = message;
+    notice.className = `notice${type ? ` ${type}` : ''}`;
+  };
+
+  const lock = (message = '') => {
+    key = '';
+    try { sessionStorage.removeItem(KEY_STORE); } catch (_) {}
+    dashboard.hidden = true;
+    logoutButton.hidden = true;
+    loginCard.hidden = false;
+    adminKey.value = '';
+    loginStatus.textContent = message;
+    adminKey.focus();
+  };
+
+  const api = async (path, options = {}) => {
+    const headers = new Headers(options.headers || {});
+    headers.set('X-Rage-Bait-Admin', key);
+    if (options.body && !headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
+
+    const response = await fetch(`${ENDPOINT}${path}`, { ...options, headers, cache: 'no-store' });
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 401) {
+      lock('That moderator key was rejected.');
+      throw new Error('Moderator key rejected.');
+    }
+    if (!response.ok || !data.ok) throw new Error(data.error || 'The admin request failed.');
+    return data;
+  };
+
+  const formatDate = value => {
+    if (!value) return '';
+    const parsed = new Date(String(value).replace(' ', 'T') + 'Z');
+    if (Number.isNaN(parsed.getTime())) return value;
+    return new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    }).format(parsed);
+  };
+
+  const makeButton = (label, className, handler) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `action ${className}`;
+    button.textContent = label;
+    button.addEventListener('click', handler);
+    return button;
+  };
+
+  const renderComments = comments => {
+    commentsEl.innerHTML = '';
+    if (!comments.length) {
+      commentsEl.innerHTML = '<div class="empty">Nothing here. Either the trolls are behaving or your filter is too strict.</div>';
+      return;
+    }
+
+    comments.forEach(comment => {
+      const card = document.createElement('article');
+      card.className = `comment${Number(comment.hidden) ? ' hidden-comment' : ''}`;
+
+      const head = document.createElement('div');
+      head.className = 'comment-head';
+
+      const identity = document.createElement('div');
+      identity.className = 'identity';
+      const name = document.createElement('strong');
+      name.textContent = comment.name;
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const id = document.createElement('span');
+      id.textContent = `#${comment.id}`;
+      const date = document.createElement('span');
+      date.textContent = formatDate(comment.created_at);
+      const state = document.createElement('span');
+      state.className = `pill ${Number(comment.hidden) ? 'hidden' : 'visible'}`;
+      state.textContent = Number(comment.hidden) ? 'Hidden' : 'Visible';
+      meta.append(id, date, state);
+      identity.append(name, meta);
+      head.appendChild(identity);
+
+      const message = document.createElement('p');
+      message.className = 'message';
+      message.textContent = comment.message;
+
+      const foot = document.createElement('div');
+      foot.className = 'comment-foot';
+      const reactions = document.createElement('div');
+      reactions.className = 'reactions';
+      reactions.textContent = `👍 ${Number(comment.likes) || 0}   😂 ${Number(comment.laughs) || 0}   🔥 ${Number(comment.chaos) || 0}`;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+
+      const hidden = Boolean(Number(comment.hidden));
+      actions.appendChild(makeButton(hidden ? 'Unhide' : 'Hide', hidden ? 'restore' : 'hide', async () => {
+        if (busy) return;
+        busy = true;
+        try {
+          await api(`/admin/comments/${comment.id}/visibility`, {
+            method: 'POST',
+            body: JSON.stringify({ hidden: !hidden })
+          });
+          setNotice(hidden ? `Comment #${comment.id} is visible again.` : `Comment #${comment.id} is now hidden.`, 'good');
+          await loadComments();
+        } catch (error) {
+          setNotice(error.message, 'bad');
+        } finally {
+          busy = false;
+        }
+      }));
+
+      actions.appendChild(makeButton('Delete', 'delete', async () => {
+        if (busy) return;
+        const okay = window.confirm(`Permanently delete comment #${comment.id} by ${comment.name}? This cannot be undone.`);
+        if (!okay) return;
+
+        busy = true;
+        try {
+          await api(`/admin/comments/${comment.id}`, { method: 'DELETE' });
+          setNotice(`Comment #${comment.id} permanently deleted.`, 'good');
+          await loadComments();
+        } catch (error) {
+          setNotice(error.message, 'bad');
+        } finally {
+          busy = false;
+        }
+      }));
+
+      foot.append(reactions, actions);
+      card.append(head, message, foot);
+      commentsEl.appendChild(card);
+    });
+  };
+
+  const loadComments = async () => {
+    if (!key) return lock();
+    commentsEl.innerHTML = '<div class="loading">Rummaging through the comments…</div>';
+
+    const params = new URLSearchParams({ status: statusFilter, limit: '500' });
+    const q = searchInput.value.trim();
+    if (q) params.set('q', q);
+
+    try {
+      const data = await api(`/admin/comments?${params.toString()}`);
+      totalCount.textContent = data.counts?.total ?? 0;
+      visibleCount.textContent = data.counts?.visible ?? 0;
+      hiddenCount.textContent = data.counts?.hidden ?? 0;
+      renderComments(Array.isArray(data.comments) ? data.comments : []);
+    } catch (error) {
+      if (key) {
+        commentsEl.innerHTML = '<div class="empty">Could not load comments.</div>';
+        setNotice(error.message, 'bad');
+      }
+    }
+  };
+
+  const unlock = async candidate => {
+    key = candidate.trim();
+    if (key.length < 16) {
+      loginStatus.textContent = 'Use a moderator key of at least 16 characters.';
+      return;
+    }
+
+    loginStatus.textContent = 'Checking key…';
+    try {
+      const data = await api('/admin/comments?limit=1');
+      try { sessionStorage.setItem(KEY_STORE, key); } catch (_) {}
+      loginCard.hidden = true;
+      dashboard.hidden = false;
+      logoutButton.hidden = false;
+      loginStatus.textContent = '';
+      totalCount.textContent = data.counts?.total ?? 0;
+      visibleCount.textContent = data.counts?.visible ?? 0;
+      hiddenCount.textContent = data.counts?.hidden ?? 0;
+      await loadComments();
+    } catch (error) {
+      if (key) loginStatus.textContent = error.message;
+    }
+  };
+
+  loginForm.addEventListener('submit', event => {
+    event.preventDefault();
+    unlock(adminKey.value);
+  });
+
+  logoutButton.addEventListener('click', () => lock('Admin locked.'));
+  refreshButton.addEventListener('click', loadComments);
+
+  filters.addEventListener('click', event => {
+    const button = event.target.closest('button[data-status]');
+    if (!button) return;
+    statusFilter = button.dataset.status;
+    filters.querySelectorAll('button').forEach(item => item.classList.toggle('active', item === button));
+    loadComments();
+  });
+
+  searchInput.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(loadComments, 260);
+  });
+
+  if (key) unlock(key);
+  else adminKey.focus();
+})();
+</script>
+</body>
+</html>
