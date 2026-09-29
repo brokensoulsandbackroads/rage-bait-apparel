@@ -1,0 +1,37 @@
+{
+  "product": "Therapy Was Expensive Hoodie",
+  "brand": "Rage Bait Apparel",
+  "channel": "site",
+  "colour": "Burgundy",
+  "retailPrice": 44.99,
+  "retailCurrency": "GBP",
+  "sizePriceAdjustments": {
+    "3XL": 1.00,
+    "4XL": 1.00,
+    "5XL": 1.00
+  },
+  "twoFifteen": {
+    "baseProduct": "JH001",
+    "sizes": {
+      "XS": "JH001-BUR-XS",
+      "S": "JH001-BUR-S",
+      "M": "JH001-BUR-M",
+      "L": "JH001-BUR-L",
+      "XL": "JH001-BUR-XL",
+      "2XL": "JH001-BUR-2XL",
+      "3XL": "JH001-BUR-3XL",
+      "4XL": "JH001-BUR-4XL",
+      "5XL": "JH001-BUR-5XL"
+    },
+    "designs": [
+      {
+        "title": "DTG Printing Front Side",
+        "src": "https://ragebaitapparel.co.uk/print/TherapyWasExpensive-FrontSide.png"
+      },
+      {
+        "title": "DTG Printing Back Side",
+        "src": "https://ragebaitapparel.co.uk/print/TherapyWasExpensive-BackSide.png"
+      }
+    ]
+  }
+}
