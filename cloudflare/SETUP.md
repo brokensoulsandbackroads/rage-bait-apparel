@@ -1,99 +1,72 @@
 # Rage Bait Apparel — Join the Crew + Banter setup
 
-This connects the website signup form and the **Best Trolling Banta** comment wall to Cloudflare Workers + D1. Crew signups continue to email the updated crew list after each new signup.
+This connects the website signup form, the **Best Trolling Banta** comment wall and the private moderation dashboard to Cloudflare Workers + D1. Crew signups continue to email the updated crew list after each new signup.
 
-## 1. Create the D1 database
+## 1. Create/update the D1 database
 
 In Cloudflare Dashboard:
 
 1. Go to **Storage & Databases → D1 SQL Database**.
-2. Select **Create database**.
-3. Name it `rage-bait-crew`.
-4. If offered a data jurisdiction/location, choose an appropriate European location/jurisdiction.
-5. Open the new database and select **Console**.
-6. Paste the contents of `schema.sql` and select **Execute**.
+2. Open `rage-bait-crew`.
+3. Select **Console**.
+4. Paste the current contents of `schema.sql` and select **Execute**.
 
-If the database already exists, it is safe to run the current `schema.sql` again. The `CREATE TABLE IF NOT EXISTS` statements will keep the existing `crew` data and add the `banter_comments` table.
+If the database already exists, it is safe to run the current `schema.sql` again. The `CREATE TABLE IF NOT EXISTS` statements keep the existing `crew` data and add/retain the `banter_comments` table.
 
-## 2. Create the Worker
+## 2. Update the Worker
 
 1. Go to **Workers & Pages**.
-2. Create a new Worker named `rage-bait-crew-signup`.
+2. Open `rage-bait-crew-signup`.
 3. Open **Edit code**.
-4. Replace the starter code with the contents of `join-the-crew-worker.js`.
+4. Replace the current code with the latest `join-the-crew-worker.js`.
 5. Save/deploy it.
 
-If the Worker already exists, replace its current code with the latest `join-the-crew-worker.js` and deploy it. The existing signup endpoint at `/` is preserved.
+The existing signup endpoint at `/` is preserved.
 
-## 3. Bind the D1 database
+## 3. Check the D1 binding
 
-On the Worker:
+On the Worker under **Settings / Bindings** make sure this exists:
 
-1. Open **Settings / Bindings**.
-2. Add a **D1 database** binding.
-3. Variable name: `DB`.
-4. Database: `rage-bait-crew`.
+- D1 database variable name: `DB`
+- Database: `rage-bait-crew`
 
-## 4. Add the email binding
+## 4. Check the email binding
 
-Cloudflare Email Routing must already be enabled and the real destination inbox must be verified.
+The existing Join the Crew email setup should keep:
 
-On the Worker:
+- Send Email binding variable name: `EMAIL`
+- Environment variable `NOTIFY_TO` pointing to the verified destination inbox
 
-1. Add a **Send Email** binding.
-2. Variable name: `EMAIL`.
-3. Restrict it to the verified destination inbox if Cloudflare offers that option.
+## 5. Add the moderator secret
 
-Cloudflare allows sends to verified destination addresses on the Free plan.
+On the `rage-bait-crew-signup` Worker add a **Secret** (not a normal public text variable):
 
-## 5. Add the destination address variable
+- Name: `MODERATOR_KEY`
+- Value: choose a long private password, at least 16 characters. A random 24–32+ character value is better.
 
-On the Worker add a text environment variable:
+Do not put the moderator key into GitHub or the website code. The moderation page asks you for it when you open the page and keeps it only in that browser tab using `sessionStorage`.
 
-- Name: `NOTIFY_TO`
-- Value: the real verified inbox that currently receives mail forwarded from `crew@ragebaitapparel.co.uk`
+## 6. Deploy the Worker
 
-Do not use `crew@ragebaitapparel.co.uk` here unless Cloudflare shows it as a verified destination. Use the actual verified Gmail/Outlook destination.
-
-## 6. Deploy and copy the Worker URL
-
-Deploy the Worker. The live site currently expects:
+The live site expects:
 
 `https://rage-bait-crew-signup.brokensoulsandbackroads.workers.dev`
 
-The signup form POSTs to `/`.
+Public Banter endpoints:
 
-The Banter section uses:
-
-- `GET /comments?sort=newest&limit=50` — load comments
+- `GET /comments?sort=newest&limit=50` — load visible comments
 - `POST /comments` — post a comment
 - `POST /comments/:id/react` — add 👍, 😂 or 🔥
 
-## 7. Test Join the Crew
+Protected moderation endpoints:
 
-The website can POST JSON like:
+- `GET /admin/comments` — list all comments, including hidden ones
+- `POST /admin/comments/:id/visibility` — hide or restore a comment
+- `DELETE /admin/comments/:id` — permanently delete a comment
 
-```json
-{
-  "email": "person@example.com",
-  "website": ""
-}
-```
+The protected endpoints require the `X-Rage-Bait-Admin` header to exactly match the Cloudflare `MODERATOR_KEY` secret.
 
-A successful new signup returns:
-
-```json
-{
-  "ok": true,
-  "status": "added",
-  "count": 1,
-  "message": "You're in. Welcome to the crew."
-}
-```
-
-A duplicate returns `status: "duplicate"` and does not send another list email.
-
-## 8. Test Best Trolling Banta
+## 7. Test Best Trolling Banta
 
 After running `schema.sql` and deploying the latest Worker, open:
 
@@ -121,28 +94,27 @@ A comment POST looks like:
 
 The Worker blocks links, strips control characters, caps display names at 32 characters, caps comments at 500 characters, includes a honeypot field, and rejects identical repeat posts from the same display name within two minutes.
 
-## 9. Moderating a comment
+## 8. Use the moderation dashboard
 
-Comments have a `hidden` flag. To remove a public comment without deleting it, open the D1 Console and run:
+The moderation page is deliberately not linked in the public navigation:
 
-```sql
-UPDATE banter_comments
-SET hidden = 1
-WHERE id = 123;
-```
+`https://ragebaitapparel.co.uk/banter-admin.html`
 
-Replace `123` with the comment ID. Hidden comments stop appearing on the website immediately.
+Open it, enter the same value you configured as the Cloudflare `MODERATOR_KEY`, then use:
 
-To restore it:
+- **Hide** — immediately removes a comment from the public wall but retains it in D1
+- **Unhide** — restores a hidden comment
+- **Delete** — permanently removes the comment after a confirmation prompt
+- **All / Visible / Hidden** filters
+- Search by display name or comment text
+- Reaction totals and comment IDs
 
-```sql
-UPDATE banter_comments
-SET hidden = 0
-WHERE id = 123;
-```
+Click **Lock admin** when finished. The key is stored only for the current browser tab/session.
 
-## 10. Website connection
+## 9. Website connection
 
 `banter.js` mounts the Banter section on the homepage, adds the Banter navigation link, posts comments to the Worker, loads shared comments, handles reactions and marks the highest reaction score as **Top Troll**.
+
+`banter-admin.html` is the standalone moderation dashboard. It contains no moderator password. Authentication is enforced by the Worker using the Cloudflare secret.
 
 `visitor-counter.js` loads `banter.js`, so no extra `<script>` tag is required in `index.html`.
