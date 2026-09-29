@@ -137,6 +137,7 @@ function cartVariantLabel(entry){
   if(sku.includes('-OLI-'))colour='Olive';
   else if(sku.includes('-CHA-'))colour='Charcoal';
   else if(sku.includes('-BUR-'))colour='Burgundy';
+  else if(sku.includes('-SBLU-'))colour='Blue';
   else if(sku.includes('-HPK-'))colour='Hot Pink';
   else if(sku.includes('-BLK-'))colour='Black';
   const parts=[colour,entry.size].filter(Boolean);
