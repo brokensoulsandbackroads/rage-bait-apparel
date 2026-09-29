@@ -14,8 +14,8 @@ function corsHeaders(origin) {
   const allowed = ALLOWED_ORIGINS.has(origin) ? origin : "https://ragebaitapparel.co.uk";
   return {
     "Access-Control-Allow-Origin": allowed,
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, X-Rage-Bait-Admin",
     "Vary": "Origin",
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store"
@@ -45,6 +45,22 @@ function cleanText(value) {
 
 function containsLink(value) {
   return /(?:https?:\/\/|www\.)/i.test(value);
+}
+
+function adminAuthorised(request, env) {
+  const supplied = request.headers.get("X-Rage-Bait-Admin") || "";
+  const expected = String(env.MODERATOR_KEY || "");
+  return expected.length >= 16 && supplied.length === expected.length && supplied === expected;
+}
+
+function requireAdmin(request, env, origin) {
+  if (!env.MODERATOR_KEY) {
+    return json({ ok: false, error: "Moderator access has not been configured." }, 503, origin);
+  }
+  if (!adminAuthorised(request, env)) {
+    return json({ ok: false, error: "Moderator key rejected." }, 401, origin);
+  }
+  return null;
 }
 
 async function topTrollId(env) {
@@ -202,6 +218,112 @@ async function reactToComment(request, env, origin, id) {
   }, 200, origin);
 }
 
+async function adminListComments(request, env, origin) {
+  const guard = requireAdmin(request, env, origin);
+  if (guard) return guard;
+
+  const url = new URL(request.url);
+  const status = url.searchParams.get("status") || "all";
+  const q = cleanText(url.searchParams.get("q") || "").slice(0, 100);
+  const requestedLimit = Number(url.searchParams.get("limit") || 200);
+  const limit = Number.isFinite(requestedLimit) ? Math.min(500, Math.max(1, Math.floor(requestedLimit))) : 200;
+
+  let where = "1 = 1";
+  const binds = [];
+
+  if (status === "visible") where += " AND hidden = 0";
+  if (status === "hidden") where += " AND hidden = 1";
+
+  if (q) {
+    where += " AND (lower(name) LIKE lower(?) OR lower(message) LIKE lower(?))";
+    const term = `%${q}%`;
+    binds.push(term, term);
+  }
+
+  const { results } = await env.DB
+    .prepare(`
+      SELECT id, name, message, likes, laughs, chaos, hidden, created_at
+      FROM banter_comments
+      WHERE ${where}
+      ORDER BY created_at DESC, id DESC
+      LIMIT ?
+    `)
+    .bind(...binds, limit)
+    .all();
+
+  const counts = await env.DB
+    .prepare(`
+      SELECT
+        COUNT(*) AS total,
+        SUM(CASE WHEN hidden = 0 THEN 1 ELSE 0 END) AS visible,
+        SUM(CASE WHEN hidden = 1 THEN 1 ELSE 0 END) AS hidden
+      FROM banter_comments
+    `)
+    .first();
+
+  return json({
+    ok: true,
+    comments: results || [],
+    counts: {
+      total: Number(counts?.total) || 0,
+      visible: Number(counts?.visible) || 0,
+      hidden: Number(counts?.hidden) || 0
+    }
+  }, 200, origin);
+}
+
+async function adminSetVisibility(request, env, origin, id) {
+  const guard = requireAdmin(request, env, origin);
+  if (guard) return guard;
+
+  const body = await request.json();
+  if (typeof body.hidden !== "boolean") {
+    return json({ ok: false, error: "hidden must be true or false." }, 400, origin);
+  }
+
+  const existing = await env.DB
+    .prepare("SELECT id FROM banter_comments WHERE id = ? LIMIT 1")
+    .bind(id)
+    .first();
+
+  if (!existing) {
+    return json({ ok: false, error: "Comment not found." }, 404, origin);
+  }
+
+  await env.DB
+    .prepare("UPDATE banter_comments SET hidden = ? WHERE id = ?")
+    .bind(body.hidden ? 1 : 0, id)
+    .run();
+
+  return json({
+    ok: true,
+    id,
+    hidden: body.hidden,
+    message: body.hidden ? "Comment hidden." : "Comment restored."
+  }, 200, origin);
+}
+
+async function adminDeleteComment(request, env, origin, id) {
+  const guard = requireAdmin(request, env, origin);
+  if (guard) return guard;
+
+  const existing = await env.DB
+    .prepare("SELECT id FROM banter_comments WHERE id = ? LIMIT 1")
+    .bind(id)
+    .first();
+
+  if (!existing) {
+    return json({ ok: false, error: "Comment not found." }, 404, origin);
+  }
+
+  await env.DB
+    .prepare("DELETE FROM banter_comments WHERE id = ?")
+    .bind(id)
+    .run();
+
+  return json({ ok: true, id, message: "Comment permanently deleted." }, 200, origin);
+}
+
 async function signup(request, env, origin) {
   const body = await request.json();
 
@@ -296,6 +418,20 @@ export default {
       const reactionMatch = path.match(/^\/comments\/(\d+)\/react$/);
       if (reactionMatch && request.method === "POST") {
         return await reactToComment(request, env, origin, Number(reactionMatch[1]));
+      }
+
+      if (path === "/admin/comments" && request.method === "GET") {
+        return await adminListComments(request, env, origin);
+      }
+
+      const adminVisibilityMatch = path.match(/^\/admin\/comments\/(\d+)\/visibility$/);
+      if (adminVisibilityMatch && request.method === "POST") {
+        return await adminSetVisibility(request, env, origin, Number(adminVisibilityMatch[1]));
+      }
+
+      const adminDeleteMatch = path.match(/^\/admin\/comments\/(\d+)$/);
+      if (adminDeleteMatch && request.method === "DELETE") {
+        return await adminDeleteComment(request, env, origin, Number(adminDeleteMatch[1]));
       }
 
       if (path === "/" && request.method === "POST") {
