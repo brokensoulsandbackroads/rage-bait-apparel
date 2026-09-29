@@ -36,6 +36,22 @@
     const grid=document.querySelector('#products .product-grid');
     if(!grid) return;
 
+    const newItemsNav=Array.from(document.querySelectorAll('.desktop-nav a')).find(link=>link.textContent.trim().toLowerCase()==='new drops');
+    if(newItemsNav){
+      newItemsNav.textContent='New Items';
+      newItemsNav.href='#products';
+    }
+
+    const eyebrow=document.querySelector('#products .section-heading .eyebrow');
+    if(eyebrow) eyebrow.textContent='NEW ITEMS';
+    const heading=document.querySelector('#products .section-heading h2');
+    if(heading) heading.textContent='Fresh for 14 days.';
+    const headingLink=document.querySelector('#products .section-heading a');
+    if(headingLink){
+      headingLink.textContent='View categories →';
+      headingLink.href='#drops';
+    }
+
     const cards=Array.from(grid.querySelectorAll('.product-card'));
     const todayStamp=utcDayStamp(new Date());
 
