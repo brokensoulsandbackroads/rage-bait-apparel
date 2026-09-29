@@ -17,7 +17,7 @@
       backdrop-filter:blur(12px);
       font:900 11px/1 Inter,Arial,sans-serif;
       letter-spacing:.11em;text-transform:uppercase;
-      cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,color .16s ease;
+      cursor:pointer;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,color .16s ease,bottom .18s ease;
     }
     .rage-music-button:hover{transform:translateY(-2px);border-color:#8cff00;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 28px rgba(140,255,0,.18)}
     .rage-music-button:focus-visible{outline:2px solid #8cff00;outline-offset:3px}
@@ -45,6 +45,33 @@
   button.setAttribute('aria-pressed','false');
   button.innerHTML='<span class="rage-music-dot" aria-hidden="true"></span><span class="rage-music-label">RAGE MODE: OFF</span>';
   document.body.appendChild(button);
+
+  const keepClearOfFooter=()=>{
+    const footer=document.querySelector('footer');
+    const base=window.innerWidth<=620?12:20;
+    if(!footer){button.style.bottom=`${base}px`;return;}
+
+    const rect=footer.getBoundingClientRect();
+    const footerVisible=rect.top<window.innerHeight&&rect.bottom>0;
+    if(!footerVisible){button.style.bottom=`${base}px`;return;}
+
+    const clearance=12;
+    const liftedBottom=(window.innerHeight-rect.top)+clearance;
+    const maxBottom=Math.max(base,window.innerHeight-button.offsetHeight-clearance);
+    button.style.bottom=`${Math.min(Math.max(base,liftedBottom),maxBottom)}px`;
+  };
+
+  let positionFrame=0;
+  const schedulePosition=()=>{
+    if(positionFrame) return;
+    positionFrame=requestAnimationFrame(()=>{
+      positionFrame=0;
+      keepClearOfFooter();
+    });
+  };
+  window.addEventListener('scroll',schedulePosition,{passive:true});
+  window.addEventListener('resize',schedulePosition,{passive:true});
+  schedulePosition();
 
   const label=button.querySelector('.rage-music-label');
   let wantedOn=false;
