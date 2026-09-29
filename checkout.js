@@ -22,6 +22,7 @@
     'Outlaw Hoodie':{slug:'outlaw-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
     'Pretty Little Problem Hoodie':{slug:'pretty-little-problem-hoodie',priceBySize:{XS:39.99,S:39.99,M:39.99,L:39.99,XL:39.99,'2XL':39.99}},
     'KingPin Hoodie':{slug:'kingpin-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
+    'Therapy Was Expensive Hoodie':{slug:'therapy-was-expensive-hoodie',priceBySize:{XS:44.99,S:44.99,M:44.99,L:44.99,XL:44.99,'2XL':44.99,'3XL':45.99,'4XL':45.99,'5XL':45.99}},
     'Rage Bait Keyring':{slug:'rage-bait-keyring',defaultSize:'ONE',priceBySize:{ONE:7.99}}
   };
 
