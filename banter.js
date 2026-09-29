@@ -112,10 +112,14 @@
     story.parentNode.insertBefore(section,story);
   };
 
+  let banterOnline=false;
   ensureStyles();
-  ensureNav();
   ensureMarkup();
-  document.addEventListener('ragebait:ready',ensureNav,{once:true});
+  const banterSection=document.getElementById('banter');
+  if(banterSection)banterSection.hidden=true;
+  document.addEventListener('ragebait:ready',()=>{
+    if(banterOnline)ensureNav();
+  },{once:true});
 
   const form=document.getElementById('banterForm');
   const nameInput=document.getElementById('banterName');
@@ -278,10 +282,14 @@
       if(!response.ok||!data.ok)throw new Error(data.error||'Could not load the banter.');
       comments=Array.isArray(data.comments)?data.comments:[];
       topTrollId=data.topTrollId??null;
+      banterOnline=true;
+      if(banterSection)banterSection.hidden=false;
+      ensureNav();
       render();
     }catch(error){
       console.error('Banter load failed:',error);
-      commentsEl.innerHTML='<div class="banter-empty banter-offline"><strong>The trolls have chewed through a cable.</strong><span>The public wall is temporarily unavailable. Try again shortly.</span></div>';
+      document.querySelectorAll('.desktop-nav a[href="#banter"], .mobile-nav a[href="#banter"]').forEach(link=>link.remove());
+      if(banterSection)banterSection.remove();
     }finally{
       setLoading(false);
     }
