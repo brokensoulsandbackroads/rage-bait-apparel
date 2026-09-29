@@ -7,6 +7,13 @@
   const HOME_NEW_ITEM_LIMIT=8;
   const DAY_MS=24*60*60*1000;
 
+  const moveCollectionsAboveNewItems=()=>{
+    const collections=document.querySelector('.collections#drops');
+    const products=document.querySelector('#products');
+    if(!collections||!products||collections.nextElementSibling===products)return;
+    products.parentNode.insertBefore(collections,products);
+  };
+
   // Existing products pre-date the automatic homepage dating rule.
   // New product cards can simply set data-listed-date="YYYY-MM-DD" and the
   // homepage will automatically include them for 14 days, newest first.
@@ -33,6 +40,7 @@
   };
 
   const applyHomepageNewItems=()=>{
+    moveCollectionsAboveNewItems();
     const grid=document.querySelector('#products .product-grid');
     if(!grid) return;
 
@@ -169,6 +177,8 @@
   const script=document.createElement('script');
   script.src=`app-core.js${version}`;
   script.onload=()=>{
+    moveCollectionsAboveNewItems();
+
     const duplicateBusinessLink=document.querySelector('footer .footer-links a[href="business-information.html"]');
     if(duplicateBusinessLink)duplicateBusinessLink.remove();
 
