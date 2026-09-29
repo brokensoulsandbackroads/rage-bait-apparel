@@ -14,6 +14,17 @@
     products.parentNode.insertBefore(collections,products);
   };
 
+  const loadBanter=()=>{
+    const cowboy=document.querySelector('.collections .collection.c3');
+    if(cowboy)cowboy.href='#banter';
+    if(document.querySelector('script[data-ragebait-banter]'))return;
+    const banterScript=document.createElement('script');
+    banterScript.src=`banter.js${version}`;
+    banterScript.dataset.ragebaitBanter='true';
+    banterScript.onerror=()=>console.error('Rage Bait banter section failed to initialise');
+    document.body.appendChild(banterScript);
+  };
+
   // Existing products pre-date the automatic homepage dating rule.
   // New product cards can simply set data-listed-date="YYYY-MM-DD" and the
   // homepage will automatically include them for 14 days, newest first.
@@ -178,6 +189,7 @@
   script.src=`app-core.js${version}`;
   script.onload=()=>{
     moveCollectionsAboveNewItems();
+    loadBanter();
 
     const duplicateBusinessLink=document.querySelector('footer .footer-links a[href="business-information.html"]');
     if(duplicateBusinessLink)duplicateBusinessLink.remove();
