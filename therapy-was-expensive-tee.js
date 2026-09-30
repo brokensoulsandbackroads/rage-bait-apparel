@@ -14,7 +14,7 @@
   card.dataset.listedDate = '2026-09-29';
   card.innerHTML = `
     <div class="product-photo therapy-was-expensive-tee-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="assets/TherapyWasExpensive-FrontSide-Tee%201%20(Mockup).png" alt="Front view of the blue Rage Bait Apparel Therapy Was Expensive Tee" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="mockups/TherapyWasExpensive-FrontSide-Tee%201%20(Mockup).png" alt="Front view of the blue Rage Bait Apparel Therapy Was Expensive Tee" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -81,12 +81,12 @@
 
   const gallery = card.querySelector('.therapy-was-expensive-tee-gallery');
   const galleryImages = [
-    { src: 'assets/TherapyWasExpensive-FrontSide-Tee%201%20(Mockup).png', alt: 'Therapy Was Expensive Tee front mockup 1' },
-    { src: 'assets/TherapyWasExpensive-FrontSide-Tee%202%20(Mockup).png', alt: 'Therapy Was Expensive Tee front mockup 2' },
-    { src: 'assets/TherapyWasExpensive-FrontSide-Tee%203%20(Mockup).png', alt: 'Therapy Was Expensive Tee front mockup 3' },
-    { src: 'assets/TherapyWasExpensive-BackSide-Tee%201%20(Mockup).png', alt: 'Therapy Was Expensive Tee back mockup 1' },
-    { src: 'assets/TherapyWasExpensive-BackSide-Tee%202%20(Mockup).png', alt: 'Therapy Was Expensive Tee back mockup 2' },
-    { src: 'assets/TherapyWasExpensive-BackSide-Tee%203%20(Mockup).png', alt: 'Therapy Was Expensive Tee back mockup 3' }
+    { src: 'mockups/TherapyWasExpensive-FrontSide-Tee%201%20(Mockup).png', alt: 'Therapy Was Expensive Tee front mockup 1' },
+    { src: 'mockups/TherapyWasExpensive-FrontSide-Tee%202%20(Mockup).png', alt: 'Therapy Was Expensive Tee front mockup 2' },
+    { src: 'mockups/TherapyWasExpensive-FrontSide-Tee%203%20(Mockup).png', alt: 'Therapy Was Expensive Tee front mockup 3' },
+    { src: 'mockups/TherapyWasExpensive-BackSide-Tee%201%20(Mockup).png', alt: 'Therapy Was Expensive Tee back mockup 1' },
+    { src: 'mockups/TherapyWasExpensive-BackSide-Tee%202%20(Mockup).png', alt: 'Therapy Was Expensive Tee back mockup 2' },
+    { src: 'mockups/TherapyWasExpensive-BackSide-Tee%203%20(Mockup).png', alt: 'Therapy Was Expensive Tee back mockup 3' }
   ];
 
   const preload = item => new Promise(resolve => {
