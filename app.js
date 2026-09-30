@@ -36,7 +36,7 @@
     'Pretty Little Problem Hoodie':'2026-09-25',
     'Pretty Little Problem Cropped Tee':'2026-09-25',
     'KingPin Hoodie':'2026-09-27',
-    'KingPin Outlaw Tee':'2026-09-27',
+    'KingPin Tee':'2026-09-27',
     'Rage Bait Keyring':'2026-09-27'
   };
 
@@ -119,24 +119,24 @@
     document.body.appendChild(keyringScript);
   };
 
-  const loadKingpinOutlawTee=()=>{
-    const kingpinOutlawTeeScript=document.createElement('script');
-    kingpinOutlawTeeScript.src=`kingpin-outlaw-tee.js${version}`;
-    kingpinOutlawTeeScript.onload=loadRageBaitKeyring;
-    kingpinOutlawTeeScript.onerror=()=>{
-      console.error('KingPin Outlaw Tee failed to initialise');
+  const loadKingpinTee=()=>{
+    const kingpinTeeScript=document.createElement('script');
+    kingpinTeeScript.src=`kingpin-tee.js${version}`;
+    kingpinTeeScript.onload=loadRageBaitKeyring;
+    kingpinTeeScript.onerror=()=>{
+      console.error('KingPin Tee failed to initialise');
       loadRageBaitKeyring();
     };
-    document.body.appendChild(kingpinOutlawTeeScript);
+    document.body.appendChild(kingpinTeeScript);
   };
 
   const loadVirtualDegenerateTee=()=>{
     const teeScript=document.createElement('script');
     teeScript.src=`virtual-degenerate-tee.js${version}`;
-    teeScript.onload=loadKingpinOutlawTee;
+    teeScript.onload=loadKingpinTee;
     teeScript.onerror=()=>{
       console.error('Virtual Degenerate Tee failed to initialise');
-      loadKingpinOutlawTee();
+      loadKingpinTee();
     };
     document.body.appendChild(teeScript);
   };
