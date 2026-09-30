@@ -16,7 +16,7 @@
   card.dataset.listedDate = '2026-09-29';
   card.innerHTML = `
     <div class="product-photo therapy-was-expensive-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="assets/TherapyWasExpensive-FrontSide%20(Mockup).png" alt="Front view of the burgundy Rage Bait Apparel Therapy Was Expensive Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="mockups/TherapyWasExpensive-FrontSide%20(Mockup).png" alt="Front view of the burgundy Rage Bait Apparel Therapy Was Expensive Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -98,8 +98,8 @@
 
   const gallery = card.querySelector('.therapy-was-expensive-gallery');
   const galleryImages = [
-    { src: 'assets/TherapyWasExpensive-FrontSide%20(Mockup).png', alt: 'Front view of the burgundy Rage Bait Apparel Therapy Was Expensive Hoodie' },
-    { src: 'assets/TherapyWasExpensive-BackSide%20(Mockup).png', alt: 'Back view of the burgundy Rage Bait Apparel Therapy Was Expensive Hoodie' }
+    { src: 'mockups/TherapyWasExpensive-FrontSide%20(Mockup).png', alt: 'Front view of the burgundy Rage Bait Apparel Therapy Was Expensive Hoodie' },
+    { src: 'mockups/TherapyWasExpensive-BackSide%20(Mockup).png', alt: 'Back view of the burgundy Rage Bait Apparel Therapy Was Expensive Hoodie' }
   ];
 
   const preload = item => new Promise(resolve => {
