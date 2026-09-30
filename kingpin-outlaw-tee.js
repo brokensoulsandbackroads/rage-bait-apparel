@@ -13,7 +13,7 @@
   card.dataset.productCard = 'kingpin-outlaw-tee';
   card.innerHTML = `
     <div class="product-photo kingpin-outlaw-tee-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="assets/kingpin1.png" alt="KingPin Outlaw olive tee product mockup" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="mockups/kingpin1.png" alt="KingPin Outlaw olive tee product mockup" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -80,7 +80,7 @@
 
   const gallery = card.querySelector('.kingpin-outlaw-tee-gallery');
   const galleryImages = [1, 2, 3, 4, 5, 6].map(number => ({
-    src: `assets/kingpin${number}.png`,
+    src: `mockups/kingpin${number}.png`,
     alt: `KingPin Outlaw olive tee product mockup ${number}`
   }));
 
