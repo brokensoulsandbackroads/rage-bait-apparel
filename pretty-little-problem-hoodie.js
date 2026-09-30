@@ -13,7 +13,7 @@
   card.dataset.productCard = 'pretty-little-problem-hoodie';
   card.innerHTML = `
     <div class="product-photo pretty-little-problem-hoodie-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="assets/Pretty_Little_Problem_hoddie_front_mockup.png" alt="Front view of the women's Pretty Little Problem Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="mockups/Pretty_Little_Problem_hoddie_front_mockup.png" alt="Front view of the women's Pretty Little Problem Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -84,8 +84,8 @@
 
   const gallery = card.querySelector('.pretty-little-problem-hoodie-gallery');
   const galleryImages = [
-    { src: 'assets/Pretty_Little_Problem_hoddie_front_mockup.png', alt: "Front view of the women's Pretty Little Problem Hoodie" },
-    { src: 'assets/Pretty_Little_Problem_hoddie_back-mockup.png', alt: "Back view of the women's Pretty Little Problem Hoodie" }
+    { src: 'mockups/Pretty_Little_Problem_hoddie_front_mockup.png', alt: "Front view of the women's Pretty Little Problem Hoodie" },
+    { src: 'mockups/Pretty_Little_Problem_hoddie_back-mockup.png', alt: "Back view of the women's Pretty Little Problem Hoodie" }
   ];
 
   const preload = item => new Promise(resolve => {
