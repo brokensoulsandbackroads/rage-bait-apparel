@@ -13,7 +13,7 @@
   card.dataset.productCard = 'virtual-degenerate-tee';
   card.innerHTML = `
     <div class="product-photo virtual-degenerate-tee-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="assets/virtual-degenerate-tee-mock1.png" alt="Virtual Degenerate Tee product mockup" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="mockups/virtual-degenerate-tee-mock1.png" alt="Virtual Degenerate Tee product mockup" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -84,7 +84,7 @@
 
   const gallery = card.querySelector('.virtual-degenerate-tee-gallery');
   const galleryImages = [1, 2, 3, 4].map(number => ({
-    src: `assets/virtual-degenerate-tee-mock${number}.png`,
+    src: `mockups/virtual-degenerate-tee-mock${number}.png`,
     alt: `Virtual Degenerate Tee product mockup ${number}`
   }));
 
