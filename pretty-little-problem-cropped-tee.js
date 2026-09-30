@@ -78,8 +78,8 @@
 
   const gallery = card.querySelector('.pretty-little-problem-cropped-tee-gallery');
   const bases = [
-    { base: 'assets/Pretty_Little_Problem_tee_front_mockup', alt: 'Front view of the women\'s Pretty Little Problem Cropped Tee' },
-    { base: 'assets/Pretty_Little_Problem_tee_back_mockup', alt: 'Back view of the women\'s Pretty Little Problem Cropped Tee' }
+    { base: 'mockups/Pretty_Little_Problem_tee_front_mockup', alt: 'Front view of the women\'s Pretty Little Problem Cropped Tee' },
+    { base: 'mockups/Pretty_Little_Problem_tee_back_mockup', alt: 'Back view of the women\'s Pretty Little Problem Cropped Tee' }
   ];
   const extensions = ['.png', '.jpg', '.jpeg', '.webp'];
 
