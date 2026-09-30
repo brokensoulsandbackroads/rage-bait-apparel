@@ -15,7 +15,7 @@
   card.dataset.productCard = 'kingpin-hoodie';
   card.innerHTML = `
     <div class="product-photo kingpin-hoodie-gallery" style="aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;">
-      <img src="assets/kp-front-mock.png" alt="Front view of the charcoal Rage Bait Apparel KingPin Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
+      <img src="mockups/kp-front-mock.png" alt="Front view of the charcoal Rage Bait Apparel KingPin Hoodie" loading="lazy" decoding="async" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;box-sizing:border-box;">
     </div>
     <div class="product-info">
       <div>
@@ -100,8 +100,8 @@
 
   const gallery = card.querySelector('.kingpin-hoodie-gallery');
   const galleryImages = [
-    { src: 'assets/kp-front-mock.png', alt: 'Front view of the charcoal Rage Bait Apparel KingPin Hoodie' },
-    { src: 'assets/kp-back-mock.png', alt: 'Back view of the charcoal Rage Bait Apparel KingPin Hoodie' }
+    { src: 'mockups/kp-front-mock.png', alt: 'Front view of the charcoal Rage Bait Apparel KingPin Hoodie' },
+    { src: 'mockups/kp-back-mock.png', alt: 'Back view of the charcoal Rage Bait Apparel KingPin Hoodie' }
   ];
 
   const preload = item => new Promise(resolve => {
