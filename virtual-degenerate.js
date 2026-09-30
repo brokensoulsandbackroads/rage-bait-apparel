@@ -6,8 +6,8 @@
   const LARGE_PRICE = 45.99;
 
   const galleryImages = [
-    { src: 'assets/virtual-degenerate-hoodie-front.webp', alt: 'Front view of the black Rage Bait Apparel Virtual Degenerate Hoodie' },
-    { src: 'assets/virtual-degenerate-hoodie-back.webp', alt: 'Back view of the black Rage Bait Apparel Virtual Degenerate Hoodie' }
+    { src: 'mockups/virtual-degenerate-hoodie-front.webp', alt: 'Front view of the black Rage Bait Apparel Virtual Degenerate Hoodie' },
+    { src: 'mockups/virtual-degenerate-hoodie-back.webp', alt: 'Back view of the black Rage Bait Apparel Virtual Degenerate Hoodie' }
   ];
 
   const productCards = Array.from(document.querySelectorAll('.product-grid .product-card'));
@@ -72,7 +72,7 @@
 
   image.className = 'product-photo virtual-degenerate-gallery';
   image.style.cssText = 'aspect-ratio:1/1;background:#080908;position:relative;overflow:hidden;touch-action:pan-y;';
-  image.innerHTML = '<img src="assets/virtual-degenerate-hoodie-front.webp" alt="Front view of the black Rage Bait Apparel Virtual Degenerate Hoodie" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;">';
+  image.innerHTML = '<img src="mockups/virtual-degenerate-hoodie-front.webp" alt="Front view of the black Rage Bait Apparel Virtual Degenerate Hoodie" style="display:block;width:100%;height:100%;object-fit:contain;padding:8px;">';
 
   const preload = item => new Promise(resolve => {
     const img = new Image();
