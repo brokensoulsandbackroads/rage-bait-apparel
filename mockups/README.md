@@ -1,15 +1,11 @@
-# Rage Bait mockups
+# Rage Bait fulfilment mockups
 
-Store Two Fifteen production-reference mockup images in this folder.
+Supplier/reference mockups used to show Two Fifteen the intended print placement.
 
-Suggested naming:
+Keep production artwork in `/print/` and normal site imagery in `/assets/`.
 
-- `PRODUCTCODE-front-mockup.png`
-- `PRODUCTCODE-back-mockup.png`
-
-Example:
-
-- `CV001-OLI-front-mockup.png`
-- `CV001-OLI-back-mockup.png`
-
-These are for fulfilment/print-position reference. Customer-facing gallery images can stay in `/assets/`.
+Current Outlaw Tee mockups:
+- `outlaw-tee-front-male-v3.webp`
+- `outlaw-tee-front-female-v3.webp`
+- `outlaw-tee-back-male-v2.webp`
+- `outlaw-tee-back-female-v5.webp`
