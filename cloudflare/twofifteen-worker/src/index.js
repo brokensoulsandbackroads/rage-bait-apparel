@@ -3,16 +3,24 @@ const PRODUCT_CATALOG = {
     title:'Outlaw Tee', colour:'Black', retailCurrency:'GBP', basePrice:29.99,
     skus:{S:'CV001-BLK-S',M:'CV001-BLK-M',L:'CV001-BLK-L',XL:'CV001-BLK-XL','2XL':'CV001-BLK-2XL','3XL':'CV001-BLK-3XL','4XL':'CV001-BLK-4XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/outlaw-tee-front-male-v3.webp'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/outlaw-tee-back-male-v2.webp'}
     ]
   },
   'virtual-degenerate-tee': {
     title:'Virtual Degenerate Tee', colour:'Black', retailCurrency:'GBP', basePrice:29.99,
     skus:{S:'CV001-BLK-S',M:'CV001-BLK-M',L:'CV001-BLK-L',XL:'CV001-BLK-XL','2XL':'CV001-BLK-2XL','3XL':'CV001-BLK-3XL','4XL':'CV001-BLK-4XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-tee-front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-tee-front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock1.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock2.png'}
     ]
   },
   'virtual-degenerate-hoodie': {
@@ -20,8 +28,12 @@ const PRODUCT_CATALOG = {
     sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
     skus:{XS:'JH001-DBK-XS',S:'JH001-DBK-S',M:'JH001-DBK-M',L:'JH001-DBK-L',XL:'JH001-DBK-XL','2XL':'JH001-DBK-2XL','3XL':'JH001-DBK-3XL','4XL':'JH001-DBK-4XL','5XL':'JH001-DBK-5XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-hoodie-front.webp'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-hoodie-back.webp'}
     ]
   },
   'outlaw-hoodie': {
@@ -29,32 +41,48 @@ const PRODUCT_CATALOG = {
     sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
     skus:{XS:'JH001-DBK-XS',S:'JH001-DBK-S',M:'JH001-DBK-M',L:'JH001-DBK-L',XL:'JH001-DBK-XL','2XL':'JH001-DBK-2XL','3XL':'JH001-DBK-3XL','4XL':'JH001-DBK-4XL','5XL':'JH001-DBK-5XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-hood-front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/outlaw-hood-front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/outlaw-hoodie-front-mockup.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/outlaw-hoodie-back-mockup.png'}
     ]
   },
   'pretty-little-problem-cropped-tee': {
     title:'Pretty Little Problem Cropped Tee', colour:'Black', retailCurrency:'GBP', basePrice:24.99,
     skus:{XS:'BY042-BLK-XS',S:'BY042-BLK-S',M:'BY042-BLK-M',L:'BY042-BLK-L',XL:'BY042-BLK-XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_tee.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_tee.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_tee_front_mockup.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_tee_back_mockup.png'}
     ]
   },
   'pretty-little-problem-hoodie': {
     title:'Pretty Little Problem Hoodie', colour:'Hot Pink', retailCurrency:'GBP', basePrice:39.99,
     skus:{XS:'JH001F-HPK-XS',S:'JH001F-HPK-S',M:'JH001F-HPK-M',L:'JH001F-HPK-L',XL:'JH001F-HPK-XL','2XL':'JH001F-HPK-2XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_hoodie.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/Pretty_Little_Problem_hoodie.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_hoddie_front_mockup.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_hoddie_back-mockup.png'}
     ]
   },
   'kingpin-outlaw-tee': {
     title:'KingPin Outlaw Tee', colour:'Olive', retailCurrency:'GBP', basePrice:29.99,
     skus:{S:'CV001-OLI-S',M:'CV001-OLI-M',L:'CV001-OLI-L',XL:'CV001-OLI-XL','2XL':'CV001-OLI-2XL','3XL':'CV001-OLI-3XL','4XL':'CV001-OLI-4XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/kingpin1.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/kingpin2.png'}
     ]
   },
   'kingpin-hoodie': {
@@ -62,8 +90,12 @@ const PRODUCT_CATALOG = {
     sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
     skus:{XS:'JH001-CHA-XS',S:'JH001-CHA-S',M:'JH001-CHA-M',L:'JH001-CHA-L',XL:'JH001-CHA-XL','2XL':'JH001-CHA-2XL','3XL':'JH001-CHA-3XL','4XL':'JH001-CHA-4XL','5XL':'JH001-CHA-5XL'},
     designs:[
-      {title:'DTG Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_front.png'},
-      {title:'DTG Printing Back Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_front.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/kp-front-mock.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/kp-back-mock.png'}
     ]
   },
   'rage-bait-keyring': {
@@ -71,6 +103,9 @@ const PRODUCT_CATALOG = {
     skus:{ONE:'OBLONGKEY'},
     designs:[
       {title:'Dye Sublimation Printing Front Side',src:'https://ragebaitapparel.co.uk/print/RageBait_Keyring.png'}
+    ],
+    mockups:[
+      {title:'Dye Sublimation Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/mockupkeyring.png'}
     ]
   }
 };
@@ -528,6 +563,7 @@ function buildTwoFifteenPayload(order, env) {
         retailCurrency: catalog.retailCurrency,
         quantity: item.quantity,
         description: `Rage Bait Apparel ${catalog.title}`,
+        mockups: catalog.mockups,
         designs: catalog.designs
       };
     }),
