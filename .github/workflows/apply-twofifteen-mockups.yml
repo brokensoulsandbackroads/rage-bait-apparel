@@ -1,0 +1,126 @@
+name: One-time Two Fifteen mockup payload patch
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/apply-twofifteen-mockups.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-worker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Wire supplier mockups into Two Fifteen payload
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('cloudflare/twofifteen-worker/src/index.js')
+          text = path.read_text(encoding='utf-8')
+
+          # Two Fifteen confirmed these garment position names. The previous
+          # "DTG Printing ..." labels are rejected by the API for these SKUs.
+          text = text.replace("DTG Printing Front Side", "Printing Front Side")
+          text = text.replace("DTG Printing Back Side", "Printing Back Side")
+
+          mockups = {
+              'outlaw-tee': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/outlaw-tee-front-male-v3.webp'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/outlaw-tee-back-male-v2.webp'),
+              ],
+              'virtual-degenerate-tee': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock1.png'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock2.png'),
+              ],
+              'virtual-degenerate-hoodie': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-hoodie-front.webp'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-hoodie-back.webp'),
+              ],
+              'outlaw-hoodie': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/outlaw-hoodie-front-mockup.png'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/outlaw-hoodie-back-mockup.png'),
+              ],
+              'pretty-little-problem-cropped-tee': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_tee_front_mockup.png'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_tee_back_mockup.png'),
+              ],
+              'pretty-little-problem-hoodie': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_hoddie_front_mockup.png'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_hoddie_back-mockup.png'),
+              ],
+              'kingpin-outlaw-tee': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/kingpin1.png'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/kingpin2.png'),
+              ],
+              'kingpin-hoodie': [
+                  ('Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/kp-front-mock.png'),
+                  ('Printing Back Side', 'https://ragebaitapparel.co.uk/mockups/kp-back-mock.png'),
+              ],
+              'rage-bait-keyring': [
+                  ('Dye Sublimation Printing Front Side', 'https://ragebaitapparel.co.uk/mockups/mockupkeyring.png'),
+              ],
+          }
+
+          def add_mockups(source: str, product: str, entries):
+              product_marker = f"  '{product}': {{"
+              start = source.find(product_marker)
+              if start == -1:
+                  raise SystemExit(f'Missing product catalog entry: {product}')
+              next_product = source.find("\n  '", start + len(product_marker))
+              catalog_end = next_product if next_product != -1 else source.find('\n};', start)
+              section = source[start:catalog_end]
+              if 'mockups:[' in section:
+                  raise SystemExit(f'Mockups already wired for {product}; refusing duplicate insertion')
+              designs_start = source.find('    designs:[', start, catalog_end)
+              if designs_start == -1:
+                  raise SystemExit(f'Missing designs array for {product}')
+              designs_end = source.find('\n    ]', designs_start, catalog_end)
+              if designs_end == -1:
+                  raise SystemExit(f'Could not find end of designs array for {product}')
+              designs_end += len('\n    ]')
+              rows = ',\n'.join(
+                  f"      {{title:{title!r},src:{url!r}}}" for title, url in entries
+              )
+              insertion = f",\n    mockups:[\n{rows}\n    ]"
+              return source[:designs_end] + insertion + source[designs_end:]
+
+          for product, entries in mockups.items():
+              text = add_mockups(text, product, entries)
+
+          payload_old = "        description: `Rage Bait Apparel ${catalog.title}`,\n        designs: catalog.designs"
+          payload_new = "        description: `Rage Bait Apparel ${catalog.title}`,\n        mockups: catalog.mockups,\n        designs: catalog.designs"
+          if text.count(payload_old) != 1:
+              raise SystemExit('Expected exactly one Two Fifteen item payload insertion point')
+          text = text.replace(payload_old, payload_new, 1)
+
+          if 'DTG Printing Front Side' in text or 'DTG Printing Back Side' in text:
+              raise SystemExit('Old DTG position labels remain in worker source')
+          if text.count('mockups: catalog.mockups') != 1:
+              raise SystemExit('Two Fifteen payload is not sending catalog mockups exactly once')
+          if text.count('mockups:[') != len(mockups):
+              raise SystemExit('Not every active product has a supplier mockup mapping')
+
+          path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Syntax check Worker
+        run: node --check cloudflare/twofifteen-worker/src/index.js
+
+      - name: Commit Worker patch
+        run: |
+          git config user.name "Rage Bait setup bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add cloudflare/twofifteen-worker/src/index.js
+          if git diff --cached --quiet; then
+            echo "No Worker changes needed"
+            exit 0
+          fi
+          git commit -m "Wire Two Fifteen mockups into order payload"
+          git push
