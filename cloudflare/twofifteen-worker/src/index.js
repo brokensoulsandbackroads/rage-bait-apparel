@@ -74,7 +74,7 @@ const PRODUCT_CATALOG = {
     ]
   },
   'kingpin-outlaw-tee': {
-    title:'KingPin Outlaw Tee', colour:'Olive', retailCurrency:'GBP', basePrice:29.99,
+    title:'KingPin Tee', colour:'Olive', retailCurrency:'GBP', basePrice:29.99,
     skus:{S:'CV001-OLI-S',M:'CV001-OLI-M',L:'CV001-OLI-L',XL:'CV001-OLI-XL','2XL':'CV001-OLI-2XL','3XL':'CV001-OLI-3XL','4XL':'CV001-OLI-4XL'},
     designs:[
       {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/kingpin_rear.png'},
@@ -96,6 +96,31 @@ const PRODUCT_CATALOG = {
     mockups:[
       {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/kp-front-mock.png'},
       {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/kp-back-mock.png'}
+    ]
+  },
+  'therapy-was-expensive-tee': {
+    title:'Therapy Was Expensive Tee', colour:'Blue', retailCurrency:'GBP', basePrice:29.99,
+    skus:{S:'CV001-SBLU-S',M:'CV001-SBLU-M',L:'CV001-SBLU-L',XL:'CV001-SBLU-XL','2XL':'CV001-SBLU-2XL','3XL':'CV001-SBLU-3XL','4XL':'CV001-SBLU-4XL'},
+    designs:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Front-Tee.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Back-Tee.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide-Tee%201%20%28Mockup%29.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide-Tee%201%20%28Mockup%29.png'}
+    ]
+  },
+  'therapy-was-expensive-hoodie': {
+    title:'Therapy Was Expensive Hoodie', colour:'Burgundy', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{XS:'JH001-BUR-XS',S:'JH001-BUR-S',M:'JH001-BUR-M',L:'JH001-BUR-L',XL:'JH001-BUR-XL','2XL':'JH001-BUR-2XL','3XL':'JH001-BUR-3XL','4XL':'JH001-BUR-4XL','5XL':'JH001-BUR-5XL'},
+    designs:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-FrontSide.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-BackSide.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide%20%28Mockup%29.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide%20%28Mockup%29.png'}
     ]
   },
   'rage-bait-keyring': {
