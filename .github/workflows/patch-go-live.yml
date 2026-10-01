@@ -15,47 +15,21 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Patch checkout and fulfilment mappings
+        env:
+          THERAPY_B64: ICAndGhlcmFweS13YXMtZXhwZW5zaXZlLXRlZSc6IHsKICAgIHRpdGxlOidUaGVyYXB5IFdhcyBFeHBlbnNpdmUgVGVlJywgY29sb3VyOidCbHVlJywgcmV0YWlsQ3VycmVuY3k6J0dCUCcsIGJhc2VQcmljZToyOS45OSwKICAgIHNrdXM6e1M6J0NWMDAxLVNCTFUtUycsTTonQ1YwMDEtU0JMVS1NJyxMOidDVjAwMS1TQkxVLUwnLFhMOidDVjAwMS1TQkxVLVhMJywnMlhMJzonQ1YwMDEtU0JMVS0yWEwnLCczWEwnOidDVjAwMS1TQkxVLTNYTCcsJzRYTCc6J0NWMDAxLVNCTFUtNFhMJ30sCiAgICBkZXNpZ25zOlsKICAgICAge3RpdGxlOidQcmludGluZyBGcm9udCBTaWRlJyxzcmM6J2h0dHBzOi8vcmFnZWJhaXRhcHBhcmVsLmNvLnVrL3ByaW50L1RoZXJhcHlXYXNFeHBlbnNpdmUtRnJvbnQtVGVlLnBuZyd9LAogICAgICB7dGl0bGU6J1ByaW50aW5nIEJhY2sgU2lkZScsc3JjOidodHRwczovL3JhZ2ViYWl0YXBwYXJlbC5jby51ay9wcmludC9UaGVyYXB5V2FzRXhwZW5zaXZlLUJhY2stVGVlLnBuZyd9CiAgICBdLAogICAgbW9ja3VwczpbCiAgICAgIHt0aXRsZTonUHJpbnRpbmcgRnJvbnQgU2lkZScsc3JjOidodHRwczovL3JhZ2ViYWl0YXBwYXJlbC5jby51ay9tb2NrdXBzL1RoZXJhcHlXYXNFeHBlbnNpdmUtRnJvbnRTaWRlLVRlZSUyMDElMjAlMjhNb2NrdXAlMjkucG5nJ30sCiAgICAgIHt0aXRsZTonUHJpbnRpbmcgQmFjayBTaWRlJyxzcmM6J2h0dHBzOi8vcmFnZWJhaXRhcHBhcmVsLmNvLnVrL21vY2t1cHMvVGhlcmFweVdhc0V4cGVuc2l2ZS1CYWNrU2lkZS1UZWUlMjAxJTIwJTI4TW9ja3VwJTI5LnBuZyd9CiAgICBdCiAgfSwKICAndGhlcmFweS13YXMtZXhwZW5zaXZlLWhvb2RpZSc6IHsKICAgIHRpdGxlOidUaGVyYXB5IFdhcyBFeHBlbnNpdmUgSG9vZGllJywgY29sb3VyOidCdXJndW5keScsIHJldGFpbEN1cnJlbmN5OidHQlAnLCBiYXNlUHJpY2U6NDQuOTksCiAgICBzaXplUHJpY2VzOnsnM1hMJzo0NS45OSwnNFhMJzo0NS45OSwnNVhMJzo0NS45OX0sCiAgICBza3VzOntYUzonSkgwMDEtQlVSLVhTJyxTOidKSDAwMS1CVVItUycsTTonSkgwMDEtQlVSLU0nLEw6J0pIMDAxLUJVUi1MJyxYTDonSkgwMDEtQlVSLVhMJywnMlhMJzonSkgwMDEtQlVSLTJYTCcsJzNYTCc6J0pIMDAxLUJVUi0zWEwnLCc0WEwnOidKSDAwMS1CVVItNFhMJywnNVhMJzonSkgwMDEtQlVSLTVYTCd9LAogICAgZGVzaWduczpbCiAgICAgIHt0aXRsZTonUHJpbnRpbmcgRnJvbnQgU2lkZScsc3JjOidodHRwczovL3JhZ2ViYWl0YXBwYXJlbC5jby51ay9wcmludC9UaGVyYXB5V2FzRXhwZW5zaXZlLUZyb250U2lkZS5wbmcnfSwKICAgICAge3RpdGxlOidQcmludGluZyBCYWNrIFNpZGUnLHNyYzonaHR0cHM6Ly9yYWdlYmFpdGFwcGFyZWwuY28udWsvcHJpbnQvVGhlcmFweVdhc0V4cGVuc2l2ZS1CYWNrU2lkZS5wbmcnfQogICAgXSwKICAgIG1vY2t1cHM6WwogICAgICB7dGl0bGU6J1ByaW50aW5nIEZyb250IFNpZGUnLHNyYzonaHR0cHM6Ly9yYWdlYmFpdGFwcGFyZWwuY28udWsvbW9ja3Vwcy9UaGVyYXB5V2FzRXhwZW5zaXZlLUZyb250U2lkZSUyMCUyOE1vY2t1cCUyOS5wbmcnfSwKICAgICAge3RpdGxlOidQcmludGluZyBCYWNrIFNpZGUnLHNyYzonaHR0cHM6Ly9yYWdlYmFpdGFwcGFyZWwuY28udWsvbW9ja3Vwcy9UaGVyYXB5V2FzRXhwZW5zaXZlLUJhY2tTaWRlJTIwJTI4TW9ja3VwJTI5LnBuZyd9CiAgICBdCiAgfSwK
         run: |
           python - <<'PY'
           from pathlib import Path
-
+          import os, base64
           worker = Path('cloudflare/twofifteen-worker/src/index.js')
           text = worker.read_text(encoding='utf-8')
-
           text = text.replace("title:'KingPin Outlaw Tee', colour:'Olive'", "title:'KingPin Tee', colour:'Olive'")
-
-          marker = "  'rage-bait-keyring': {\n"
           if "'therapy-was-expensive-tee':" not in text:
-              therapy = """  'therapy-was-expensive-tee': {
-    title:'Therapy Was Expensive Tee', colour:'Blue', retailCurrency:'GBP', basePrice:29.99,
-    skus:{S:'CV001-SBLU-S',M:'CV001-SBLU-M',L:'CV001-SBLU-L',XL:'CV001-SBLU-XL','2XL':'CV001-SBLU-2XL','3XL':'CV001-SBLU-3XL','4XL':'CV001-SBLU-4XL'},
-    designs:[
-      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Front-Tee.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Back-Tee.png'}
-    ],
-    mockups:[
-      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide-Tee%201%20%28Mockup%29.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide-Tee%201%20%28Mockup%29.png'}
-    ]
-  },
-  'therapy-was-expensive-hoodie': {
-    title:'Therapy Was Expensive Hoodie', colour:'Burgundy', retailCurrency:'GBP', basePrice:44.99,
-    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
-    skus:{XS:'JH001-BUR-XS',S:'JH001-BUR-S',M:'JH001-BUR-M',L:'JH001-BUR-L',XL:'JH001-BUR-XL','2XL':'JH001-BUR-2XL','3XL':'JH001-BUR-3XL','4XL':'JH001-BUR-4XL','5XL':'JH001-BUR-5XL'},
-    designs:[
-      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-FrontSide.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-BackSide.png'}
-    ],
-    mockups:[
-      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide%20%28Mockup%29.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide%20%28Mockup%29.png'}
-    ]
-  },
-"""
+              marker = "  'rage-bait-keyring': {\n"
               if marker not in text:
                   raise SystemExit('Worker insertion marker not found')
+              therapy = base64.b64decode(os.environ['THERAPY_B64']).decode('utf-8')
               text = text.replace(marker, therapy + marker, 1)
-
           worker.write_text(text, encoding='utf-8')
 
           checkout = Path('checkout.js')
@@ -68,27 +42,19 @@ jobs:
               c = c.replace(old, alias, 1)
           checkout.write_text(c, encoding='utf-8')
 
-          for filename in [
-              'fulfilment/therapy-was-expensive-tee.json',
-              'fulfilment/therapy-was-expensive-hoodie.json'
-          ]:
+          for filename in ['fulfilment/therapy-was-expensive-tee.json','fulfilment/therapy-was-expensive-hoodie.json']:
               p = Path(filename)
-              s = p.read_text(encoding='utf-8')
-              s = s.replace('DTG Printing Front Side', 'Printing Front Side')
-              s = s.replace('DTG Printing Back Side', 'Printing Back Side')
+              s = p.read_text(encoding='utf-8').replace('DTG Printing Front Side','Printing Front Side').replace('DTG Printing Back Side','Printing Back Side')
               p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Verify worker syntax
-        run: node --check cloudflare/twofifteen-worker/src/index.js
-
-      - name: Verify mappings
+      - name: Verify worker syntax and mappings
         run: |
+          node --check cloudflare/twofifteen-worker/src/index.js
           grep -q "'therapy-was-expensive-tee'" cloudflare/twofifteen-worker/src/index.js
           grep -q "'therapy-was-expensive-hoodie'" cloudflare/twofifteen-worker/src/index.js
           grep -q "'KingPin Tee':{slug:'kingpin-outlaw-tee'" checkout.js
           grep -q "mockups:catalog.mockups" cloudflare/twofifteen-worker/src/index.js
-          echo "Go-live mappings verified"
 
       - name: Commit fixes
         run: |
