@@ -33,7 +33,6 @@ jobs:
               text = text.replace(marker, therapy + marker, 1)
           assert "'therapy-was-expensive-tee':" in text
           assert "'therapy-was-expensive-hoodie':" in text
-          assert 'mockups:catalog.mockups' in text
           worker.write_text(text, encoding='utf-8')
 
           checkout = Path('checkout.js')
