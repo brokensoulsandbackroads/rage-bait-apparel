@@ -1,0 +1,103 @@
+name: Patch go-live product mappings
+
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-go-live.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Patch checkout and fulfilment mappings
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          worker = Path('cloudflare/twofifteen-worker/src/index.js')
+          text = worker.read_text(encoding='utf-8')
+
+          text = text.replace("title:'KingPin Outlaw Tee', colour:'Olive'", "title:'KingPin Tee', colour:'Olive'")
+
+          marker = "  'rage-bait-keyring': {\n"
+          if "'therapy-was-expensive-tee':" not in text:
+              therapy = """  'therapy-was-expensive-tee': {
+    title:'Therapy Was Expensive Tee', colour:'Blue', retailCurrency:'GBP', basePrice:29.99,
+    skus:{S:'CV001-SBLU-S',M:'CV001-SBLU-M',L:'CV001-SBLU-L',XL:'CV001-SBLU-XL','2XL':'CV001-SBLU-2XL','3XL':'CV001-SBLU-3XL','4XL':'CV001-SBLU-4XL'},
+    designs:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Front-Tee.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Back-Tee.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide-Tee%201%20%28Mockup%29.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide-Tee%201%20%28Mockup%29.png'}
+    ]
+  },
+  'therapy-was-expensive-hoodie': {
+    title:'Therapy Was Expensive Hoodie', colour:'Burgundy', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{XS:'JH001-BUR-XS',S:'JH001-BUR-S',M:'JH001-BUR-M',L:'JH001-BUR-L',XL:'JH001-BUR-XL','2XL':'JH001-BUR-2XL','3XL':'JH001-BUR-3XL','4XL':'JH001-BUR-4XL','5XL':'JH001-BUR-5XL'},
+    designs:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-FrontSide.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-BackSide.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide%20%28Mockup%29.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide%20%28Mockup%29.png'}
+    ]
+  },
+"""
+              if marker not in text:
+                  raise SystemExit('Worker insertion marker not found')
+              text = text.replace(marker, therapy + marker, 1)
+
+          worker.write_text(text, encoding='utf-8')
+
+          checkout = Path('checkout.js')
+          c = checkout.read_text(encoding='utf-8')
+          old = "    'KingPin Outlaw Tee':{slug:'kingpin-outlaw-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},\n"
+          alias = old + "    'KingPin Tee':{slug:'kingpin-outlaw-tee',priceBySize:{S:29.99,M:29.99,L:29.99,XL:29.99,'2XL':29.99,'3XL':29.99,'4XL':29.99}},\n"
+          if "'KingPin Tee':{slug:'kingpin-outlaw-tee'" not in c:
+              if old not in c:
+                  raise SystemExit('KingPin checkout mapping marker not found')
+              c = c.replace(old, alias, 1)
+          checkout.write_text(c, encoding='utf-8')
+
+          for filename in [
+              'fulfilment/therapy-was-expensive-tee.json',
+              'fulfilment/therapy-was-expensive-hoodie.json'
+          ]:
+              p = Path(filename)
+              s = p.read_text(encoding='utf-8')
+              s = s.replace('DTG Printing Front Side', 'Printing Front Side')
+              s = s.replace('DTG Printing Back Side', 'Printing Back Side')
+              p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Verify worker syntax
+        run: node --check cloudflare/twofifteen-worker/src/index.js
+
+      - name: Verify mappings
+        run: |
+          grep -q "'therapy-was-expensive-tee'" cloudflare/twofifteen-worker/src/index.js
+          grep -q "'therapy-was-expensive-hoodie'" cloudflare/twofifteen-worker/src/index.js
+          grep -q "'KingPin Tee':{slug:'kingpin-outlaw-tee'" checkout.js
+          grep -q "mockups:catalog.mockups" cloudflare/twofifteen-worker/src/index.js
+          echo "Go-live mappings verified"
+
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add checkout.js cloudflare/twofifteen-worker/src/index.js fulfilment/therapy-was-expensive-tee.json fulfilment/therapy-was-expensive-hoodie.json
+          if git diff --cached --quiet; then
+            echo "No changes required"
+          else
+            git commit -m "Complete go-live product mappings"
+            git push
+          fi
