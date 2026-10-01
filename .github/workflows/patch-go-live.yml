@@ -21,6 +21,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import os, base64
+
           worker = Path('cloudflare/twofifteen-worker/src/index.js')
           text = worker.read_text(encoding='utf-8')
           text = text.replace("title:'KingPin Outlaw Tee', colour:'Olive'", "title:'KingPin Tee', colour:'Olive'")
@@ -30,6 +31,9 @@ jobs:
                   raise SystemExit('Worker insertion marker not found')
               therapy = base64.b64decode(os.environ['THERAPY_B64']).decode('utf-8')
               text = text.replace(marker, therapy + marker, 1)
+          assert "'therapy-was-expensive-tee':" in text
+          assert "'therapy-was-expensive-hoodie':" in text
+          assert 'mockups:catalog.mockups' in text
           worker.write_text(text, encoding='utf-8')
 
           checkout = Path('checkout.js')
@@ -40,6 +44,7 @@ jobs:
               if old not in c:
                   raise SystemExit('KingPin checkout mapping marker not found')
               c = c.replace(old, alias, 1)
+          assert "'KingPin Tee':{slug:'kingpin-outlaw-tee'" in c
           checkout.write_text(c, encoding='utf-8')
 
           for filename in ['fulfilment/therapy-was-expensive-tee.json','fulfilment/therapy-was-expensive-hoodie.json']:
@@ -48,13 +53,8 @@ jobs:
               p.write_text(s, encoding='utf-8')
           PY
 
-      - name: Verify worker syntax and mappings
-        run: |
-          node --check cloudflare/twofifteen-worker/src/index.js
-          grep -q "'therapy-was-expensive-tee'" cloudflare/twofifteen-worker/src/index.js
-          grep -q "'therapy-was-expensive-hoodie'" cloudflare/twofifteen-worker/src/index.js
-          grep -q "'KingPin Tee':{slug:'kingpin-outlaw-tee'" checkout.js
-          grep -q "mockups:catalog.mockups" cloudflare/twofifteen-worker/src/index.js
+      - name: Verify worker syntax
+        run: node --check cloudflare/twofifteen-worker/src/index.js
 
       - name: Commit fixes
         run: |
