@@ -73,7 +73,7 @@ const PRODUCT_CATALOG = {
       {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/Pretty_Little_Problem_hoddie_back-mockup.png'}
     ]
   },
-  'kingpin-outlaw-tee': {
+  'kingpin-tee': {
     title:'KingPin Tee', colour:'Olive', retailCurrency:'GBP', basePrice:29.99,
     skus:{S:'CV001-OLI-S',M:'CV001-OLI-M',L:'CV001-OLI-L',XL:'CV001-OLI-XL','2XL':'CV001-OLI-2XL','3XL':'CV001-OLI-3XL','4XL':'CV001-OLI-4XL'},
     designs:[
