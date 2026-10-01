@@ -19,8 +19,8 @@ const PRODUCT_CATALOG = {
       {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/virtual-degenerate-back.png'}
     ],
     mockups:[
-      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock1.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock2.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock3.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/virtual-degenerate-tee-mock1.png'}
     ]
   },
   'virtual-degenerate-hoodie': {
@@ -81,8 +81,8 @@ const PRODUCT_CATALOG = {
       {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/outlaw-back.png'}
     ],
     mockups:[
-      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/kingpin1.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/kingpin2.png'}
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/kingpin2.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/kingpin1.png'}
     ]
   },
   'kingpin-hoodie': {
