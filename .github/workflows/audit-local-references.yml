@@ -1,0 +1,81 @@
+name: Audit local references
+
+on:
+  push:
+    paths:
+      - '.github/workflows/audit-local-references.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check local file references
+        shell: python
+        run: |
+          import re
+          from pathlib import Path
+          from urllib.parse import unquote, urlsplit
+
+          root = Path('.')
+          extensions = r'(?:png|jpe?g|webp|svg|gif|css|js|mp3|wav|html)'
+          attr_re = re.compile(r'(?:src|href)=["\']([^"\']+)["\']', re.I)
+          quoted_re = re.compile(r'["\x27\`](?!https?:|data:|mailto:|tel:|#|javascript:)([^"\x27\`\n\r]+?\.' + extensions + r')(?:\?[^"\x27\`]*)?["\x27\`]', re.I)
+          site_re = re.compile(r'https://(?:www\.)?ragebaitapparel\.co\.uk/([^"\x27\s)]+)', re.I)
+
+          scan_files = []
+          for ext in ('*.html','*.js','*.css'):
+              scan_files.extend(root.rglob(ext))
+
+          missing = set()
+
+          def check(source, raw, site_absolute=False):
+              if not raw or '${' in raw:
+                  return
+              raw = raw.strip()
+              if raw.startswith(('data:','mailto:','tel:','javascript:','#')):
+                  return
+              if raw.startswith(('http://','https://')) and not site_absolute:
+                  return
+              if site_absolute:
+                  pathpart = raw
+              else:
+                  parts = urlsplit(raw)
+                  pathpart = parts.path
+              pathpart = unquote(pathpart).lstrip('/') if site_absolute or pathpart.startswith('/') else unquote(pathpart)
+              if not pathpart:
+                  return
+              target = Path(pathpart) if (site_absolute or raw.startswith('/')) else source.parent / pathpart
+              target = Path(str(target).replace('\\','/'))
+              if not target.exists():
+                  missing.add((source.as_posix(), raw, target.as_posix()))
+
+          for source in sorted(set(scan_files)):
+              if '.github' in source.parts:
+                  continue
+              try:
+                  text = source.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+
+              for m in attr_re.finditer(text):
+                  check(source, m.group(1))
+
+              for m in quoted_re.finditer(text):
+                  check(source, m.group(1))
+
+              for m in site_re.finditer(text):
+                  raw = m.group(1).split('?')[0].split('#')[0]
+                  check(source, raw, site_absolute=True)
+
+          if missing:
+              print('MISSING REFERENCES:')
+              for source, raw, target in sorted(missing):
+                  print(f'{source} -> {raw} -> {target}')
+              raise SystemExit(f'{len(missing)} missing reference(s) found')
+
+          print('ZERO MISSING LOCAL REFERENCES')
