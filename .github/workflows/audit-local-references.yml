@@ -1,4 +1,5 @@
 name: Audit local references
+# rerun after asset restoration
 
 on:
   push:
