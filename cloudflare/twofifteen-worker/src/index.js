@@ -103,7 +103,7 @@ const PRODUCT_CATALOG = {
     skus:{S:'CV001-SBLU-S',M:'CV001-SBLU-M',L:'CV001-SBLU-L',XL:'CV001-SBLU-XL','2XL':'CV001-SBLU-2XL','3XL':'CV001-SBLU-3XL','4XL':'CV001-SBLU-4XL'},
     designs:[
       {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Front-Tee.png'},
-      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Back-Tee.png'}
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/TherapyWasExpensive-Back-tee.png'}
     ],
     mockups:[
       {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-FrontSide-Tee%201%20%28Mockup%29.png'},
