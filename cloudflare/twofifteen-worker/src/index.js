@@ -1017,7 +1017,7 @@ function corsJson(body, status, origin) {
 
 function clean(value, max) {
   if (value === undefined || value === null) return '';
-  return String(value).trim().replace(/[\\u0000-\\u001F\\u007F]/g, '').slice(0, max);
+  return String(value).trim().replace(/[\u0000-\u001F\u007F]/g, '').slice(0, max);
 }
 
 function fail(error) { return { ok: false, error }; }
