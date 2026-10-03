@@ -456,7 +456,7 @@ function validateCheckoutOrder(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) return fail('Invalid checkout request');
 
   const buyerEmail = clean(input.buyerEmail, 254).toLowerCase();
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(buyerEmail)) return fail('A valid email address is required');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) return fail('A valid email address is required');
 
   const address = input.shippingAddress;
   if (!address || typeof address !== 'object' || Array.isArray(address)) return fail('Delivery address is required');
@@ -507,7 +507,7 @@ function validateIncomingOrder(input) {
   }
 
   const buyerEmail = clean(input.buyerEmail, 254).toLowerCase();
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(buyerEmail)) return fail('A valid buyerEmail is required');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyerEmail)) return fail('A valid buyerEmail is required');
 
   const address = input.shippingAddress;
   if (!address || typeof address !== 'object' || Array.isArray(address)) return fail('shippingAddress is required');
@@ -791,7 +791,7 @@ function paypalApiBase(env) {
 async function submitToTwoFifteen(payload, env) {
   const body = JSON.stringify(payload);
   const signature = await sha1Hex(body + env.TWOFIFTEEN_SECRET_KEY);
-  const apiBase = (env.TWOFIFTEEN_API_BASE || 'https://www.twofifteen.co.uk/api').replace(/\\\/$/, '');
+  const apiBase = (env.TWOFIFTEEN_API_BASE || 'https://www.twofifteen.co.uk/api').replace(/\/$/, '');
   const endpoint = new URL(`${apiBase}/orders.php`);
   endpoint.searchParams.set('AppId', env.TWOFIFTEEN_APP_ID);
   endpoint.searchParams.set('Signature', signature);
