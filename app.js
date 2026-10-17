@@ -101,6 +101,7 @@
   };
 
   const loadCurrency=()=>{
+    // Rage Bait Radio product is loaded before the New Items filter runs.
     applyHomepageNewItems();
     const currencyScript=document.createElement('script');
     currencyScript.src=`currency.js${version}`;
@@ -108,13 +109,21 @@
     document.body.appendChild(currencyScript);
   };
 
+  const loadRageBaitRadio=()=>{
+    const s=document.createElement('script');
+    s.src=`rage-bait-radio-hoodie.js${version}`;
+    s.onload=loadCurrency;
+    s.onerror=loadCurrency;
+    document.body.appendChild(s);
+  };
+
   const loadRageBaitKeyring=()=>{
     const keyringScript=document.createElement('script');
     keyringScript.src=`rage-bait-keyring.js${version}`;
-    keyringScript.onload=loadCurrency;
+    keyringScript.onload=loadRageBaitRadio;
     keyringScript.onerror=()=>{
       console.error('Rage Bait Keyring failed to initialise');
-      loadCurrency();
+      loadRageBaitRadio();
     };
     document.body.appendChild(keyringScript);
   };
