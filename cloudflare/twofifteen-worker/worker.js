@@ -123,6 +123,32 @@ const PRODUCT_CATALOG = {
       {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/TherapyWasExpensive-BackSide%20%28Mockup%29.png'}
     ]
   },
+  'rage-bait-radio-hoodie-black': {
+    title:'Rage Bait Radio | Zero Apologies Hoodie', colour:'Deep Black', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{'XS':'JH001-DBK-XS','S':'JH001-DBK-S','M':'JH001-DBK-M','L':'JH001-DBK-L','XL':'JH001-DBK-XL','2XL':'JH001-DBK-2XL','3XL':'JH001-DBK-3XL','4XL':'JH001-DBK-4XL','5XL':'JH001-DBK-5XL'},
+    designs:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/rage-bait-radio-front-print.png.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/rage-bait-radio-back-print.png.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/rage-bait-radio-black-front.png.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/rage-bait-radio-black-back.png.png'}
+    ]
+  },
+  'rage-bait-radio-hoodie-lime': {
+    title:'Rage Bait Radio | Zero Apologies Hoodie', colour:'Lime Green', retailCurrency:'GBP', basePrice:44.99,
+    sizePrices:{'3XL':45.99,'4XL':45.99,'5XL':45.99},
+    skus:{'XS':'JH001-LIM-XS','S':'JH001-LIM-S','M':'JH001-LIM-M','L':'JH001-LIM-L','XL':'JH001-LIM-XL','2XL':'JH001-LIM-2XL','3XL':'JH001-LIM-3XL','4XL':'JH001-LIM-4XL','5XL':'JH001-LIM-5XL'},
+    designs:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/print/rage-bait-radio-front-print.png.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/print/rage-bait-radio-back-print.png.png'}
+    ],
+    mockups:[
+      {title:'Printing Front Side',src:'https://ragebaitapparel.co.uk/mockups/rage-bait-radio-green-front.png.png'},
+      {title:'Printing Back Side',src:'https://ragebaitapparel.co.uk/mockups/rage-bait-radio-green-back.png.png'}
+    ]
+  },
   'rage-bait-keyring': {
     title:'Rage Bait Keyring', colour:'Metal', retailCurrency:'GBP', basePrice:7.99,
     skus:{ONE:'OBLONGKEY'},
