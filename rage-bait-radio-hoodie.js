@@ -58,7 +58,7 @@
   card.querySelector('.radio-next').addEventListener('click',()=>{imageIndex=1-imageIndex;display();});
   button.addEventListener('click',()=>{
     if(button.disabled)return;
-    const entry={name:NAME,size:size.value,sku:button.dataset.sku,price:Number(button.dataset.price),colour:COLOURS[colour.value].label};
+    const entry={name:`${NAME} - ${COLOURS[colour.value].label}`,size:size.value,sku:button.dataset.sku,price:Number(button.dataset.price),colour:COLOURS[colour.value].label};
     if(typeof cart!=='undefined'&&Array.isArray(cart)){
       cart.push(entry);
       if(typeof renderCart==='function')renderCart();
