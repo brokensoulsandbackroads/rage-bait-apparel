@@ -139,6 +139,8 @@ function cartVariantLabel(entry){
   else if(sku.includes('-BUR-'))colour='Burgundy';
   else if(sku.includes('-SBLU-'))colour='Blue';
   else if(sku.includes('-HPK-'))colour='Hot Pink';
+  else if(sku.includes('-LIM-'))colour='Lime Green';
+  else if(sku.includes('-DBK-'))colour='Black';
   else if(sku.includes('-BLK-'))colour='Black';
   const parts=[colour,entry.size].filter(Boolean);
   return parts.length?` · ${parts.join(' · ')}`:'';
